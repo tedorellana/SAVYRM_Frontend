@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.UnidadMedida" table="UnidadMedida" schema="dbo" catalog="SAVYRM">
+        <id name="idUnidadMedida" type="int">
+            <column name="idUnidadMedida" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="unidadMedida" class="Entities.UnidadMedida" fetch="select">
+            <column name="fkUnidadMedida" />
+        </many-to-one>
+        <property name="nombreUnidadMedida" type="string">
+            <column name="nombreUnidadMedida" length="75" not-null="true" />
+        </property>
+        <property name="tipo" type="boolean">
+            <column name="tipo" not-null="true" />
+        </property>
+        <property name="abreviacionUnidadMeida" type="string">
+            <column name="abreviacionUnidadMeida" length="75" not-null="true" />
+        </property>
+        <set name="productos" table="Producto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idUnidadMedida" />
+            </key>
+            <one-to-many class="Entities.Producto" />
+        </set>
+        <set name="unidadMedidas" table="UnidadMedida" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fkUnidadMedida" />
+            </key>
+            <one-to-many class="Entities.UnidadMedida" />
+        </set>
+    </class>
+</hibernate-mapping>

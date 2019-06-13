@@ -1,0 +1,48 @@
+<div ng-controller='navbarController'>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand" href='{{baseUrl}}#/' style="color:#13bb13;"> <span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>  E.I.R.L</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#" style="color:#0095ff;">Nueva Venta <span class="glyphicon glyphicon-plus"></span></a></li>
+              <li><a href="#" style="color:#8060b0;">Asesoria Rápida <span class="glyphicon glyphicon-hourglass"></span></a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos y Almacenes <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#/NuestrosProductos">Nuestros Productos</a></li>
+                  <li><a href="#/Inventario">Inventario</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#/AlmacenesYSecciones">Almacenes y Secciones</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ventas y Clientes <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#/NuestrasVentas">Nuestas Ventas</a></li>
+                  <li><a href="#">Cartera de Clientes</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Reportes<span class="sr-only"></span></a></li>
+              <li><a href="#">Recursos Humanos<span class="sr-only"></span></a></li>
+            </ul>
+              
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="!sessionLoggedIn"><a href="" data-toggle="modal" data-target="#IniciarSesionModal">Iniciar Sesion <span class="glyphicon glyphicon-user"></span></a></li>
+              <li class="dropdown" ng-show="sessionLoggedIn">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{currentUserNameLoggedIn}} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="">Mi Perfil</a></li>
+                  <li><a ng-click="CerrarSesion()">Cerrar Session</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>

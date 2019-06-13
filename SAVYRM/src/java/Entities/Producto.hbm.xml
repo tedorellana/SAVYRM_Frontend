@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.Producto" table="Producto" schema="dbo" catalog="SAVYRM">
+        <id name="idProducto" type="int">
+            <column name="idProducto" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipoProducto" class="Entities.TipoProducto" fetch="select">
+            <column name="fk_idTIpoProducto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="unidadMedida" class="Entities.UnidadMedida" fetch="select">
+            <column name="fk_idUnidadMedida" />
+        </many-to-one>
+        <property name="nombreProducto" type="string">
+            <column name="nombreProducto" length="75" not-null="true" />
+        </property>
+        <property name="codigoProducto" type="string">
+            <column name="codigoProducto" length="75" not-null="true" />
+        </property>
+        <property name="estadoProducto" type="java.lang.Boolean">
+            <column name="estadoProducto" />
+        </property>
+        <set name="productoFormulasForFkIdProductoInsumo" table="ProductoFormula" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idProductoInsumo" not-null="true" />
+            </key>
+            <one-to-many class="Entities.ProductoFormula" />
+        </set>
+        <set name="preparacions" table="Preparacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idProducto" not-null="true" />
+            </key>
+            <one-to-many class="Entities.Preparacion" />
+        </set>
+        <set name="productoSeccions" table="ProductoSeccion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idProducto" not-null="true" />
+            </key>
+            <one-to-many class="Entities.ProductoSeccion" />
+        </set>
+        <set name="precios" table="Precio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idProducto" />
+            </key>
+            <one-to-many class="Entities.Precio" />
+        </set>
+        <set name="productoFormulasForFkIdProductoElaborado" table="ProductoFormula" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idProductoElaborado" not-null="true" />
+            </key>
+            <one-to-many class="Entities.ProductoFormula" />
+        </set>
+    </class>
+</hibernate-mapping>

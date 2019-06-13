@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.ProductoFormula" table="ProductoFormula" schema="dbo" catalog="SAVYRM">
+        <id name="idProductoFormula" type="int">
+            <column name="idProductoFormula" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="formula" class="Entities.Formula" fetch="select">
+            <column name="fk_idFormula" not-null="true" />
+        </many-to-one>
+        <many-to-one name="productoByFkIdProductoElaborado" class="Entities.Producto" fetch="select">
+            <column name="fk_idProductoElaborado" not-null="true" />
+        </many-to-one>
+        <many-to-one name="productoByFkIdProductoInsumo" class="Entities.Producto" fetch="select">
+            <column name="fk_idProductoInsumo" not-null="true" />
+        </many-to-one>
+        <property name="porcentaje" type="double">
+            <column name="porcentaje" precision="53" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

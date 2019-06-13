@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SAVYRMPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.pojos.Sysdiagrams</class>
+    <class>com.pojos.Precio</class>
+    <class>com.pojos.TipoPersona</class>
+    <class>com.pojos.TipoServicio</class>
+    <class>com.pojos.Preparacion</class>
+    <class>com.pojos.Almacen</class>
+    <class>com.pojos.Indicacion</class>
+    <class>com.pojos.Lote</class>
+    <class>com.pojos.Servicio</class>
+    <class>com.pojos.Seccion</class>
+    <class>com.pojos.UnidadMedida</class>
+    <class>com.pojos.Formula</class>
+    <class>com.pojos.ProductoSeccion</class>
+    <class>com.pojos.ProductoFormula</class>
+    <class>com.pojos.Producto</class>
+    <class>com.pojos.ServicioProducto</class>
+    <class>com.pojos.Usuario</class>
+    <class>com.pojos.TipoUsuario</class>
+    <class>com.pojos.TipoProducto</class>
+    <class>com.pojos.Persona</class>
+    <class>Entities.Preparacion</class>
+    <class>Entities.Sysdiagrams</class>
+    <class>Entities.Formula</class>
+    <class>Entities.Seccion</class>
+    <class>Entities.TipoServicio</class>
+    <class>Entities.Servicio</class>
+    <class>Entities.ProductoSeccion</class>
+    <class>Entities.ProductoFormula</class>
+    <class>Entities.TipoUsuario</class>
+    <class>Entities.Persona</class>
+    <class>Entities.Precio</class>
+    <class>Entities.Lote</class>
+    <class>Entities.UnidadMedida</class>
+    <class>Entities.Producto</class>
+    <class>Entities.Almacen</class>
+    <class>Entities.ServicioProducto</class>
+    <class>Entities.Usuario</class>
+    <class>Entities.TipoPersona</class>
+    <class>Entities.Indicacion</class>
+    <class>Entities.TipoProducto</class>
+    <class>Controllers.SesionController</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost;databaseName=SAVYRM"/>
+      <property name="javax.persistence.jdbc.user" value="adminSAVYRM"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="admin1234ADMIN"/>
+    </properties>
+  </persistence-unit>
+</persistence>

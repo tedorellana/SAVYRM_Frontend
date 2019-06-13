@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.ServicioProducto" table="ServicioProducto" schema="dbo" catalog="SAVYRM">
+        <id name="idServicioProductoSeccion" type="int">
+            <column name="idServicioProductoSeccion" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="servicio" class="Entities.Servicio" fetch="select">
+            <column name="fk_idServicio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="productoSeccion" class="Entities.ProductoSeccion" fetch="select">
+            <column name="fk_idProductoSeccion" />
+        </many-to-one>
+        <property name="costoTotal" type="java.lang.Double">
+            <column name="costoTotal" precision="53" scale="0" />
+        </property>
+        <property name="cantidadServicioProducto" type="java.lang.Double">
+            <column name="cantidadServicioProducto" precision="53" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

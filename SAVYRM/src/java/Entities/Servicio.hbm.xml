@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.Servicio" table="Servicio" schema="dbo" catalog="SAVYRM">
+        <id name="idServicio" type="int">
+            <column name="idServicio" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="personaByIdPersonaEmpleado" class="Entities.Persona" fetch="select">
+            <column name="idPersonaEmpleado" />
+        </many-to-one>
+        <many-to-one name="personaByIdPersonaAtendidaServicio" class="Entities.Persona" fetch="select">
+            <column name="idPersonaAtendidaServicio" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoServicio" class="Entities.TipoServicio" fetch="select">
+            <column name="fk_idTipoServicio" not-null="true" />
+        </many-to-one>
+        <property name="horaInicioServicio" type="timestamp">
+            <column name="horaInicioServicio" length="23" not-null="true" />
+        </property>
+        <property name="horaFinServicio" type="timestamp">
+            <column name="horaFinServicio" length="23" not-null="true" />
+        </property>
+        <property name="horaEdicionServicio" type="timestamp">
+            <column name="horaEdicionServicio" length="23" />
+        </property>
+        <set name="servicioProductos" table="ServicioProducto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idServicio" not-null="true" />
+            </key>
+            <one-to-many class="Entities.ServicioProducto" />
+        </set>
+    </class>
+</hibernate-mapping>
