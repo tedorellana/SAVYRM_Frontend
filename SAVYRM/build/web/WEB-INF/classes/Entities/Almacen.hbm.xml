@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.Almacen" table="Almacen" schema="dbo" catalog="SAVYRM">
+        <id name="idAlmacen" type="int">
+            <column name="idAlmacen" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombreAlmacen" type="string">
+            <column name="nombreAlmacen" length="75" not-null="true" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="250" not-null="true" />
+        </property>
+        <property name="capacidad" type="java.lang.Double">
+            <column name="capacidad" precision="53" scale="0" />
+        </property>
+        <set name="seccions" table="Seccion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idAlmacen" not-null="true" />
+            </key>
+            <one-to-many class="Entities.Seccion" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.Preparacion" table="Preparacion" schema="dbo" catalog="SAVYRM">
+        <id name="idPreparacion" type="int">
+            <column name="idPreparacion" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="producto" class="Entities.Producto" fetch="select">
+            <column name="fk_idProducto" not-null="true" />
+        </many-to-one>
+        <property name="nombrePreparacion" type="string">
+            <column name="nombrePreparacion" length="250" />
+        </property>
+        <property name="fechaCreacionPreparacion" type="timestamp">
+            <column name="fechaCreacionPreparacion" length="23" not-null="true" />
+        </property>
+        <property name="detalleAdicionalPreparacion" type="string">
+            <column name="detalleAdicionalPreparacion" not-null="true" />
+        </property>
+        <set name="indicacions" table="Indicacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idPreparacionIndicacion" not-null="true" />
+            </key>
+            <one-to-many class="Entities.Indicacion" />
+        </set>
+    </class>
+</hibernate-mapping>

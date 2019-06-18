@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="SAVYRM" match-schema="dbo"/>
+  <table-filter match-name="Precio"/>
+  <table-filter match-name="Servicio"/>
+  <table-filter match-name="ProductoSeccion"/>
+  <table-filter match-name="Preparacion"/>
+  <table-filter match-name="TipoPersona"/>
+  <table-filter match-name="Lote"/>
+  <table-filter match-name="Persona"/>
+  <table-filter match-name="Usuario"/>
+  <table-filter match-name="Almacen"/>
+  <table-filter match-name="TipoServicio"/>
+  <table-filter match-name="Tipo_Usuario"/>
+  <table-filter match-name="ProductoFormula"/>
+  <table-filter match-name="Producto"/>
+  <table-filter match-name="UnidadMedida"/>
+  <table-filter match-name="Seccion"/>
+  <table-filter match-name="ServicioProducto"/>
+  <table-filter match-name="Indicacion"/>
+  <table-filter match-name="Formula"/>
+  <table-filter match-name="TipoProducto"/>
+</hibernate-reverse-engineering>

@@ -1,0 +1,26 @@
+<div class="modal fade bs-example-modal-sm" id="IniciarSesionModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" ng-controller="sessionController">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="panel panel-success">
+          <div class="panel-heading"><h4><b>Ingresa tus Datos</b></h4></div>
+        <div class="panel-body">
+            <form>
+              <div class="form-group">
+                <label>Nombre de Usuario:</label>
+                <input type="text" class="form-control" ng-model="nombreUsuarioIniciarSesion" placeholder="ejemplo123">
+              </div>
+              <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" class="form-control" ng-model="contrasenaIniciarSesion" placeholder="No reveles tu contraseña a terceros">
+              </div>
+                <label ng-show="!errorExistInSessionForm" style="color: red;" ng-model="errorIniciarSesion"></label> 
+              <div class="form-group">
+                  <a>No recuerdo mi contraseña.</a>
+              </div>
+                <button type="submit" class="col-md-12 btn btn-primary" ng-click="IniciarSesion()">Iniciar Sesion</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

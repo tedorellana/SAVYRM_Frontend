@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.ProductoSeccion" table="ProductoSeccion" schema="dbo" catalog="SAVYRM">
+        <id name="idProductoSeccion" type="int">
+            <column name="idProductoSeccion" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lote" class="Entities.Lote" fetch="select">
+            <column name="fk_idLote" not-null="true" />
+        </many-to-one>
+        <many-to-one name="seccion" class="Entities.Seccion" fetch="select">
+            <column name="fk_idSeccion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="producto" class="Entities.Producto" fetch="select">
+            <column name="fk_idProducto" not-null="true" />
+        </many-to-one>
+        <property name="cantidadProductoSeccion" type="double">
+            <column name="cantidadProductoSeccion" precision="53" scale="0" not-null="true" />
+        </property>
+        <property name="fechaIngreso" type="timestamp">
+            <column name="fechaIngreso" length="23" not-null="true" />
+        </property>
+        <set name="servicioProductos" table="ServicioProducto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idProductoSeccion" />
+            </key>
+            <one-to-many class="Entities.ServicioProducto" />
+        </set>
+    </class>
+</hibernate-mapping>

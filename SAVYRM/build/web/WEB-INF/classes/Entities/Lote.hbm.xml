@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.Lote" table="Lote" schema="dbo" catalog="SAVYRM">
+        <id name="idLote" type="int">
+            <column name="idLote" />
+            <generator class="assigned" />
+        </id>
+        <property name="codigoLote" type="string">
+            <column name="codigoLote" length="75" not-null="true" />
+        </property>
+        <property name="costoLote" type="java.lang.Double">
+            <column name="costoLote" precision="53" scale="0" />
+        </property>
+        <property name="cantidaUnidadesLote" type="double">
+            <column name="cantidaUnidadesLote" precision="53" scale="0" not-null="true" />
+        </property>
+        <property name="fechaCaducacionLote" type="timestamp">
+            <column name="fechaCaducacionLote" length="23" />
+        </property>
+        <set name="productoSeccions" table="ProductoSeccion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idLote" not-null="true" />
+            </key>
+            <one-to-many class="Entities.ProductoSeccion" />
+        </set>
+    </class>
+</hibernate-mapping>

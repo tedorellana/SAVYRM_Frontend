@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.Persona" table="Persona" schema="dbo" catalog="SAVYRM">
+        <id name="idPersona" type="int">
+            <column name="idPersona" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipoPersona" class="Entities.TipoPersona" fetch="select">
+            <column name="fk_idTipoPersona" not-null="true" />
+        </many-to-one>
+        <property name="nombrePersona" type="string">
+            <column name="nombrePersona" length="50" not-null="true" />
+        </property>
+        <property name="apellidoPaternoPersona" type="string">
+            <column name="apellidoPaternoPersona" length="75" />
+        </property>
+        <property name="apellidoMaternoPersona" type="string">
+            <column name="apellidoMaternoPersona" length="75" />
+        </property>
+        <property name="documentoIdentidadPersona" type="string">
+            <column name="documentoIdentidadPersona" length="75" not-null="true" />
+        </property>
+        <property name="numeroDocumentoPersona" type="string">
+            <column name="numeroDocumentoPersona" length="75" not-null="true" />
+        </property>
+        <property name="numeroTelefonoPersona" type="string">
+            <column name="numeroTelefonoPersona" length="75" />
+        </property>
+        <property name="correoPersona" type="string">
+            <column name="correoPersona" length="150" not-null="true" />
+        </property>
+        <property name="direccionPersona" type="string">
+            <column name="direccionPersona" length="250" not-null="true" />
+        </property>
+        <set name="usuarios" table="Usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_idPersona" not-null="true" />
+            </key>
+            <one-to-many class="Entities.Usuario" />
+        </set>
+        <set name="serviciosForIdPersonaEmpleado" table="Servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPersonaEmpleado" />
+            </key>
+            <one-to-many class="Entities.Servicio" />
+        </set>
+        <set name="serviciosForIdPersonaAtendidaServicio" table="Servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPersonaAtendidaServicio" not-null="true" />
+            </key>
+            <one-to-many class="Entities.Servicio" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-may-2018 23:13:48 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Entities.Usuario" table="Usuario" schema="dbo" catalog="SAVYRM">
+        <id name="idUsuario" type="int">
+            <column name="idUsuario" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipoUsuario" class="Entities.TipoUsuario" fetch="select">
+            <column name="fk_idTipoUsuario" not-null="true" />
+        </many-to-one>
+        <many-to-one name="persona" class="Entities.Persona" fetch="select">
+            <column name="fk_idPersona" not-null="true" />
+        </many-to-one>
+        <property name="nombreUsuario" type="string">
+            <column name="nombreUsuario" length="75" not-null="true" />
+        </property>
+        <property name="contrasenhaUsuario" type="string">
+            <column name="contrasenhaUsuario" length="75" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

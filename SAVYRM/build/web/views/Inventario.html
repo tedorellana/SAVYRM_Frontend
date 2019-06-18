@@ -1,0 +1,112 @@
+<div class="col-md-12" ng-init="onLoadInventarioController()">
+  <div class="container">
+    <!-- BEGIN SIDEBAR & CONTENT -->
+    <div class="row margin-bottom-40">
+      <!-- BEGIN CONTENT -->
+        <form class="form-group">
+            <div class="col-md-12 col-sm-12">
+              <div ng-show="mostrarAlmacenes">
+                  <h1>Almacenes</h1>
+                  <div class="content-page">
+                      <table class="table table-hover table-condensed table-bordered">
+                          <!--tr style="background-color: #5a98cd;"-->
+                          <tr>
+                              <th class="success">Almacen</th>
+                              <th class="success">Úbicación</th>
+                              <th class="success">Capacidad (Lt)</th>
+                              <th class="success">Seleccionar</th>
+                          </tr>
+                          <tr ng-repeat="almacen in almacenes">
+                              <td>{{almacen.nombreAlmacen}}</td>
+                              <td>{{almacen.direccion}}</td>
+                              <td>{{almacen.capacidad}}</td>
+                              <td>
+                                  <input value="{{almacen.idAlmacen}}" ng-model="almacen.selected" type="checkbox">
+                                  <span ng-show="almacen.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
+                                  <span ng-show="!almacen.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
+                              </td>
+                          </tr>
+                      </table>
+                      <button type="button" class="col-md-2 col-md-offset-10 btn btn-primary" ng-click="obtenerSeccionesPorAlmacenesSeleccionados()">Obtener Secciones</button>
+                  </div>
+              </div>
+                
+              <div ng-show="mostrarSecciones">
+                  <h1>Secciones</h1>
+                  <div class="content-page">
+                      <table class="table table-hover table-condensed table-bordered">
+                          <!--tr style="background-color: #5a98cd;"-->
+                          <tr>
+                              <th class="success">Sección</th>
+                              <th class="success">Detalle</th>
+                              <th class="success">Ubicación</th>
+                              <th class="success">Seleccionar</th>
+                          </tr>
+                          <tr ng-repeat="seccion in listaSecciones">
+                              <td>{{seccion.codigoSeccion}}</td>
+                              <td>{{seccion.detalle}}</td>
+                              <td>{{seccion.direccion}}</td>
+                              <td>
+                                  <input value="{{seccion.idSeccion}}" ng-model="seccion.selected" type="checkbox">
+                                  <span ng-show="seccion.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
+                                  <span ng-show="!seccion.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
+                              </td>
+                          </tr>
+                      </table>
+                        <button type="button" class="col-md-2 col-md-offset-10 btn btn-primary" ng-click="obtenerInventarioPorSeccionesSeleccionados()">Obtener Inventario</button>
+                  </div>
+              </div>
+              
+              <div ng-show="mostrarInventario">
+                  <h1>Inventario</h1>
+                  <div class="form-group col-md-6">
+                    <label>Buscar:</label>
+                    <input type="text" ng-change="buscarItemEnInventario()" class="col-md-10 form-control" ng-model="buscarInventarioSeleccionado" placeholder="Ingresa el texto que deseas buscar">
+                    <label> {{detalleBusquedaEnInventario}}</label>
+                    <button type="button" class="col-md-2 btn btn-success" ng-click="buscarItemEnInventario()">
+                        <span class="glyphicon glyphicon-arrow-search" aria-hidden="true">  Buscar</span>
+                    </button>
+                  </div>
+                  <button type="button" class="col-md-1 col-md-offset-11 btn btn-warning" ng-click="volverASeleccionarSeccionesyAlmacenes()">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true">  Atras</span>
+                  </button>
+                  <div class="content-page">
+                      <table class="table table-hover table-condensed table-bordered">
+                          <!--tr style="background-color: #5a98cd;"-->
+                          <tr>
+                              <th class="success">Producto</th>
+                              <th class="success">Almacen</th>
+                              <th class="success">Sección</th>
+                              <th class="success">Estado</th>
+                              <th class="success">Stock</th>
+                              <th class="success">Fecha Ingreso</th>
+                              <th class="success">Fecha Caducidad</th>
+                              <th class="success">Lote</th>
+                              <th class="success">Detalle</th>
+                          </tr>
+                          <tr ng-repeat="item in inventario">
+                              <td>{{item.producto.nombreProducto}}</td>
+                              <td>{{item.seccion.almacen.nombreAlmacen}}</td>
+                              <td>{{item.seccion.codigoSeccion}}</td>
+                              <td>
+                                  <span ng-show="item.producto.estadoProducto" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"> Disponible</span>
+                                  <span ng-show="!item.producto.estadoProducto" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"> Agotado</span>
+                              </td>
+                              <td>{{item.cantidadProductoSeccion}}</td>
+                              <td>{{item.fechaIngreso}}</td>
+                              <td>{{item.lote.fechaCaducacionLote}}</td>
+                              <td>{{item.lote.codigoLote}}</td>
+                              <td>
+                                  <button data-toggle="modal" data-target="#DetalleProductoInventarioModal" type="button" class="btn-primary" value="{{item.idProductoSeccion}}" ng-model="item.selected" data-ng-click="getDetallePorIDProductoSeccion($event)" >Detalle</button>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+            </div>
+        </form>
+        <!-- END CONTENT -->
+    </div>
+  </div>
+  <div ng-include="'views/DetalleProductoInventarioModal.html'"></div>
+</div>
