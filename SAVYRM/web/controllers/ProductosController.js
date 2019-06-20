@@ -101,7 +101,9 @@ angular.module('angularRoutingApp').controller('productosController', function (
         });
     };
     
+    var productosDeLaFormulaActual = null;
     $scope.getProductoFormulaNP = function(){
+        productosDeLaFormulaActual = null;
         $http({
             method: 'POST',
             url: 'http://localhost:8080/ProductoFormula/GetAllProductoFormulaByIdProducto',
@@ -109,6 +111,7 @@ angular.module('angularRoutingApp').controller('productosController', function (
                 idProducto : $scope.productoSeleccionadoElaboracionEPM.idProducto
             }
         }).then(function successCallback(response){
+            productosDeLaFormulaActual = JSON.stringify(response.data);
             $scope.productosSeleccionadosFormulaEPM = response.data;
             $scope.calcularPorcentajeContenedorFormula();
         }, function errorCallback(){
@@ -148,7 +151,7 @@ angular.module('angularRoutingApp').controller('productosController', function (
     $scope.getProductosNoFinales = function(){
         $http({
             method: 'GET',
-            url: 'http://localhost:8080/Producto/getAllProductoNoFinalesActivos',
+            url: 'http://localhost:8080/Producto/GetAllProductoNoFinalesActivos',
             data: {
                 
             }
@@ -166,13 +169,14 @@ angular.module('angularRoutingApp').controller('productosController', function (
     };
     
     $scope.AgregarProductoAFormula = function(){
-        alert("Id Producto:" + idProductoSeleccionadoParaFormula);
+        alert("Id Producto:" + idProductoSeleccionadoParaFormula + "-" + $scope.cantidadProductoParaFormulaNP + "-" + productosDeLaFormulaActual);
         $http({
             method: 'POST',
-            url: 'http://localhost:8084/SAVYRM/webresources/ProductosResource/agregarProductoAFormula',
+            url: 'http://localhost:8080/Producto/AgregarProductoAFormula',
             data: {
                 idProducto : idProductoSeleccionadoParaFormula,
-                cantidadProductoParaFormulaNP : $scope.cantidadProductoParaFormulaNP
+                cantidadProductoParaFormulaNP : $scope.cantidadProductoParaFormulaNP,
+                productosDeLaFormulaActual : productosDeLaFormulaActual
             }
         }).then(function successCallback(response){
             
