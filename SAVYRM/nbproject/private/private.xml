@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="5"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Universidad/Tesis/Proyecto/Sistema/SAVYRM/web/views/AlmacenesYSecciones.html</file>
-            <file>file:/D:/Universidad/Tesis/Proyecto/Sistema/SAVYRM/web/controllers/InventarioController.js</file>
-            <file>file:/D:/Universidad/Tesis/Proyecto/Sistema/SAVYRM/web/main.js</file>
-            <file>file:/D:/Universidad/Tesis/Proyecto/Sistema/SAVYRM/web/views/Inventario.html</file>
-            <file>file:/D:/Universidad/Tesis/Proyecto/Sistema/SAVYRM/web/controllers/AlmacenesySeccionesController.js</file>
-            <file>file:/D:/Universidad/Tesis/Proyecto/Sistema/SAVYRM/web/views/DetalleProductoInventarioModal.html</file>
+            <file>file:/D:/Universidad/Tesis/Repository/SAVYRM_Frontend/SAVYRM_Frontend/SAVYRM/web/views/AgregarProductoFormulaModal.html</file>
+            <file>file:/D:/Universidad/Tesis/Repository/SAVYRM_Frontend/SAVYRM_Frontend/SAVYRM/web/controllers/ProductosController.js</file>
         </group>
     </open-files>
 </project-private>

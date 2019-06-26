@@ -7,6 +7,7 @@ angular.module('angularRoutingApp').controller('productosController', function (
     //#region Variables
     $scope.mostrarProductosPC = true;
     $scope.mostrarPreparacionPC = false;
+    $scope.cantidadProductoParaFormulaNP = 0;
     var idProductoSeleccionadoParaFormula = 0;
     //#endregion Variables
     
