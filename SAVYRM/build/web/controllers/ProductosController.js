@@ -170,7 +170,7 @@ angular.module('angularRoutingApp').controller('productosController', function (
     };
     
     $scope.AgregarProductoAFormula = function(){
-        alert("Id Producto:" + idProductoSeleccionadoParaFormula + "-" + $scope.cantidadProductoParaFormulaNP + "-" + productosDeLaFormulaActual);
+        //alert("Id Producto:" + idProductoSeleccionadoParaFormula + "-" + $scope.cantidadProductoParaFormulaNP + "-" + productosDeLaFormulaActual);
         $http({
             method: 'POST',
             url: 'http://localhost:8080/Producto/AgregarProductoAFormula',
@@ -181,6 +181,9 @@ angular.module('angularRoutingApp').controller('productosController', function (
             }
         }).then(function successCallback(response){
             
+            $scope.cantidadProductoParaFormulaNP = 0;
+            productosDeLaFormulaActual = null;
+            $scope.getProductoFormulaNP();
         }, function errorCallback(){
             $scope.agregarProductoAFormulaPresentaError = true;
             $scope.agregarProductoAFormulaError = "Sucedio un error no esperado. Por favor, intenta más tarde.";
