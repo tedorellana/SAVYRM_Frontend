@@ -1,116 +1,98 @@
-<div ng-init="getVentas()">
+<div ng-init="getProductosParaVenta()">
     <div class="col-md-12">
         <!-- Begin table -->
         <div class="page-content-wrapper">
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <!-- Productos para comprar-->
                         <div class="portlet box grey-cascade">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="fa fa-globe"></i>Ventas del Mes
-                                </div>
-                            </div>
                             <div class="portlet-body">
-                                <div class="table-toolbar">
-                                    <div class="row">
-                                        <div class="col-md-4 col-md-offset-2">
-                                            <div class="btn-group">
-                                                <label>
-                                                    Fecha de Inicio:
-                                                </label>
-                                                <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
-                                                    <input type="text" class="form-control" readonly>
-                                                    <span class="input-group-btn">
-                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="btn-group col-md-9">
-                                                <label>
-                                                    Fecha de Fin:
-                                                </label>
-                                                <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
-                                                    <input type="text" class="form-control" readonly>
-                                                    <span class="input-group-btn">
-                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <button id="sample_editable_1_new" class="btn btn-primary">
-                                                Filtrar<i class="fa fa-plus"></i>
-                                            </button>
-                                            
-                                        </div>
-                                        <div class="col-md-1">
-                                            
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="btn-group">
-                                                <button id="sample_editable_1_new" class="btn btn-primary">
-                                                Nueva Ventas<i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="btn-group pull-right">
-                                                <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu pull-right">
-                                                    <li>
-                                                        <a href="javascript:;">
-                                                        Print </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;">
-                                                        Save as PDF </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;">
-                                                        Export to Excel </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                <button type="button" class="col-md-2 col-md-offset-10 btn btn-success" data-toggle="modal" data-target="#NuevoProductoModal">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"> Nuestros Producto</span>
+                                </button>
+                                <table class="table table-striped table-bordered table-hover" id="productosParaVenta">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center;">Cliente</th>
-                                            <th style="text-align: center;">DNI</th>
-                                            <th style="text-align: center;">Personal Atención</th>
-                                            <th style="text-align: center;">Fecha Atención</th>
-                                            <th style="text-align: center;">Detalles</th>
+                                            <th style="text-align: center;">Producto</th>
+                                            <th style="text-align: center;">Disponibles</th>
+                                            <th style="text-align: center;">Vencimiento</th>
+                                            <th style="text-align: center;">Precio unidad</th>
+                                            <th style="text-align: center;">Unidades del Lote</th>
+                                            <th style="text-align: center;">Agregar</th>
                                         </tr>
                                     </thead>
-                                    <tbody ng-repeat="venta in ventas">
+                                    <tbody ng-repeat="productoParaVenta in productosParaVenta">
                                         <tr class="odd gradeX">
-                                            <td>{{venta.personaAtendida.nombrePersona + " " +venta.personaAtendida.apellidoPaternoPersona + " " + venta.personaAtendida.apellidoMaternoPersona}}</td>
-                                            <td>{{venta.personaAtendida.numeroDocumentoPersona}}</td>
-                                            <td>PENDIENTE</td>
-                                            <td>{{venta.horaInicioServicio}}</td>
+                                            <td>{{productoParaVenta.producto.nombreProducto}}</td>
+                                            <td>{{productoParaVenta.cantidadProductoSeccion}} {{productoParaVenta.producto.unidadMedida.abreviacion}}</td>
+                                            <td>{{productoParaVenta.lote.fechaCaducacionLote}}</td>
+                                            <td>00.0</td>
+                                            <td>{{productoParaVenta.lote.cantidaUnidadesLote}}</td> 
                                             <td style="text-align: center;">
                                                 <div class="btn-group btn-group-xs btn-group-solid">
-                                                    <button class="btn green" data-toggle="modal" data-target="#myModal" value="{{venta.idServicio}}" data-ng-click="getDetallesPorServicio($event)">Ver Detalles</button>
+                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)">Agregar al carrito</button>
                                                 </div>
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> 
                             </div>
                         </div>
-                        <!-- END EXAMPLE TABLE PORTLET-->
+                        <!-- Fin Productos para comprar-->
+                        
+                        <!-- Carrito de compras-->
+                        <div class="portlet box grey-cascade">
+                            <div class="portlet-body">
+                                <button type="button" class="col-md-2 col-md-offset-10 btn btn-success" data-toggle="modal" data-target="#NuevoProductoModal">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"> Nuestros Producto</span>
+                                </button>
+                                <table class="table table-striped table-bordered table-hover" id="productosParaVenta">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Producto</th>
+                                            <th style="text-align: center;">Código</th>
+                                            <th style="text-align: center;">Cantidad</th>
+                                            <th style="text-align: center;">Eliminar</th>
+                                            <th style="text-align: center;">Precio unidad</th>
+                                            <th style="text-align: center;">Precio Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="elemento in carrito">
+                                        <tr class="odd gradeX">
+                                            <td>{{elemento.nombreProducto}}</td>
+                                            <td>{{elemento.codigoProducto}}</td>
+                                            <td>{{elemento.cantidad}} {{elemento.unidadMedida}}</td>
+                                            <td>Precio por producto</td>
+                                            <td>Precio total</td> 
+                                            <td style="text-align: center;">
+                                                <div class="btn-group btn-group-xs btn-group-solid">
+                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" value="{{}}" data-ng-click="ProcesarVenta($event)">Finalizar venta</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tr class="odd gradeX">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>PRECIO TOTAL</td>
+                                        </tr>
+                                </table> 
+                            </div>
+                        </div>
+                        <!-- Fin carrito de compras- ->
+                        
                     </div>
                 </div>
             </div>
         </div>
         <!-- End Table -->
     </div>
-    <!-- INICIA POPUP-->
+    
+    <!-- Pop up Cantidad a agregarACarrito -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -118,12 +100,25 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title">Modal title</h4>
             </div>
-            <div class="modal-body">
-              <p>One fine body&hellip;</p>
+              
+            <div class="modal-body">                
+                <div class="form-group">
+                    <label>Cantidad a agregar:</label>
+                    <input type="text" class="form-control"  ng-model="CantidadProductoParaAgregar" >
+                </div>
+                <div class="form-group">
+                    <label>Unidad de medida</label>
+                    <input type="text" class="form-control"  ng-model="UnidadMedidaProductoParaAgregar" >
+                </div>
+                <div class="form-group">
+                    <label>Precio calculado</label>
+                    <input type="text" class="form-control"  ng-model="PrecioDelProductoParaAgregar">
+                </div>
+                
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" value="{{ProductoParaAgregar}}" data-ng-click="AgregarACarrito($event)">Agregar</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
