@@ -63,7 +63,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     // Agrega la cantidad indicada al carrito de compras
     $scope.AgregarACarrito = function(event){
         let dataRecibida = JSON.parse(event.target.value);
-        alert($scope.CantidadProductoParaAgregar);
+        
         var elementoCarrito = {
             idProducto:dataRecibida.producto.idProducto,
             codigoProducto : dataRecibida.producto.codigoProducto,
@@ -77,6 +77,20 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         $scope.carrito = carritoDeCompras;
     };
     
+    // Obtiene productos para la venta
+    $scope.registrarVenta = function(){
+        alert("registrando venta ");
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Venta/RegistrarVenta',
+            data: { nombreProducto : carritoDeCompras
+            }
+        }).then(function successCallback(response) {
+            alert("Venta realizada!.");
+            }, function errorCallback(response) {
+            //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });     
+    };
     
       
 });
