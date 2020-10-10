@@ -1,11 +1,13 @@
 angular.module('angularRoutingApp').controller('ventasController', function ($scope, $http, $rootScope) {
 
     // Variables
-    var listaServicio=[] ;
-    var listaProductosParaVenta=[] ;
-    var carritoDeCompras = [] // Almacena objetos a comprar
+    var listaServicio = [];
+    var listaProductosParaVenta = [];
+    var carritoDeCompras = []; // Almacena objetos a comprar
+    var productoSeleccionado;
+    var precioTotalAcumulado = 0;
     
-
+    
     $scope.message = 'VENTAS';
     $scope.especial = 'VENTAS';
     
@@ -51,27 +53,33 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     };
     
     // Establece ID en el botón para agregar al carrito
-    $scope.EstablecerCantidadParaAgregar = function(event)
-    {
-        let dataRecibida = JSON.parse(event.target.value);
-        $scope.ProductoParaAgregar = dataRecibida;
-        $scope.UnidadMedidaProductoParaAgregar = dataRecibida.producto.unidadMedida.abreviacion;
-        $scope.CantidadProductoParaAgregar = 0;
-        //$scope.CantidadProductoAgregar = event.target.value; // TODO: pendiente agregar precio, cantidad e unidad de medida
+    $scope.EstablecerCantidadParaAgregar = function(event) {
+        productoSeleccionado = JSON.parse(event.target.value);
+        $scope.ProductoParaAgregar = productoSeleccionado;
+        $scope.UnidadMedidaProductoParaAgregar = productoSeleccionado.abreviacion;
+        $scope.CantidadProductoParaAgregar = 1;
+        $scope.CalcularPrecio();
+    };
+    
+    $scope.CalcularPrecio = function() {
+        $scope.PrecioDelProductoParaAgregar = productoSeleccionado.unitarioPrecio * $scope.CantidadProductoParaAgregar;
     };
     
     // Agrega la cantidad indicada al carrito de compras
     $scope.AgregarACarrito = function(event){
         let dataRecibida = JSON.parse(event.target.value);
-        
         var elementoCarrito = {
-            idProducto:dataRecibida.producto.idProducto,
-            codigoProducto : dataRecibida.producto.codigoProducto,
-            nombreProducto : dataRecibida.producto.nombreProducto,
+            codigoProducto : dataRecibida.codigoProducto,
+            nombreProducto : dataRecibida.nombreProducto,
             idProductoSeccion : dataRecibida.idProductoSeccion,
-            unidadMedida : dataRecibida.producto.unidadMedida.abreviacion,
-            cantidad:$scope.CantidadProductoParaAgregar
+            unidadMedida : dataRecibida.abreviacion,
+            cantidad : $scope.CantidadProductoParaAgregar,
+            precioUnitario : productoSeleccionado.unitarioPrecio,
+            precioTotalProducto : $scope.PrecioDelProductoParaAgregar
         };
+        
+        precioTotalAcumulado += elementoCarrito.precioTotalProducto;
+        $scope.PrecioTotal = precioTotalAcumulado;
         
         carritoDeCompras.push(elementoCarrito);
         $scope.carrito = carritoDeCompras;
@@ -83,7 +91,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         $http({
             method: 'POST',
             url: 'http://localhost:8080/Venta/RegistrarVenta',
-            data: { nombreProducto : carritoDeCompras
+            data: { carritoDeCompras
             }
         }).then(function successCallback(response) {
             alert("Venta realizada!.");
