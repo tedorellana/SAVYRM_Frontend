@@ -97,7 +97,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             alert("Venta realizada!.");
             }, function errorCallback(response) {
             //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
-        });     
+        });
     };
     
       

@@ -13,7 +13,7 @@
                                             <th style="text-align: center;">Producto</th>
                                             <th style="text-align: center;">Disponibles</th>
                                             <th style="text-align: center;">Vencimiento</th>
-                                            <th style="text-align: center;">Precio unidad</th>
+                                            <th style="text-align: center;">Precio unidad</th>res
                                             <th style="text-align: center;">Agregar</th>
                                         </tr>
                                     </thead>
@@ -25,7 +25,12 @@
                                             <td>S/ {{productoParaVenta.unitarioPrecio}}</td>
                                             <td style="text-align: center;">
                                                 <div class="btn-group btn-group-xs btn-group-solid">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)">Agregar al carrito</button>
+                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#ModalCantidad" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)">Agregar al carrito</button>
+                                                </div>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <div class="btn-group btn-group-xs btn-group-solid">
+                                                    <button class="btn btn-info" data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="RevisarElaboracion($event)">Elaboración</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -54,7 +59,7 @@
                                         <tr class="odd gradeX">
                                             <td style="text-align: center;">
                                                 <div class="btn-group btn-group-xs btn-group-solid">
-                                                    <button class="btn btn-danger" value="{{elemento}}">Retirar</button>
+                                                    <button class="btn btn-danger" value="{{elemento}}">X</button>
                                                 </div>
                                             </td>
                                             <td>{{elemento.nombreProducto}}</td>
@@ -87,7 +92,7 @@
     </div>
     
     <!-- Pop up Cantidad a agregarACarrito -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="ModalCantidad" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
