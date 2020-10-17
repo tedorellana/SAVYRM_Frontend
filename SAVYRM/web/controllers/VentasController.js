@@ -1,4 +1,4 @@
-angular.module('angularRoutingApp').controller('ventasController', function ($scope, $http, $rootScope) {
+angular.module('angularRoutingApp').controller('ventasController', function ($scope, $http, $sessionStorage, $rootScope) {
 
     // Variables
     var listaServicio = [];
@@ -10,6 +10,15 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     
     $scope.message = 'VENTAS';
     $scope.especial = 'VENTAS';
+    
+    // get the beginning attetion datetime
+    var begginningDateTime = new Date();
+    begginningDateTime = begginningDateTime.getFullYear() + "-" + 
+                begginningDateTime.getMonth() + "-" +
+                begginningDateTime.getDay() + " " +
+                begginningDateTime.getHours() + ":" +
+                begginningDateTime.getMinutes() + ":" +
+                begginningDateTime.getSeconds();
     
     $scope.borrarSlider = function(){
         $scope.especial = 'presionado';
@@ -87,11 +96,19 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     
     // Obtiene productos para la venta
     $scope.registrarVenta = function(){
+        var detallesServicio = {
+            idEmpleado : $sessionStorage.currentUser,
+            idCliente : $sessionStorage.currentUser, // TODO: pending to add customer.
+            dateTimeServiceBegin : begginningDateTime
+        }
+        
         alert("registrando venta ");
         $http({
             method: 'POST',
             url: 'http://localhost:8080/Venta/RegistrarVenta',
-            data: { carritoDeCompras
+            data: { 
+                carritoDeCompras,
+                detallesServicio
             }
         }).then(function successCallback(response) {
             alert("Venta realizada!.");
