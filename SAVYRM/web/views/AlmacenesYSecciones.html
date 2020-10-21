@@ -19,7 +19,7 @@
                                 <div class="caption">
                                   <h3>{{almacen.nombreAlmacen}}</h3>
                                   <p>Ubicación: {{almacen.direccion}} .</p>
-                                  <button class="btn btn-primary" value="{{almacen.idAlmacen}}" data-ng-click="getSeccionesPorAlmacenAS($event)" data-rel="fancybox-button" title="Project Name">Ver Almacén <i class="fa fa-search"></i></button>
+                                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{almacen.idAlmacen}}" data-ng-click="getSeccionesPorAlmacenAS($event)" data-rel="fancybox-button" title="Project Name">Ver Almacén <i class="fa fa-search"></i></button>
                                 </div>
                               </div>
                             </div>                            
@@ -50,7 +50,7 @@
                         <td>{{seccion.detalle}}</td>
                         <td>{{seccion.almacen.direccion}}</td>
                         <td>
-                            <button data-toggle="modal" data-target="#DetalleSeccionModal" class="btn btn-primary" ng-model="seccion.idSeccion" value="{{seccion.idSeccion}}" data-ng-click="getDetallePorSeccion($event)">+</button>
+                            <button data-toggle="modal" data-target="#DetalleSeccionModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="seccion.idSeccion" value="{{seccion.idSeccion}}" data-ng-click="getDetallePorSeccion($event)">+</button>
                         </td>
                     </tr>
                 </table>
