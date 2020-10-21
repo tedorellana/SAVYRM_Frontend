@@ -7,6 +7,7 @@
         var resultado = false;
         var nombreUsuarioIniciarSesion = $scope.nombreUsuarioIniciarSesion;
         var contrasenaIniciarSesion = $scope.contrasenaIniciarSesion;
+
         $http({
             method: 'POST',
             url: 'http://localhost:8080/Usuario/IniciarSesion',
