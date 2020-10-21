@@ -67,6 +67,11 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         $scope.ProductoParaAgregar = productoSeleccionado;
         $scope.UnidadMedidaProductoParaAgregar = productoSeleccionado.abreviacion;
         $scope.CantidadProductoParaAgregar = 1;
+        
+        if (productoSeleccionado.cantidadProductoSeccion == 0) {
+            alert("Se requerirá calcular la fecha de elaboración.");
+        }
+        
         $scope.CalcularPrecio();
     };
     
