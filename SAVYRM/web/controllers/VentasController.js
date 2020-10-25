@@ -50,20 +50,21 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
 
     // Gets a detail of an specific sale
     $scope.GetServiceDetail = function(event){
-        let ventaSelected = JSON.parse(event.currentTarget.value);
-        alert(ventaSelected);
+        var serviceSelected = JSON.parse(event.currentTarget.value);
+        var idServiceSelected = serviceSelected.servicio.idServicio;
+
         $http({
             method: 'POST',
-            url: 'http://localhost:8080/Servicio/GetVentasDetalle',
+            url: 'http://localhost:8080/Servicio/GetVentasDetail',
             data: {
+                idServiceSelected
             }
         }).then(function successCallback(response) {
-            var ventaDetail = response.data;
-            
-            $scope.ventaDetail = ventaDetail;
+            $scope.ventaDetail = response.data;
+            $scope.serviceSelectedDetail = serviceSelected;
         }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
-        });  
+        }); 
     };
     
     $scope.getDetallesPorServicio = function(){
