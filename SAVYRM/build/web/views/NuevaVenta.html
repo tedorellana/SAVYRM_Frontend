@@ -1,98 +1,190 @@
-<div ng-init="getProductosParaVenta()">
-    <div class="col-md-12">
-        <div class="page-content-wrapper">
-            <div class="page-content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Productos para comprar-->
-                        <div class="portlet box grey-cascade">
-                            <div class="portlet-body">
-                                <table class="table table-striped table-bordered table-hover" id="productosParaVenta">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">Producto</th>
-                                            <th style="text-align: center;">Disponibles</th>
-                                            <th style="text-align: center;">Vencimiento</th>
-                                            <th style="text-align: center;">Precio unidad</th>res
-                                            <th style="text-align: center;">Agregar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody ng-repeat="productoParaVenta in productosParaVenta">
-                                        <tr class="odd gradeX">
-                                            <td>{{productoParaVenta.nombreProducto}}</td>
-                                            <td>{{productoParaVenta.cantidadProductoSeccion}} {{productoParaVenta.abreviacion}}</td>
-                                            <td>{{productoParaVenta.fechaIngreso}}</td>
-                                            <td>S/ {{productoParaVenta.unitarioPrecio}}</td>
-                                            <td style="text-align: center;">
-                                                <div class="btn-group btn-group-xs btn-group-solid">
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#ModalCantidad" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)">Agregar al carrito</button>
-                                                </div>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <div class="btn-group btn-group-xs btn-group-solid">
-                                                    <button class="btn btn-info" data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="RevisarElaboracion($event)">Elaboración</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table> 
-                            </div>
+<div>
+    
+    <main ng-init="getProductosParaVenta()" class="col-md-12 mdl-layout__content">
+        <div class="col-md-7">
+            <!-- PRODUCT LIST BEGIN -->
+            <div class="mdl-grid ui-tables">
+                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <h1 class="mdl-card__title-text">Productos</h1>
                         </div>
-                        <!-- Fin Productos para comprar-->
-                        
-                        <!-- Carrito de compras-->
-                        <div class="portlet box grey-cascade">
-                            <h4>Carrito de compras</h4>
-                            <div class="portlet-body">
-                                <table class="table table-striped table-bordered table-hover" id="productosParaVenta">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">Eliminar</th>
-                                            <th style="text-align: center;">Producto</th>
-                                            <th style="text-align: center;">Código</th>
-                                            <th style="text-align: center;">Cantidad</th>
-                                            <th style="text-align: center;">Precio unidad</th>
-                                            <th style="text-align: center;">Precio Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody ng-repeat="elemento in carrito">
-                                        <tr class="odd gradeX">
-                                            <td style="text-align: center;">
-                                                <div class="btn-group btn-group-xs btn-group-solid">
-                                                    <button class="btn btn-danger" value="{{elemento}}">X</button>
-                                                </div>
-                                            </td>
-                                            <td>{{elemento.nombreProducto}}</td>
-                                            <td>{{elemento.codigoProducto}}</td>
-                                            <td>{{elemento.cantidad}} {{elemento.unidadMedida}}</td>
-                                            <td>{{elemento.precioUnitario}}</td>
-                                            <td>{{elemento.precioTotalProducto}}</td>
-                                        </tr>
-                                    </tbody>
-                                    <tr class="odd gradeX info">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>PRECIO TOTAL</td>
-                                            <td>{{PrecioTotal}}</td>
-                                        </tr>
-                                </table> 
-                            </div>
-                            <button type="button" class="col-md-2 col-md-offset-10 btn btn-success" data-toggle="modal" data-target="#NuevoProductoModal">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" ng-click="registrarVenta()"> Procesar venta</span>
-                                </button>
+                        <div class="mdl-card__supporting-text no-padding">
+                            <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table borderless-table">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Disponibles</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Vencimiento</th>
+                                        <th class="mdl-data-table__cell--non-numeric">P und</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Elaboración</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="almacen in almacenes">
+                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.nombreAlmacen}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.direccion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.capacidad}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <input value="{{almacen.idAlmacen}}" ng-model="almacen.selected" type="checkbox">
+                                            <span ng-show="almacen.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
+                                            <span ng-show="!almacen.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                                <tbody >
+                                    <tr ng-repeat="productoParaVenta in productosParaVenta">
+                                        <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.nombreProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.cantidadProductoSeccion}} {{productoParaVenta.abreviacion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.fechaIngreso}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">S/ {{productoParaVenta.unitarioPrecio}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <button data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="RevisarElaboracion($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-orange"><i class="material-icons">info</i></button>
+                                        </td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <button data-toggle="modal" data-target="#ModalCantidad" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
+                                                <i class="material-icons">add_shopping_cart</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <!-- Fin carrito de compras -->
-                        
+                    </div>
+                </div>
+            </div>
+            <!-- PRODUCT LIST END -->
+        </div>
+        <div class="col-md-5">
+            <div class="mdl-grid ui-tables">
+                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <h1 class="mdl-card__title-text">Carrito de compras</h1>
+                        </div>
+                            <!-- CLIENT DATA  BEGIN-->
+                            <div class="mdl-card__supporting-text">
+                                <form class="form form--basic">
+                                    <div class="mdl-grid">
+                                        <div class="mdl-cell mdl-cell--7-col-desktop mdl-cell--7-col-tablet mdl-cell--4-col-phone form__article">
+                                            <h3 class="text-color--smooth-gray">Cliente</h3>
+                                            <div class="mdl-textfield mdl-js-textfield full-size">
+                                                <input class="mdl-textfield__input" type="text" id="first-name">
+                                                <label class="mdl-textfield__label" for="first-name">DNI o RUC</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield full-size">
+                                                <input class="mdl-textfield__input" type="text" id="last-name">
+                                                <label class="mdl-textfield__label" for="last-name">Nombres</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield full-size">
+                                                <input class="mdl-textfield__input" type="text" id="e-mail">
+                                                <label class="mdl-textfield__label" for="e-mail">Apellidos</label>
+                                            </div>
+                                            <h2 class="color-text--green">S/ {{PrecioTotal}}</h2>
+                                        </div>
+                                        <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                            <h3 class="text-color--smooth-gray">Dirección de entrega</h3>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                                <input class="mdl-textfield__input" type="text" id="floating-first-name">
+                                                <label class="mdl-textfield__label" for="floating-first-name">Número de teléfono</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                                <input class="mdl-textfield__input" type="text" id="floating-last-name">
+                                                <label class="mdl-textfield__label" for="floating-last-name">Dirección de entrega</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                                <input class="mdl-textfield__input" type="text" id="floating-e-mail">
+                                                <label class="mdl-textfield__label" for="floating-e-mail">Correo electrónico</label>
+                                            </div>
+                                            
+                            
+                            <button ng-click="registrarVenta()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green">
+                                <i class="material-icons">save</i>
+                                Procesar venta
+                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- CLIENT DATA END -->
+                        <div ng-show="!shoppingCarEmpty" class="mdl-card__supporting-text no-padding">
+                            <!-- SHOPPING CARD BEGIN -->
+                            <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table borderless-table" style="white-space: pre-line;">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">Eliminar</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Código</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
+                                        <th class="mdl-data-table__cell--non-numeric">P Und</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="elemento in carrito">
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <button value="{{elemento}}" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-red">
+                                                <i class="material-icons">cancel</i>
+                                            </button>
+                                        </td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{elemento.nombreProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{elemento.codigoProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{elemento.cantidad}} {{elemento.unidadMedida}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{elemento.precioUnitario}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{elemento.precioTotalProducto}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric"></td>
+                                        <td class="mdl-data-table__cell--non-numeric"></td>
+                                        <td class="mdl-data-table__cell--non-numeric"></td>
+                                        <td class="mdl-data-table__cell--non-numeric"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- SHOPPING CARD END -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Pop up Cantidad a agregarACarrito -->
-    <div class="modal fade" id="ModalCantidad" tabindex="-1" role="dialog">
+    </main>
+
+    <!-- MODAL PRODUCTS TO ADD TO SHOPPING CAR BEGIN -->
+    <!-- <div class="modal" id="ModalCantidad">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Modal title</h4>
+            </div>
+              
+            <div class="modal-body">                
+                <div class="form-group">
+                    <label>Cantidad a agregar:</label>
+                    <input type="number" class="form-control"  ng-model="CantidadProductoParaAgregar" ng-change="CalcularPrecio()">
+                </div>
+                <div class="form-group">
+                    <label>Unidad de medida</label>
+                    <input type="text" class="form-control"  ng-model="UnidadMedidaProductoParaAgregar" >
+                </div>
+                <div class="form-group">
+                    <label>Precio calculado</label>
+                    <input type="text" class="form-control"  ng-model="PrecioDelProductoParaAgregar">
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" data-dismiss="modal" value="{{ProductoParaAgregar}}" data-ng-click="AgregarACarrito($event)">Agregar</button>
+            </div>
+          </div>
+        </div>
+    </div> -->
+
+
+    <div class="modal fade" id="ModalCantidad" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -119,8 +211,10 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
               <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" data-dismiss="modal" value="{{ProductoParaAgregar}}" data-ng-click="AgregarACarrito($event)">Agregar</button>
             </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
+          </div>
+        </div>
+    </div>
+    <!-- MODAL PRODUCTS TO ADD TO SHOPPING CAR END -->
+
 </div>
+

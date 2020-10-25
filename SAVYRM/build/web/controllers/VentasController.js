@@ -6,7 +6,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     var carritoDeCompras = []; // Almacena objetos a comprar
     var productoSeleccionado;
     var precioTotalAcumulado = 0;
-    
+    $scope.PrecioTotal = "00.00";
+    $scope.shoppingCarEmpty = true; // used to hide table with car items when is empty
     
     $scope.message = 'VENTAS';
     $scope.especial = 'VENTAS';
@@ -63,7 +64,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     
     // Establece ID en el botón para agregar al carrito
     $scope.EstablecerCantidadParaAgregar = function(event) {
-        productoSeleccionado = JSON.parse(event.target.value);
+        productoSeleccionado = JSON.parse(event.currentTarget.value);
         $scope.ProductoParaAgregar = productoSeleccionado;
         $scope.UnidadMedidaProductoParaAgregar = productoSeleccionado.abreviacion;
         $scope.CantidadProductoParaAgregar = 1;
@@ -81,7 +82,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     
     // Agrega la cantidad indicada al carrito de compras
     $scope.AgregarACarrito = function(event){
-        let dataRecibida = JSON.parse(event.target.value);
+        let dataRecibida = JSON.parse(event.currentTarget.value);
         var elementoCarrito = {
             codigoProducto : dataRecibida.codigoProducto,
             nombreProducto : dataRecibida.nombreProducto,
@@ -97,6 +98,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         
         carritoDeCompras.push(elementoCarrito);
         $scope.carrito = carritoDeCompras;
+
+        $scope.shoppingCarEmpty = $scope.carrito == undefined || $scope.carrito.length <= 0;
     };
     
     // Obtiene productos para la venta
@@ -117,6 +120,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             }
         }).then(function successCallback(response) {
             alert("Venta realizada!.");
+            carritoDeCompras = null;
+            $scope.carrito = carritoDeCompras;
             }, function errorCallback(response) {
             //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });     

@@ -1,132 +1,61 @@
-<div ng-init="getVentas()">
-    <div class="col-md-12">
-        <!-- Begin table -->
-        <div class="page-content-wrapper">
-            <div class="page-content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                        <div class="portlet box grey-cascade">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="fa fa-globe"></i>Ventas del Mes
-                                </div>
-                            </div>
-                            <div class="portlet-body">
-                                <div class="table-toolbar">
-                                    <div class="row">
-                                        <div class="col-md-4 col-md-offset-2">
-                                            <div class="btn-group">
-                                                <label>
-                                                    Fecha de Inicio:
-                                                </label>
-                                                <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
-                                                    <input type="text" class="form-control" readonly>
-                                                    <span class="input-group-btn">
-                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="btn-group col-md-9">
-                                                <label>
-                                                    Fecha de Fin:
-                                                </label>
-                                                <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
-                                                    <input type="text" class="form-control" readonly>
-                                                    <span class="input-group-btn">
-                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <button id="sample_editable_1_new" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">
-                                                Filtrar<i class="fa fa-plus"></i>
-                                            </button>
-                                            
-                                        </div>
-                                        <div class="col-md-1">
-                                            
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="btn-group">
-                                                <button id="sample_editable_1_new" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">
-                                                Nueva Ventas<i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="btn-group pull-right">
-                                                <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu pull-right">
-                                                    <li>
-                                                        <a href="javascript:;">
-                                                        Print </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;">
-                                                        Save as PDF </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;">
-                                                        Export to Excel </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <table class="table table-striped table-bordered table-hover" id="sample_1">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">Cliente</th>
-                                            <th style="text-align: center;">DNI</th>
-                                            <th style="text-align: center;">Personal Atención</th>
-                                            <th style="text-align: center;">Fecha Atención</th>
-                                            <th style="text-align: center;">Detalles</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody ng-repeat="venta in ventas">
-                                        <tr class="odd gradeX">
-                                            <td>{{venta.personaAtendida.nombrePersona + " " +venta.personaAtendida.apellidoPaternoPersona + " " + venta.personaAtendida.apellidoMaternoPersona}}</td>
-                                            <td>{{venta.personaAtendida.numeroDocumentoPersona}}</td>
-                                            <td>PENDIENTE</td>
-                                            <td>{{venta.horaInicioServicio}}</td>
-                                            <td style="text-align: center;">
-                                                <div class="btn-group btn-group-xs btn-group-solid">
-                                                    <button class="btn green" data-toggle="modal" data-target="#myModal" value="{{venta.idServicio}}" data-ng-click="getDetallesPorServicio($event)">Ver Detalles</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- END EXAMPLE TABLE PORTLET-->
+<main class="col-md-12 mdl-layout__content">
+
+    <!-- TABLE VENTAS END -->
+    <div class="mdl-grid ui-tables">
+        <div ng-init="getVentas()" class="col-md-12">
+            <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                <div class="mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Ventas del Mes</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text no-padding">
+                        <table class="mdl-data-table mdl-js-data-table">
+                            <thead>
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">Cliente</th>
+                                    <th class="mdl-data-table__cell--non-numeric">DNI</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Personal Atención</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Fecha Atención</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="venta in ventas">
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.nombrePersona + " " +venta.personaAtendida.apellidoPaternoPersona + " " + venta.personaAtendida.apellidoMaternoPersona}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.numeroDocumentoPersona}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">PENDIENTE</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.horaInicioServicio}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <button data-toggle="modal" data-target="#myModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto.idProducto" value="{{venta.idServicio}}" data-ng-click="getDetallesPorServicio($event)">Editar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Table -->
     </div>
-    <!-- INICIA POPUP-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-              <p>One fine body&hellip;</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Save changes</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
-</div>
+    <!-- TABLE VENTAS END -->
+
+</main>
+
+<!-- MODAL VENTAS BEGIN -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- MODAL VENTAS END -->

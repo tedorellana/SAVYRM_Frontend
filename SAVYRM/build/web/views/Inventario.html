@@ -1,112 +1,164 @@
-<div class="col-md-12" ng-init="onLoadInventarioController()">
-  <div class="container">
-    <!-- BEGIN SIDEBAR & CONTENT -->
-    <div class="row margin-bottom-40">
-      <!-- BEGIN CONTENT -->
-        <form class="form-group">
-            <div class="col-md-12 col-sm-12">
-              <div ng-show="mostrarAlmacenes">
-                  <h1>Almacenes</h1>
-                  <div class="content-page">
-                      <table class="table table-hover table-condensed table-bordered">
-                          <!--tr style="background-color: #5a98cd;"-->
-                          <tr>
-                              <th class="success">Almacen</th>
-                              <th class="success">Úbicación</th>
-                              <th class="success">Capacidad (Lt)</th>
-                              <th class="success">Seleccionar</th>
-                          </tr>
-                          <tr ng-repeat="almacen in almacenes">
-                              <td>{{almacen.nombreAlmacen}}</td>
-                              <td>{{almacen.direccion}}</td>
-                              <td>{{almacen.capacidad}}</td>
-                              <td>
-                                  <input value="{{almacen.idAlmacen}}" ng-model="almacen.selected" type="checkbox">
-                                  <span ng-show="almacen.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
-                                  <span ng-show="!almacen.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
-                              </td>
-                          </tr>
-                      </table>
-                      <button type="button" class="col-md-2 col-md-offset-10 btn btn-primary" ng-click="obtenerSeccionesPorAlmacenesSeleccionados()">Obtener Secciones</button>
-                  </div>
-              </div>
-                
-              <div ng-show="mostrarSecciones">
-                  <h1>Secciones</h1>
-                  <div class="content-page">
-                      <table class="table table-hover table-condensed table-bordered">
-                          <!--tr style="background-color: #5a98cd;"-->
-                          <tr>
-                              <th class="success">Sección</th>
-                              <th class="success">Detalle</th>
-                              <th class="success">Ubicación</th>
-                              <th class="success">Seleccionar</th>
-                          </tr>
-                          <tr ng-repeat="seccion in listaSecciones">
-                              <td>{{seccion.codigoSeccion}}</td>
-                              <td>{{seccion.detalle}}</td>
-                              <td>{{seccion.direccion}}</td>
-                              <td>
-                                  <input value="{{seccion.idSeccion}}" ng-model="seccion.selected" type="checkbox">
-                                  <span ng-show="seccion.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
-                                  <span ng-show="!seccion.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
-                              </td>
-                          </tr>
-                      </table>
-                        <button type="button" class="col-md-2 col-md-offset-10 btn btn-primary" ng-click="obtenerInventarioPorSeccionesSeleccionados()">Obtener Inventario</button>
-                  </div>
-              </div>
-              
-              <div ng-show="mostrarInventario">
-                  <h1>Inventario</h1>
-                  <div class="form-group col-md-6">
-                    <label>Buscar:</label>
-                    <input type="text" ng-change="buscarItemEnInventario()" class="col-md-10 form-control" ng-model="buscarInventarioSeleccionado" placeholder="Ingresa el texto que deseas buscar">
-                    <label> {{detalleBusquedaEnInventario}}</label>
-                    <button type="button" class="col-md-2 btn btn-success" ng-click="buscarItemEnInventario()">
-                        <span class="glyphicon glyphicon-arrow-search" aria-hidden="true">  Buscar</span>
-                    </button>
-                  </div>
-                  <button type="button" class="col-md-1 col-md-offset-11 btn btn-warning" ng-click="volverASeleccionarSeccionesyAlmacenes()">
-                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true">  Atras</span>
-                  </button>
-                  <div class="content-page">
-                      <table class="table table-hover table-condensed table-bordered">
-                          <!--tr style="background-color: #5a98cd;"-->
-                          <tr>
-                              <th class="success">Producto</th>
-                              <th class="success">Almacen</th>
-                              <th class="success">Sección</th>
-                              <th class="success">Estado</th>
-                              <th class="success">Stock</th>
-                              <th class="success">Fecha Ingreso</th>
-                              <th class="success">Fecha Caducidad</th>
-                              <th class="success">Lote</th>
-                              <th class="success">Detalle</th>
-                          </tr>
-                          <tr ng-repeat="item in inventario">
-                              <td>{{item.producto.nombreProducto}}</td>
-                              <td>{{item.seccion.almacen.nombreAlmacen}}</td>
-                              <td>{{item.seccion.codigoSeccion}}</td>
-                              <td>
-                                  <span ng-show="item.producto.estadoProducto" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"> Disponible</span>
-                                  <span ng-show="!item.producto.estadoProducto" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"> Agotado</span>
-                              </td>
-                              <td>{{item.cantidadProductoSeccion}}</td>
-                              <td>{{item.fechaIngreso}}</td>
-                              <td>{{item.lote.fechaCaducacionLote}}</td>
-                              <td>{{item.lote.codigoLote}}</td>
-                              <td>
-                                  <button data-toggle="modal" data-target="#DetalleProductoInventarioModal" type="button" class="btn-primary" value="{{item.idProductoSeccion}}" ng-model="item.selected" data-ng-click="getDetallePorIDProductoSeccion($event)" >Detalle</button>
-                              </td>
-                          </tr>
-                      </table>
-                  </div>
-              </div>
+<main ng-init="onLoadInventarioController()" class="col-md-12 mdl-layout__content">
+    <div class="mdl-grid ui-tables">
+        <div class="col-md-12">
+            <!-- ALMACENCENES BEGIN -->
+            <div ng-show="mostrarAlmacenes">
+                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <h1 class="mdl-card__title-text">Almacenes</h1>
+                        </div>
+                        <div class="mdl-card__supporting-text no-padding">
+                            <table class="mdl-data-table mdl-js-data-table">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">Almacen</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Úbicación</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Capacidad (Lt)</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Seleccionar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="almacen in almacenes">
+                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.nombreAlmacen}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.direccion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.capacidad}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <input value="{{almacen.idAlmacen}}" ng-model="almacen.selected" type="checkbox">
+                                            <span ng-show="almacen.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
+                                            <span ng-show="!almacen.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-click="obtenerSeccionesPorAlmacenesSeleccionados()">Obtener Secciones</button>
             </div>
-        </form>
-        <!-- END CONTENT -->
+                <!-- ALMACENES END -->
+
+            <!-- SECCION END -->
+            <div ng-show="mostrarSecciones">
+                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <h1 class="mdl-card__title-text">Secciones</h1>
+                        </div>
+                        <div class="mdl-card__supporting-text no-padding">
+                            <table class="mdl-data-table mdl-js-data-table">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">Sección</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Detalle</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Ubicación</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Seleccionar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="seccion in listaSecciones">
+                                        <td class="mdl-data-table__cell--non-numeric">{{seccion.codigoSeccion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{seccion.detalle}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{seccion.direccion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <input value="{{seccion.idSeccion}}" ng-model="seccion.selected" type="checkbox">
+                                            <span ng-show="seccion.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
+                                            <span ng-show="!seccion.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-click="obtenerInventarioPorSeccionesSeleccionados()">Obtener inventario</button>
+            </div>
+            <!-- SECCION END -->
+
+            <!-- INVENTARIO BEGIN -->
+            <div ng-show="mostrarInventario">
+                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <h1 class="mdl-card__title-text">Inventario</h1>
+                            <button ng-click="volverASeleccionarSeccionesyAlmacenes()" class="mdl-button mdl-js-button mdl-js-ripple-effect button--colored-purple">
+                                <i class="material-icons">reply</i>
+                                Atrás
+                            </button>
+                        </div>
+                        <!-- SEARCH FORM BEGIN -->
+                        <!-- <div>
+                            <div class="col-md-offset-2 col-md-6 mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__supporting-text">
+                                    <form class="form form--basic">
+                                        <div class="mdl-grid">
+                                            <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                                <h3 class="text-color--smooth-gray">Nombre o ID</h3>
+                                                <div class="mdl-textfield mdl-js-textfield full-size">
+                                                    <input class="mdl-textfield__input" type="text" id="first-name">
+                                                    <label class="mdl-textfield__label" for="first-name">Nombre del producto</label>
+                                                </div>
+                                            </div>
+                                    </form>
+                                    <button ng-click="buscarItemEnInventario()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-orange">
+                                        <i class="material-icons">drafts</i>
+                                        Buscar
+                                    </button>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- SEARCH FORM END -->
+                        <div class="mdl-card__supporting-text no-padding">
+                            <table class="mdl-data-table mdl-js-data-table">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Almacen</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Sección</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Estado</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Stock</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Fecha Ingreso</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Fecha Caducidad</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Lote</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Detalle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in inventario">
+                                        <td class="mdl-data-table__cell--non-numeric">{{item.producto.nombreProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{item.seccion.almacen.nombreAlmacen}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{item.seccion.codigoSeccion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <span ng-show="item.producto.estadoProducto" class="label label--mini color--green">Disponible</span>
+                                            <span ng-show="!item.producto.estadoProducto" class="label label--mini color--orange">Agotado</span>
+                                        </td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{item.cantidadProductoSeccion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{item.fechaIngreso}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{item.lote.fechaCaducacionLote}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{item.lote.codigoLote}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <li class="mdl-list__item">
+                                                <button data-toggle="modal" data-target="#DetalleProductoInventarioModal" value="{{item.idProductoSeccion}}" ng-model="item.selected" data-ng-click="getDetallePorIDProductoSeccion($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect button--colored-light-blue">
+                                                    <i class="material-icons">info</i>
+                                                </button>
+                                            </li>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- INVENTARIO END -->
+
+        </div>
     </div>
-  </div>
-  <div ng-include="'views/DetalleProductoInventarioModal.html'"></div>
-</div>
+
+    <!-- MODAL DETALLE PRODUCTO BEGIN -->
+    <div ng-include="'views/DetalleProductoInventarioModal.html'"></div>
+    <!-- MODAL DETALLE PRODUCTO END -->
+</main>
