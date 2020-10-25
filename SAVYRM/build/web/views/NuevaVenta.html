@@ -98,12 +98,10 @@
                                                 <input class="mdl-textfield__input" type="text" id="floating-e-mail">
                                                 <label class="mdl-textfield__label" for="floating-e-mail">Correo electrónico</label>
                                             </div>
-                                            
-                            
-                            <button ng-click="registrarVenta()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green">
-                                <i class="material-icons">save</i>
-                                Procesar venta
-                            </button>
+                                            <button ng-click="registrarVenta()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green">
+                                                <i class="material-icons">save</i>
+                                                Procesar venta
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -152,15 +150,15 @@
     </main>
 
     <!-- MODAL PRODUCTS TO ADD TO SHOPPING CAR BEGIN -->
-    <!-- <div class="modal" id="ModalCantidad">
-        <div class="modal-dialog">
+    <div class="modal fade bd-example-modal-sm" id="ModalCantidad" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-backdrop="false" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Modal title</h4>
+              <h4 class="modal-title">Detalle por producto</h4>
             </div>
-              
-            <div class="modal-body">                
+            <div class="modal-body">
+                <span ng-show="!EntregaInmediata" class="color-text--red">Este producto no esta disponible en estos momentos, revise la posible fecha de entrega</span>
                 <div class="form-group">
                     <label>Cantidad a agregar:</label>
                     <input type="number" class="form-control"  ng-model="CantidadProductoParaAgregar" ng-change="CalcularPrecio()">
@@ -173,39 +171,10 @@
                     <label>Precio calculado</label>
                     <input type="text" class="form-control"  ng-model="PrecioDelProductoParaAgregar">
                 </div>
-                
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" data-dismiss="modal" value="{{ProductoParaAgregar}}" data-ng-click="AgregarACarrito($event)">Agregar</button>
-            </div>
-          </div>
-        </div>
-    </div> -->
-
-
-    <div class="modal fade" id="ModalCantidad" tabindex="-1" role="dialog" data-backdrop="false">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Modal title</h4>
-            </div>
-              
-            <div class="modal-body">                
                 <div class="form-group">
-                    <label>Cantidad a agregar:</label>
-                    <input type="number" class="form-control"  ng-model="CantidadProductoParaAgregar" ng-change="CalcularPrecio()">
+                    <label>Fecha de entrega</label>
+                    <input type="text" class="form-control"  ng-model="FechaEntregaDelProductoParaAgregar">
                 </div>
-                <div class="form-group">
-                    <label>Unidad de medida</label>
-                    <input type="text" class="form-control"  ng-model="UnidadMedidaProductoParaAgregar" >
-                </div>
-                <div class="form-group">
-                    <label>Precio calculado</label>
-                    <input type="text" class="form-control"  ng-model="PrecioDelProductoParaAgregar">
-                </div>
-                
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>

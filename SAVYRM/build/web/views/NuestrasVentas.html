@@ -14,8 +14,9 @@
                                 <tr>
                                     <th class="mdl-data-table__cell--non-numeric">Cliente</th>
                                     <th class="mdl-data-table__cell--non-numeric">DNI</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Personal Atención</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Fecha Atención</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Atendido por</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Inicio de atención</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Fin de atención</th>
                                     <th class="mdl-data-table__cell--non-numeric">Detalles</th>
                                 </tr>
                             </thead>
@@ -23,10 +24,14 @@
                                 <tr ng-repeat="venta in ventas">
                                     <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.nombrePersona + " " +venta.personaAtendida.apellidoPaternoPersona + " " + venta.personaAtendida.apellidoMaternoPersona}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.numeroDocumentoPersona}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">PENDIENTE</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.personaEmpleado.nombrePersona + " " +venta.personaEmpleado.apellidoPaternoPersona + " " + venta.personaEmpleado.apellidoMaternoPersona}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">{{venta.horaInicioServicio}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.horaFinServicio}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">
-                                        <button data-toggle="modal" data-target="#myModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto.idProducto" value="{{venta.idServicio}}" data-ng-click="getDetallesPorServicio($event)">Editar</button>
+                                        <button data-toggle="modal" data-target="#myModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{venta.idServicio}}" data-ng-click="getDetallesPorServicio($event)">Editar</button>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <button data-toggle="modal" data-target="#ModalVentasDetail" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{venta}}" data-ng-click="GetServiceDetail($event)">Detalles</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -40,8 +45,8 @@
 
 </main>
 
-<!-- MODAL VENTAS BEGIN -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+<!-- MODAL VENTA DETAIL BEGIN -->
+<div class="modal fade" id="ModalVentasDetail" tabindex="-1" role="dialog" data-backdrop="false">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -55,7 +60,27 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Save changes</button>
         </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+      </div>
+    </div>
+</div>
+<!-- MODAL VENTA DETAIL END -->
+
+<!-- MODAL VENTAS BEGIN -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{ventaDetail}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div>
 <!-- MODAL VENTAS END -->

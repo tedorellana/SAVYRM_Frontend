@@ -12,15 +12,20 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     $scope.message = 'VENTAS';
     $scope.especial = 'VENTAS';
     
+    $scope.FormatDate = function(date) {
+        date = date.getFullYear() + "-" + 
+        parseInt(date.getMonth() + 1)  + "-" +
+        date.getDay() + " " +
+        date.getHours() + ":" +
+        date.getMinutes() + ":" +
+        date.getSeconds();
+        return date;
+    };
+
     // get the beginning attetion datetime
     var begginningDateTime = new Date();
-    begginningDateTime = begginningDateTime.getFullYear() + "-" + 
-                begginningDateTime.getMonth() + "-" +
-                begginningDateTime.getDay() + " " +
-                begginningDateTime.getHours() + ":" +
-                begginningDateTime.getMinutes() + ":" +
-                begginningDateTime.getSeconds();
-    
+    begginningDateTime = $scope.FormatDate(begginningDateTime);
+
     $scope.borrarSlider = function(){
         $scope.especial = 'presionado';
         var iEl = angular.element( document.querySelector( '#slider' ) );
@@ -34,13 +39,31 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             url: 'http://localhost:8080/Servicio/GetVentasPorPersona',
             data: {
             }
-          }).then(function successCallback(response) {
-              listaServicio = response.data;
-              
-              $scope.ventas = listaServicio;
-            }, function errorCallback(response) {
-              alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
-            });        
+        }).then(function successCallback(response) {
+            listaServicio = response.data;
+            
+            $scope.ventas = listaServicio;
+        }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });        
+    };
+
+    // Gets a detail of an specific sale
+    $scope.GetServiceDetail = function(event){
+        let ventaSelected = JSON.parse(event.currentTarget.value);
+        alert(ventaSelected);
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Servicio/GetVentasDetalle',
+            data: {
+            }
+        }).then(function successCallback(response) {
+            var ventaDetail = response.data;
+            
+            $scope.ventaDetail = ventaDetail;
+        }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });  
     };
     
     $scope.getDetallesPorServicio = function(){
@@ -68,9 +91,16 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         $scope.ProductoParaAgregar = productoSeleccionado;
         $scope.UnidadMedidaProductoParaAgregar = productoSeleccionado.abreviacion;
         $scope.CantidadProductoParaAgregar = 1;
-        
+
+        $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(new Date());
+        $scope.EntregaInmediata = true;
+
         if (productoSeleccionado.cantidadProductoSeccion == 0) {
-            alert("Se requerirá calcular la fecha de elaboración.");
+            $scope.EntregaInmediata = false;
+            var fakeDeliveryDate = new Date();
+            fakeDeliveryDate.setDate(fakeDeliveryDate.getDate() + 3);
+            
+            $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(fakeDeliveryDate);
         }
         
         $scope.CalcularPrecio();
@@ -126,7 +156,5 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });     
     };
-    
-      
 });
 
