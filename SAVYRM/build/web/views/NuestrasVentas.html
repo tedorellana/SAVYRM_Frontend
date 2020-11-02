@@ -6,10 +6,10 @@
             <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-card mdl-shadow--2dp">
                     <div class="mdl-card__title">
-                        <h1 class="mdl-card__title-text">Ventas del Mes</h1>
+                        <h1 class="mdl-card__title-text">Nuestras ventas</h1>
                     </div>
                     <div class="mdl-card__supporting-text no-padding">
-                        <table class="mdl-data-table mdl-js-data-table">
+                        <table class="mdl-data-table mdl-js-data-table" style="white-space: pre-line;">
                             <thead>
                                 <tr>
                                     <th class="mdl-data-table__cell--non-numeric">Cliente</th>
@@ -22,14 +22,11 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="venta in ventas">
-                                    <td class="mdl-data-table__cell--non-numeric">{{venta.servicio.personaAtendida.nombrePersona + " " +venta.servicio.personaAtendida.apellidoPaternoPersona + " " + venta.servicio.personaAtendida.apellidoMaternoPersona}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{venta.servicio.personaAtendida.numeroDocumentoPersona}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{venta.servicio.personaEmpleado.nombrePersona + " " +venta.servicio.personaEmpleado.apellidoPaternoPersona + " " + venta.servicio.personaEmpleado.apellidoMaternoPersona}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{venta.servicio.horaInicioServicio}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{venta.servicio.horaFinServicio}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">
-                                        <button data-toggle="modal" data-target="#myModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{venta.servicio.idServicio}}" data-ng-click="getDetallesPorServicio($event)">Editar</button>
-                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.nombrePersona + " " +venta.personaAtendida.apellidoPaternoPersona + " " + venta.personaAtendida.apellidoMaternoPersona}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.numeroDocumentoPersona}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.personaEmpleado.nombrePersona + " " +venta.personaEmpleado.apellidoPaternoPersona + " " + venta.personaEmpleado.apellidoMaternoPersona}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.horaInicioServicio}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{venta.horaFinServicio}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">
                                         <button data-toggle="modal" data-target="#ModalVentasDetail" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{venta}}" data-ng-click="GetServiceDetail($event)">Detalles</button>
                                     </td>
@@ -68,11 +65,11 @@
                                             <h3 class="text-color--smooth-gray">Cliente</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <input class="mdl-textfield__input" type="text">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.servicio.personaAtendida.documentoIdentidadPersona + " " + serviceSelectedDetail.servicio.personaAtendida.numeroDocumentoPersona}}</label>
+                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaAtendida.documentoIdentidadPersona + " " + serviceSelectedDetail.personaAtendida.numeroDocumentoPersona}}</label>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <input class="mdl-textfield__input" type="text">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.servicio.personaAtendida.nombrePersona + " " + serviceSelectedDetail.servicio.personaAtendida.apellidoPaternoPersona}}</label>
+                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaAtendida.nombrePersona + " " + serviceSelectedDetail.personaAtendida.apellidoPaternoPersona}}</label>
                                             </div>
                                         </div>
                                         
@@ -80,11 +77,11 @@
                                             <h3 class="text-color--smooth-gray">Atendido por:</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <input class="mdl-textfield__input" type="text">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.servicio.personaEmpleado.documentoIdentidadPersona + " " + serviceSelectedDetail.servicio.personaEmpleado.numeroDocumentoPersona}}</label>
+                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaEmpleado.documentoIdentidadPersona + " " + serviceSelectedDetail.personaEmpleado.numeroDocumentoPersona}}</label>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <input class="mdl-textfield__input" type="text" id="last-name">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.servicio.personaEmpleado.nombrePersona + " " + serviceSelectedDetail.servicio.personaEmpleado.apellidoPaternoPersona}}</label>
+                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaEmpleado.nombrePersona + " " + serviceSelectedDetail.personaEmpleado.apellidoPaternoPersona}}</label>
                                             </div>
                                         </div>
 
@@ -92,18 +89,18 @@
                                             <h3 class="text-color--smooth-gray">Servicio</h3>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                                 <input class="mdl-textfield__input" type="text" id="floating-last-name">
-                                                <label class="mdl-textfield__label" for="floating-last-name">{{serviceSelectedDetail.servicio.horaFinServicio}}</label>
+                                                <label class="mdl-textfield__label" for="floating-last-name">Inicio de atención: {{serviceSelectedDetail.horaFinServicio}}</label>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                                 <input class="mdl-textfield__input" type="text" id="floating-e-mail">
-                                                <label class="mdl-textfield__label" for="floating-e-mail">{{serviceSelectedDetail.servicio.horaFinServicio}}</label>
+                                                <label class="mdl-textfield__label" for="floating-e-mail">Fin de atención: {{serviceSelectedDetail.horaFinServicio}}</label>
                                             </div>
                                             
                                         </div>
 
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
                                             <h3 class="text-color--smooth-gray">Costo total:</h3>
-                                            <h2 class="color-text--green">S/ {{serviceSelectedDetail.costoTotal}}</h2>
+                                            <h2 class="color-text--green">S/ {{TotalCostPerSelectedSale}}</h2>
                                         </div>
 
                                     </div>
@@ -112,7 +109,7 @@
                             <!-- CLIENT DATA END -->
                         <div class="mdl-card__supporting-text no-padding">
                             <!-- SHOPPING CARD BEGIN -->
-                            <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table stripped-table">
+                            <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table stripped-table"  style="white-space: pre-line;">
                                 <thead>
                                     <tr>
                                         <th class="mdl-data-table__cell--non-numeric">Producto</th>
@@ -131,7 +128,7 @@
                                         <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.productoSeccion.producto.codigoProducto}}</td>
                                         <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.productoSeccion.seccion.codigoSeccion}}</td>
                                         <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.cantidadServicioProducto}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">S/ {{serviceSelectedDetail.costoTota}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">S/ {{selectedVenta.costoTotal}}</td>
                                         <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric">SI</td>
                                         <td ng-show="!selectedVenta.entregado" class="mdl-data-table__cell--non-numeric">NO</td>
                                         <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.fechaEntrega}}</td>

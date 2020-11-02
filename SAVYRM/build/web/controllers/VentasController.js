@@ -15,11 +15,18 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     $scope.FormatDate = function(date) {
         date = date.getFullYear() + "-" + 
         parseInt(date.getMonth() + 1)  + "-" +
-        date.getDay() + " " +
+        date.getDate() + " " +
         date.getHours() + ":" +
         date.getMinutes() + ":" +
         date.getSeconds();
         return date;
+    };
+
+    // Get total amount of the seected sale
+    $scope.GetTotalCost = function(ventas) {
+        var totalCost = 0;
+        ventas.forEach(x => totalCost += x.costoTotal);
+        return totalCost;
     };
 
     // get the beginning attetion datetime
@@ -51,8 +58,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     // Gets a detail of an specific sale
     $scope.GetServiceDetail = function(event){
         var serviceSelected = JSON.parse(event.currentTarget.value);
-        var idServiceSelected = serviceSelected.servicio.idServicio;
-
+        var idServiceSelected = serviceSelected.idServicio;
         $http({
             method: 'POST',
             url: 'http://localhost:8080/Servicio/GetVentasDetail',
@@ -62,14 +68,12 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         }).then(function successCallback(response) {
             $scope.ventaDetail = response.data;
             $scope.serviceSelectedDetail = serviceSelected;
+            $scope.TotalCostPerSelectedSale = $scope.GetTotalCost(response.data);
         }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         }); 
     };
-    
-    $scope.getDetallesPorServicio = function(){
-    };
-    
+
     // Obtiene productos para la venta
     $scope.getProductosParaVenta = function(){
         $scope.borrarSlider();
@@ -121,7 +125,9 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             unidadMedida : dataRecibida.abreviacion,
             cantidad : $scope.CantidadProductoParaAgregar,
             precioUnitario : productoSeleccionado.unitarioPrecio,
-            precioTotalProducto : $scope.PrecioDelProductoParaAgregar
+            precioTotalProducto : $scope.PrecioDelProductoParaAgregar,
+            entregado : $scope.EntregaInmediata,
+            fechaEntrega : $scope.FechaEntregaDelProductoParaAgregar
         };
         
         precioTotalAcumulado += elementoCarrito.precioTotalProducto;
