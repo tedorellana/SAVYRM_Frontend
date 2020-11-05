@@ -33,5 +33,48 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
     //         //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
     //     });     
     // };
+
+    $scope.GetSalesReport = function(){
+        // Construct options first and then pass it as a parameter
+        var options1 = {
+            animationEnabled: true,
+            title: {
+                text: "Chart inside a jQuery Resizable Element"
+            },
+            data: [{
+                type: "column", //change it to line, area, bar, pie, etc
+                legendText: "Try Resizing with the handle to the bottom right",
+                showInLegend: true,
+                dataPoints: [
+                    { label: "Iraq", y: 100 },
+                    { y: 600 },
+                    { y: 400 },
+                    { y: 120 },
+                    { y: 190 },
+                    { y: 300 },
+                    { y: 900 },
+                    { y: 10 },
+                    { y: 10 },
+                    { y: 10 },
+                    { y: 10 },
+                    { y: 10 },
+                    { y: 22 },
+                    { y: 400 }
+                    ]
+                }]
+        };
+    
+        $("#resizable").resizable({
+            create: function (event, ui) {
+                //Create chart.
+                $("#chartContainer1").CanvasJSChart(options1);
+            },
+            resize: function (event, ui) {
+                //Update chart size according to its container size.
+                $("#chartContainer1").CanvasJSChart().render();
+            }
+        });
+    };
+
 });
 
