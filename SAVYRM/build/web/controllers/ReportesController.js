@@ -20,7 +20,33 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
             url: 'http://localhost:8080/Report/GetRevenuePerDay',
             data: { }
         }).then(function successCallback(response) {
-            $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancia por día");
+            $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancias por día");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Get sales per product
+    $scope.RevenuePerProduct = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/GetRevenuePerProduct',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancias por producto");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Get sales per product
+    $scope.SelesPerEmployee = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/GetSalesAtendedPerEmployee',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulatBarGraphic(response.data, "Ventas por empleado", "Cantida por ventas");
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
@@ -69,19 +95,19 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
             },
             axisY: {
                 title: leftLegend,
-                valueFormatString: "$##0.00",
+                valueFormatString: "S/##0.00",
                 crosshair: {
                     enabled: true,
                     snapToDataPoint: true,
                     labelFormatter: function(e) {
-                        return "$" + CanvasJS.formatNumber(e.value, "##0.00");
+                        return "S/" + CanvasJS.formatNumber(e.value, "##0.00");
                     }
                 }
             },
             data: [{
                 type: "area",
                 xValueFormatString: "DD MMM",
-                yValueFormatString: "$##0.00",
+                yValueFormatString: "S/##0.00",
                 dataPoints: arraydata
                 // [
                 //     { x: new Date(2017, 08, 01), y: 85.83 },
