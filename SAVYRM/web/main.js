@@ -24,6 +24,10 @@ angularRoutingApp.config(function($routeProvider) {
                     templateUrl     : 'views/AlmacenesYSecciones.html',
                     controller 	: 'almacenesSeccionesController'
             })
+            .when('/AsesoriaRapida', {
+                    templateUrl     : 'views/AsesoriaRapida.html',
+                    controller 	: 'productosController'
+            })
             .when('/NuestrosProductos', {
                     templateUrl     : 'views/NuestrosProductos.html',
                     controller 	: 'productosController'

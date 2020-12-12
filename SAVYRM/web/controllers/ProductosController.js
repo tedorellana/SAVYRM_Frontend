@@ -4,18 +4,33 @@ angular.module('angularRoutingApp').controller('productosController', function (
     var idCurrentUser = $sessionStorage.currentUser;
     var sessionLoggedIn = angular.isDefined(idCurrentUser);
     
-    //#region Variables
+    //Variables
     $scope.mostrarProductosPC = true;
     $scope.mostrarPreparacionPC = false;
     $scope.cantidadProductoParaFormulaNP = 0;
     var idProductoSeleccionadoParaFormula = 0;
-    //#endregion Variables
     
-    //#region Constantes
-    //#endregion 
-    
-    
+    // Gets all producto with elaboration and with status as active
+    $scope.GetAllProductsWithElaboration = function() {
+        $scope.mostrarProductosPC = true;
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Producto/GetAllProductoWithElaboration',
+            data: {
+                activado : 1
+            }
+        }).then(function successCallback(response) {
+            $scope.productos = response.data;
+        }, function errorCallback(response) {
+            alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
+        });
+    }
+
+    // Get all products
     $scope.onLoadProductosController = function(){
+        $scope.mostrarProductosPC = true;
+        
         if(!sessionLoggedIn){
             $window.location.href = config.baseUrl;
         }
@@ -34,12 +49,12 @@ angular.module('angularRoutingApp').controller('productosController', function (
             data: {
                 activado : 1
             }
-          }).then(function successCallback(response) {
-              lista_productosPC = response.data;
-              $scope.productosNP = lista_productosPC;
-            }, function errorCallback(response) {
-              alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
-            });        
+        }).then(function successCallback(response) {
+            lista_productosPC = response.data;
+            $scope.productosNP = lista_productosPC;
+        }, function errorCallback(response) {
+            alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
+        });
     };
     
     $scope.agregarNuevoProductoNP = function(){
