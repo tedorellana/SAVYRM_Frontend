@@ -45,7 +45,7 @@
 <!-- MODAL VENTA DETAIL BEGIN -->
 <div class="modal fade bd-example-modal-lg" id="ModalVentasDetail" tabindex="-1" role="dialog" data-backdrop="false">
     <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content" style="background-color: #2f2f2f;">
+      <div class="modal-content" style="background-color: #929f97;">
         <div class="modal-header" style="color:#fbfeff;">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Detalles de la venta</h4>
@@ -62,44 +62,39 @@
                                 <form class="form form--basic">
                                     <div class="mdl-grid">
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--smooth-gray">Cliente</h3>
+                                            <h3 class="text-color--white">Cliente</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <input class="mdl-textfield__input" type="text">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaAtendida.documentoIdentidadPersona + " " + serviceSelectedDetail.personaAtendida.numeroDocumentoPersona}}</label>
+                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaAtendida.documentoIdentidadPersona + " " + serviceSelectedDetail.personaAtendida.numeroDocumentoPersona}}</label>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <input class="mdl-textfield__input" type="text">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaAtendida.nombrePersona + " " + serviceSelectedDetail.personaAtendida.apellidoPaternoPersona}}</label>
+                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaAtendida.nombrePersona + " " + serviceSelectedDetail.personaAtendida.apellidoPaternoPersona}}</label>
                                             </div>
                                         </div>
                                         
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--smooth-gray">Atendido por:</h3>
+                                            <h3 class="text-color--white">Atendido por:</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <input class="mdl-textfield__input" type="text">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaEmpleado.documentoIdentidadPersona + " " + serviceSelectedDetail.personaEmpleado.numeroDocumentoPersona}}</label>
+                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaEmpleado.documentoIdentidadPersona + " " + serviceSelectedDetail.personaEmpleado.numeroDocumentoPersona}}</label>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <input class="mdl-textfield__input" type="text" id="last-name">
-                                                <label class="mdl-textfield__label" for="last-name">{{serviceSelectedDetail.personaEmpleado.nombrePersona + " " + serviceSelectedDetail.personaEmpleado.apellidoPaternoPersona}}</label>
+                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaEmpleado.nombrePersona + " " + serviceSelectedDetail.personaEmpleado.apellidoPaternoPersona}}</label>
                                             </div>
                                         </div>
 
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--smooth-gray">Servicio</h3>
+                                            <h3 class="text-color--white">Inicio de atención</h3>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
-                                                <input class="mdl-textfield__input" type="text" id="floating-last-name">
-                                                <label class="mdl-textfield__label" for="floating-last-name">Inicio de atención: {{serviceSelectedDetail.horaFinServicio}}</label>
+                                                <label class="mdl-textfield__input" for="floating-last-name">{{serviceSelectedDetail.horaFinServicio}}</label>
                                             </div>
+                                            <h3 class="text-color--white">Fin de atención</h3>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
-                                                <input class="mdl-textfield__input" type="text" id="floating-e-mail">
-                                                <label class="mdl-textfield__label" for="floating-e-mail">Fin de atención: {{serviceSelectedDetail.horaFinServicio}}</label>
+                                                <label class="mdl-textfield__input" for="floating-e-mail">{{serviceSelectedDetail.horaFinServicio}}</label>
                                             </div>
                                             
                                         </div>
 
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--smooth-gray">Costo total:</h3>
+                                            <h3 class="text-color--white">Costo total:</h3>
                                             <h2 class="color-text--green">S/ {{TotalCostPerSelectedSale}}</h2>
                                         </div>
 
