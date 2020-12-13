@@ -24,7 +24,7 @@
                                         <span class="label label--mini color--green"> Activo</span>
                                     </td>
                                     <td class="mdl-data-table__cell--non-numeric">
-                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto.idProducto" value="{{producto.idProducto}}" data-ng-click="administrarPreparacionNP($event)">Elaboración</button>
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto.idProducto" value="{{producto.idProducto}}" data-ng-click="GetElaboration($event)">Elaboración</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -34,7 +34,6 @@
             </div>
 
             <!-- INICIO Elaboración Producto -->
-            
             <div ng-show="!mostrarProductosPC">
                 <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
                     <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-orange" ng-click="ocultarPreparacionProductosPC()">
@@ -50,29 +49,21 @@
                                 <h1 class="mdl-card__title-text">Fórmula</h1>
                             </div>
                             <div class="mdl-card__supporting-text no-padding">
-                                <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table borderless-table">
+                                <table class="mdl-data-table mdl-js-data-table">
                                     <thead>
                                         <tr>
                                             <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                            <th class="mdl-data-table__cell--non-numeric">Código</th>
                                             <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
                                             <th class="mdl-data-table__cell--non-numeric">Porcentaje</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="productoParaVenta in productosParaVenta">
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.nombreProducto}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.cantidadProductoSeccion}} {{productoParaVenta.abreviacion}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.fechaIngreso}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">S/ {{productoParaVenta.unitarioPrecio}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">
-                                                <button data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="RevisarElaboracion($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-orange"><i class="material-icons">info</i></button>
-                                            </td>
-                                            <td class="mdl-data-table__cell--non-numeric">
-                                                <button data-toggle="modal" data-target="#ModalCantidad" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
-                                                    <i class="material-icons">add_shopping_cart</i>
-                                                </button>
-                                            </td>
+                                        <tr ng-repeat="prods in productWithElaboration">
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.nombreProducto}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.codigoProducto}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.cantidad}} {{prods.productoInsumo.unidadMedida.abreviacion}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.porcentaje}} %</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -85,7 +76,7 @@
                     <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
                         <div class="mdl-card mdl-shadow--2dp">
                             <div class="mdl-card__supporting-text no-padding">
-                                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                <div id="chartContainer" style="height: 415px; width: 100%;"></div>
                             </div>
                         </div>
                     </div>
@@ -98,103 +89,29 @@
                                 <h1 class="mdl-card__title-text">Preparación</h1>
                             </div>
                             <div class="mdl-card__supporting-text no-padding">
-                                <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table borderless-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="mdl-data-table__cell--non-numeric">Producto</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Porcentaje</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="productoParaVenta in productosParaVenta">
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.nombreProducto}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.cantidadProductoSeccion}} {{productoParaVenta.abreviacion}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.fechaIngreso}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">S/ {{productoParaVenta.unitarioPrecio}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">
-                                                <button data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="RevisarElaboracion($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-orange"><i class="material-icons">info</i></button>
-                                            </td>
-                                            <td class="mdl-data-table__cell--non-numeric">
-                                                <button data-toggle="modal" data-target="#ModalCantidad" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
-                                                    <i class="material-icons">add_shopping_cart</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="mdl-card__supporting-text no-padding">
+                                    <table class="mdl-data-table mdl-js-data-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">N°</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Instrucciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="steps in elaborationSteps">
+                                                <td class="mdl-data-table__cell--non-numeric">{{steps.ordenIndicacion}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{steps.detalleIndicacion}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- STEPS LIST END -->
-
-                    <!-- ADDITIONAL INFORMATION BEGIN -->
-                    <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--8-col-phone">
-                        <div class="mdl-card mdl-shadow--2dp">
-                            <div class="mdl-card__title">
-                                <h1 class="mdl-card__title-text">Consideraciones</h1>
-                            </div>
-                            <div class="mdl-card__supporting-text no-padding">
-                                <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table borderless-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="mdl-data-table__cell--non-numeric">Producto</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Porcentaje</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="productoParaVenta in productosParaVenta">
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.nombreProducto}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.cantidadProductoSeccion}} {{productoParaVenta.abreviacion}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.fechaIngreso}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">S/ {{productoParaVenta.unitarioPrecio}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">
-                                                <button data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="RevisarElaboracion($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-orange"><i class="material-icons">info</i></button>
-                                            </td>
-                                            <td class="mdl-data-table__cell--non-numeric">
-                                                <button data-toggle="modal" data-target="#ModalCantidad" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
-                                                    <i class="material-icons">add_shopping_cart</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ADDITIONAL INFORMATION END -->
                 </div>
             </div>    
             <!-- FINAL Elaboración Producto -->
         </div>
     </div>
-    <script>
-        window.onload = function() {
-        
-        var chart = new CanvasJS.Chart("chartContainer", {
-            animationEnabled: true,
-            title: {
-                text: ""
-            },
-            data: [{
-                type: "pie",
-                startAngle: 240,
-                yValueFormatString: "##0.00\"%\"",
-                indexLabel: "{label} {y}",
-                dataPoints: [
-                    {y: 79.45, label: "Google"},
-                    {y: 7.31, label: "Bing"},
-                    {y: 7.06, label: "Baidu"},
-                    {y: 4.91, label: "Yahoo"},
-                    {y: 1.26, label: "Others"}
-                ]
-            }]
-        });
-        chart.render();
-        
-        }
-    </script>
 </main>

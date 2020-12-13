@@ -9,7 +9,41 @@ angular.module('angularRoutingApp').controller('productosController', function (
     $scope.mostrarPreparacionPC = false;
     $scope.cantidadProductoParaFormulaNP = 0;
     var idProductoSeleccionadoParaFormula = 0;
-    
+
+    // Populates the graphic with the products in the formula
+    $scope.PopulatePieGraphic = function(products) {
+        var pieElements = ParseProductosForPieGraphic(products)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: ""
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                yValueFormatString: "##0.00\"%\"",
+                indexLabel: "{label} {y}",
+                dataPoints: pieElements
+            }]
+        });
+        chart.render();
+    }
+
+    // parse the products to be populated correctly in the pie graphic
+    function ParseProductosForPieGraphic(products) {
+        var pieProducts = [];
+        
+        angular.forEach(products, function(prod) {
+            var pieProduct = {
+                y: prod.porcentaje,
+                label: prod.productoInsumo.nombreProducto
+            };
+            pieProducts.push(pieProduct);
+        });
+
+        return pieProducts;
+    }
+
     // Gets all producto with elaboration and with status as active
     $scope.GetAllProductsWithElaboration = function() {
         $scope.mostrarProductosPC = true;
@@ -27,10 +61,44 @@ angular.module('angularRoutingApp').controller('productosController', function (
         });
     }
 
+    // Get elaboration per product
+    $scope.GetElaboration = function(event){
+        $scope.GetElaborationSteps(event.currentTarget.value)
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/ProductoFormula/GetAllProductoFormulaByIdProducto',
+            data: {
+                idProducto : event.currentTarget.value
+            }
+        }).then(function successCallback(response) {
+            $scope.PopulatePieGraphic(response.data);
+            $scope.mostrarProductosPC = false;
+            $scope.productWithElaboration = response.data;
+        }, function errorCallback(response) {
+            alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
+        });
+    };
+
+    // Get elaboration steps per product
+    $scope.GetElaborationSteps = function(idProducto){
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/indicacionController/GetAllIndicacionByProductoIdProdcuto',
+            data: {
+                idProducto : idProducto
+            }
+        }).then(function successCallback(response){
+            $scope.elaborationSteps = response.data;
+        }, function errorCallback(){
+           alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
+        });
+    };
+
     // Get all products
     $scope.onLoadProductosController = function(){
         $scope.mostrarProductosPC = true;
-        
+
         if(!sessionLoggedIn){
             $window.location.href = config.baseUrl;
         }
@@ -109,7 +177,7 @@ angular.module('angularRoutingApp').controller('productosController', function (
         
         var productos = $scope.productosNP;
         angular.forEach(productos, function(producto){
-            if(producto.idProducto == event.target.value ){
+            if(producto.idProducto == event.target.value){
                 $scope.productoSeleccionadoElaboracionEPM = producto;
                 $scope.getProductoFormulaNP();
                 $scope.getProductoPreparacionNP();
