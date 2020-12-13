@@ -42,48 +42,8 @@
                 </div>
                 
                 <div class="mdl-grid ui-tables">
-                    <!-- FORMULA LIST BEGIN -->
-                    <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--8-col-phone">
-                        <div class="mdl-card mdl-shadow--2dp">
-                            <div class="mdl-card__title">
-                                <h1 class="mdl-card__title-text">Fórmula</h1>
-                            </div>
-                            <div class="mdl-card__supporting-text no-padding">
-                                <table class="mdl-data-table mdl-js-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="mdl-data-table__cell--non-numeric">Producto</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Código</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
-                                            <th class="mdl-data-table__cell--non-numeric">Porcentaje</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="prods in productWithElaboration">
-                                            <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.nombreProducto}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.codigoProducto}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{prods.cantidad}} {{prods.productoInsumo.unidadMedida.abreviacion}}</td>
-                                            <td class="mdl-data-table__cell--non-numeric">{{prods.porcentaje}} %</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- FORMULA LIST END -->
-
-                    <!-- CHART LIST BEGIN -->
-                    <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                        <div class="mdl-card mdl-shadow--2dp">
-                            <div class="mdl-card__supporting-text no-padding">
-                                <div id="chartContainer" style="height: 415px; width: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CHART LIST END -->
-
                     <!-- STEPS LIST BEGIN -->
-                    <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--8-col-phone">
+                    <div class="mdl-cell mdl-cell--7-col-desktop mdl-cell--7-col-tablet mdl-cell--7-col-phone">
                         <div class="mdl-card mdl-shadow--2dp">
                             <div class="mdl-card__title">
                                 <h1 class="mdl-card__title-text">Preparación</h1>
@@ -109,6 +69,47 @@
                         </div>
                     </div>
                     <!-- STEPS LIST END -->
+                    <div class="mdl-cell mdl-cell--5-col-desktop mdl-cell--5-col-tablet mdl-cell--5-col-phone">
+                        <!-- FORMULA LIST BEGIN -->
+                        <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+                            <div class="mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title">
+                                    <h1 class="mdl-card__title-text">Fórmula</h1>
+                                </div>
+                                <div class="mdl-card__supporting-text no-padding">
+                                    <table class="mdl-data-table mdl-js-data-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Código</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Porcentaje</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="prods in productWithElaboration">
+                                                <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.nombreProducto}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.codigoProducto}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{prods.cantidad}} {{prods.productoInsumo.unidadMedida.abreviacion}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{prods.porcentaje}} %</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FORMULA LIST END -->
+
+                        <!-- CHART LIST BEGIN -->
+                        <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+                            <div class="mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__supporting-text">
+                                    <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CHART LIST END -->
+                    </div>
                 </div>
             </div>    
             <!-- FINAL Elaboración Producto -->
