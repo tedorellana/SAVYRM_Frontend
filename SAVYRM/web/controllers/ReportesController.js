@@ -39,6 +39,19 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
         });
     };
 
+    // Get sales status for today.
+    $scope.SalesStatusForToday = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/SalesStatusCompared',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulateLineComparedGraphic(response.baseLine, response.currentLine, "Estado de ventas", "Número de ventas", "Ventas esperadas", "Ventas por día");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
     // Get sales per product
     $scope.SelesPerEmployee = function(){
         $http({
@@ -115,5 +128,64 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
         $("#chartContainer").CanvasJSChart(options);
     };
 
+    // Populates the line graphic that show comparation with expected values
+    $scope.PopulateLineComparedGraphic = function(expectedValues, currentData, title, horiztontalTitle, baseLabel, currentLabel){
+        alert(expectedValues);
+        var options = {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: title
+            },
+            axisX:{
+                valueFormatString: "DD MMM"
+            },
+            axisY: {
+                title: horiztontalTitle,
+                suffix: "K",
+                minimum: 30
+            },
+            toolTip:{
+                shared:true
+            },  
+            legend:{
+                cursor:"pointer",
+                verticalAlign: "bottom",
+                horizontalAlign: "left",
+                dockInsidePlotArea: true,
+                itemclick: toogleDataSeries
+            },
+            data: [{
+                type: "line",
+                showInLegend: true,
+                name: baseLabel,
+                markerType: "square",
+                xValueFormatString: "DD MMM, YYYY",
+                color: "#F08080",
+                yValueFormatString: "#,##0K",
+                dataPoints: expectedValues
+            },
+            {
+                type: "line",
+                showInLegend: true,
+                name: currentLabel,
+                lineDashType: "dash",
+                yValueFormatString: "#,##0K",
+                dataPoints: currentData
+            }]
+        };
+        $("#chartContainer").CanvasJSChart(options);
+        
+        $("#chartContainer").CanvasJSChart(options);
+    };
+
+    function toogleDataSeries(e){
+        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+        } else{
+            e.dataSeries.visible = true;
+        }
+        e.chart.render();
+    }
 });
 
