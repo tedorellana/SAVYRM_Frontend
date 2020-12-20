@@ -1,66 +1,69 @@
 angular.module('angularRoutingApp').controller('reportesController', function ($scope, $http, $sessionStorage, $rootScope) {
-    
-    // // Variables
-    // var listaServicio = [];
-    // var listaProductosParaVenta = [];
-    // var carritoDeCompras = []; // Almacena objetos a comprar
-    // var productoSeleccionado;
-    // var precioTotalAcumulado = 0;
-    // $scope.PrecioTotal = "00.00";
-    // $scope.shoppingCarEmpty = true; // used to hide table with car items when is empty
-    
-    // // Obtiene productos para la venta
-    // $scope.registrarVenta = function(){
-    //     var detallesServicio = {
-    //         idEmpleado : $sessionStorage.currentUser,
-    //         idCliente : $sessionStorage.currentUser, // TODO: pending to add customer.
-    //         dateTimeServiceBegin : begginningDateTime
-    //     }
-        
-    //     alert("registrando venta ");
-    //     $http({
-    //         method: 'POST',
-    //         url: 'http://localhost:8080/Venta/RegistrarVenta',
-    //         data: { 
-    //             carritoDeCompras,
-    //             detallesServicio
-    //         }
-    //     }).then(function successCallback(response) {
-    //         alert("Venta realizada!.");
-    //         carritoDeCompras = null;
-    //         $scope.carrito = carritoDeCompras;
-    //         }, function errorCallback(response) {
-    //         //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
-    //     });     
-    // };
 
-    $scope.GetSalesReport = function(){
-        // Construct options first and then pass it as a parameter
+    // Get sales per product
+    $scope.GetAllSales = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/GetAllSales',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulatBarGraphic(response.data, "Producto vendidos", "Cantida por producto");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Get sales per product
+    $scope.RevenuePerDay = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/GetRevenuePerDay',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancias por día");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Get sales per product
+    $scope.RevenuePerProduct = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/GetRevenuePerProduct',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancias por producto");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Get sales per product
+    $scope.SelesPerEmployee = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/GetSalesAtendedPerEmployee',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulatBarGraphic(response.data, "Ventas por empleado", "Cantida por ventas");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Populates the bar graphic
+    $scope.PopulatBarGraphic = function(arraydata, title, legend){
         var options1 = {
             animationEnabled: true,
             title: {
-                text: "Chart inside a jQuery Resizable Element"
+                text: title
             },
             data: [{
                 type: "column", //change it to line, area, bar, pie, etc
-                legendText: "Try Resizing with the handle to the bottom right",
+                legendText: legend,
                 showInLegend: true,
-                dataPoints: [
-                    { label: "Iraq", y: 100 },
-                    { y: 600 },
-                    { y: 400 },
-                    { y: 120 },
-                    { y: 190 },
-                    { y: 300 },
-                    { y: 900 },
-                    { y: 10 },
-                    { y: 10 },
-                    { y: 10 },
-                    { y: 10 },
-                    { y: 10 },
-                    { y: 22 },
-                    { y: 400 }
-                    ]
+                dataPoints: arraydata
                 }]
         };
     
@@ -74,6 +77,42 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
                 $("#chartContainer1").CanvasJSChart().render();
             }
         });
+    };
+
+    // Populates the line graphic
+    $scope.PopulateLineGraphic = function(arraydata, title, leftLegend){
+        var options = {
+            animationEnabled: true,
+            title:{
+                text: title
+            },
+            axisX:{
+                valueFormatString: "DD MMM",
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true
+                }
+            },
+            axisY: {
+                title: leftLegend,
+                valueFormatString: "S/##0.00",
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true,
+                    labelFormatter: function(e) {
+                        return "S/" + CanvasJS.formatNumber(e.value, "##0.00");
+                    }
+                }
+            },
+            data: [{
+                type: "area",
+                xValueFormatString: "DD MMM",
+                yValueFormatString: "S/##0.00",
+                dataPoints: arraydata
+            }]
+        };
+        
+        $("#chartContainer").CanvasJSChart(options);
     };
 
 });

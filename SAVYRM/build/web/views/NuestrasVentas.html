@@ -45,8 +45,8 @@
 <!-- MODAL VENTA DETAIL BEGIN -->
 <div class="modal fade bd-example-modal-lg" id="ModalVentasDetail" tabindex="-1" role="dialog" data-backdrop="false">
     <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content" style="background-color: #ffffff;">
-        <div class="modal-header" style="background-color: #019baf; color: #FFF">
+      <div class="modal-content" style="background-color: #929f97;">
+        <div class="modal-header" style="color:#fbfeff;">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Detalles de la venta</h4>
         </div>
@@ -62,7 +62,7 @@
                                 <form class="form form--basic">
                                     <div class="mdl-grid">
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text" style="font-weight: revert;">Cliente</h3>
+                                            <h3 class="text-color--white">Cliente</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaAtendida.documentoIdentidadPersona + " " + serviceSelectedDetail.personaAtendida.numeroDocumentoPersona}}</label>
                                             </div>
@@ -72,7 +72,7 @@
                                         </div>
                                         
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text" style="font-weight: revert;">Atendido por:</h3>
+                                            <h3 class="text-color--white">Atendido por:</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaEmpleado.documentoIdentidadPersona + " " + serviceSelectedDetail.personaEmpleado.numeroDocumentoPersona}}</label>
                                             </div>
@@ -82,11 +82,11 @@
                                         </div>
 
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text" style="font-weight: revert;">Inicio de atención</h3>
+                                            <h3 class="text-color--white">Inicio de atención</h3>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                                 <label class="mdl-textfield__input" for="floating-last-name">{{serviceSelectedDetail.horaFinServicio}}</label>
                                             </div>
-                                            <h3 class="text" style="font-weight: revert;">Fin de atención</h3>
+                                            <h3 class="text-color--white">Fin de atención</h3>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                                 <label class="mdl-textfield__input" for="floating-e-mail">{{serviceSelectedDetail.horaFinServicio}}</label>
                                             </div>
@@ -94,7 +94,7 @@
                                         </div>
 
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text" style="font-weight: revert;">Costo total:</h3>
+                                            <h3 class="text-color--white">Costo total:</h3>
                                             <h2 class="color-text--green">S/ {{TotalCostPerSelectedSale}}</h2>
                                         </div>
 
@@ -103,11 +103,8 @@
                             </div>
                             <!-- CLIENT DATA END -->
                         <div class="mdl-card__supporting-text no-padding">
-                            <div class="mdl-card__supporting-text">
-                                <h4 class="text" style="font-weight: revert;">Productos:</h4>
-                            </div>
                             <!-- SHOPPING CARD BEGIN -->
-                            <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table"  style="white-space: pre-line;">
+                            <table id="productosParaVenta" class="mdl-data-table mdl-js-data-table stripped-table"  style="white-space: pre-line;">
                                 <thead>
                                     <tr>
                                         <th class="mdl-data-table__cell--non-numeric">Producto</th>
