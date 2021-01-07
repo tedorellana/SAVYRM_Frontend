@@ -46,7 +46,7 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
             url: 'http://localhost:8080/Report/SalesStatusCompared',
             data: { }
         }).then(function successCallback(response) {
-            $scope.PopulateLineComparedGraphic(response.baseLine, response.currentLine, "Estado de ventas", "Número de ventas", "Ventas esperadas", "Ventas por día");
+            $scope.PopulateLineComparedGraphic(response.data.baseLine, response.data.currentLine, "Estado de ventas", "Número de ventas", "Ventas esperadas", "Ventas por día");
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
@@ -130,7 +130,6 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
 
     // Populates the line graphic that show comparation with expected values
     $scope.PopulateLineComparedGraphic = function(expectedValues, currentData, title, horiztontalTitle, baseLabel, currentLabel){
-        alert(expectedValues);
         var options = {
             animationEnabled: true,
             theme: "light2",
@@ -162,15 +161,31 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
                 markerType: "square",
                 xValueFormatString: "DD MMM, YYYY",
                 color: "#F08080",
-                yValueFormatString: "#,##0K",
-                dataPoints: expectedValues
+                yValueFormatString: "#,##0",
+                // dataPoints: expectedValues
+                dataPoints: [
+                    {"label":"2017-7-2","y":1000},
+                    {"label":"2017-7-5","y":1000},
+                    {"label":"2020-9-6","y":1000},
+                    {"label":"2020-10-6","y":1000},
+                    {"label":"2020-10-1","y":1000},
+                    {"label":"2020-10-25","y":1000},
+                    {"label":"2020-11-8","y":1000},
+                    {"label":"2020-11-23","y":1000},
+                    {"label":"2020-11-29","y":1000}
+                ]
+                // dataPoints: [
+                //     { x: new Date(2020, 10, 25), y: 13 },
+                //     { x: new Date(2020, 11, 8), y: 100 },
+                //     { x: new Date(2020, 11, 23), y: 100 }
+                // ]
             },
             {
                 type: "line",
                 showInLegend: true,
                 name: currentLabel,
                 lineDashType: "dash",
-                yValueFormatString: "#,##0K",
+                yValueFormatString: "#,##0",
                 dataPoints: currentData
             }]
         };

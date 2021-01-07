@@ -5,32 +5,36 @@ angularRoutingApp.config(function($routeProvider) {
     // Configuración de las rutas
     $routeProvider
             .when('/', {
-                    templateUrl	: 'views/Dashboard.html',
-                    controller 	: 'dashboardController'
+                templateUrl	: 'views/Dashboard.html',
+                controller 	: 'dashboardController'
             })
             .when('/NuevaVenta', {
-                    templateUrl     : 'views/NuevaVenta.html',
-                    controller 	: 'ventasController'
+                templateUrl     : 'views/NuevaVenta.html',
+                controller 	: 'ventasController'
             })
             .when('/NuestrasVentas', {
-                    templateUrl     : 'views/NuestrasVentas.html',
-                    controller 	: 'ventasController'
+                templateUrl     : 'views/NuestrasVentas.html',
+                controller 	: 'ventasController'
             })
             .when('/Inventario', {
-                    templateUrl     : 'views/Inventario.html',
-                    controller 	: 'inventarioController'
+                templateUrl     : 'views/Inventario.html',
+                controller 	: 'inventarioController'
             })
             .when('/AlmacenesYSecciones', {
-                    templateUrl     : 'views/AlmacenesYSecciones.html',
-                    controller 	: 'almacenesSeccionesController'
+                templateUrl     : 'views/AlmacenesYSecciones.html',
+                controller 	: 'almacenesSeccionesController'
             })
             .when('/AsesoriaRapida', {
-                    templateUrl     : 'views/AsesoriaRapida.html',
-                    controller 	: 'productosController'
+                templateUrl     : 'views/AsesoriaRapida.html',
+                controller 	: 'productosController'
             })
             .when('/NuestrosProductos', {
-                    templateUrl     : 'views/NuestrosProductos.html',
-                    controller 	: 'productosController'
+                templateUrl     : 'views/NuestrosProductos.html',
+                controller 	: 'productosController'
+            })
+            .when('/NuestrosClientes', {
+                templateUrl     : 'views/NuestrosClientes.html',
+                controller 	: 'clientesController'
             })
             .when('/ReporteVentas', {
                 templateUrl     : 'views/ReporteVentas.html',
