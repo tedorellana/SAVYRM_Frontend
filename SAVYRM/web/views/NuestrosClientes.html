@@ -6,7 +6,11 @@
             <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-card mdl-shadow--2dp">
                     <div class="mdl-card__title">
-                        <h1 class="mdl-card__title-text">Nuestros Clientes</h1>
+                        <h1 class="col-md-10 mdl-card__title-text">Nuestros Clientes</h1>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-red">
+                            <i class="material-icons">assignment_returned</i>
+                            Descargar
+                        </button>
                     </div>
                     <div class="mdl-card__supporting-text no-padding">
                         <table class="mdl-data-table mdl-js-data-table" style="white-space: pre-line;">
@@ -19,6 +23,7 @@
                                     <th class="mdl-data-table__cell--non-numeric">Teléfono</th>
                                     <th class="mdl-data-table__cell--non-numeric">Correo</th>
                                     <th class="mdl-data-table__cell--non-numeric">Dirección</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Dirección</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,6 +35,9 @@
                                     <td class="mdl-data-table__cell--non-numeric">{{client.numeroTelefonoPersona}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">{{client.correoPersona}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">{{client.direccionPersona}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <button data-toggle="modal" data-target="#" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{client}}" data-ng-click="">Detalles</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

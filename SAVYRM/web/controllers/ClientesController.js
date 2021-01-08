@@ -2,7 +2,6 @@ angular.module('angularRoutingApp').controller('clientesController', function ($
 
     // Get all the clients available in the database
     $scope.GetAllClients = function(){
-        alert("GetAllClients()");
         $http({
             method: 'GET',
             url: 'http://localhost:8080/Persona/GetAllClients',
