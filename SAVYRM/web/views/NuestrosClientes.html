@@ -7,23 +7,24 @@
                 <div class="mdl-card mdl-shadow--2dp">
                     <div class="mdl-card__title">
                         <h1 class="col-md-10 mdl-card__title-text">Nuestros Clientes</h1>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-red">
+                        <button id="DownloadAdPDF" ng-click="DownloadPDFWithjsPDF()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-red">
                             <i class="material-icons">assignment_returned</i>
                             Descargar
                         </button>
                     </div>
+                    
                     <div class="mdl-card__supporting-text no-padding">
-                        <table class="mdl-data-table mdl-js-data-table" style="white-space: pre-line;">
+                        <table id="ClientsTable" class="mdl-data-table mdl-js-data-table" style="white-space: pre-line;">
                             <thead>
                                 <tr>
                                     <th class="mdl-data-table__cell--non-numeric">Apellidos y Nombres</th>
                                     <th class="mdl-data-table__cell--non-numeric">Tipo de documento</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Número de documento</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Nro documento</th>
                                     <th class="mdl-data-table__cell--non-numeric">Tipo persona</th>
                                     <th class="mdl-data-table__cell--non-numeric">Teléfono</th>
                                     <th class="mdl-data-table__cell--non-numeric">Correo</th>
                                     <th class="mdl-data-table__cell--non-numeric">Dirección</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Dirección</th>
+                                    <th class="mdl-data-table__cell--non-numeric"></th>
                                 </tr>
                             </thead>
                             <tbody>
