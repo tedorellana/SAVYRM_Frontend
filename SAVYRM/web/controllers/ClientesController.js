@@ -125,7 +125,7 @@ angular.module('angularRoutingApp').controller('clientesController', function ($
                     pdfDocument.cell(15, 20, 120, 10, "Dirección", -2, "center");
                 }
 
-                console.log(i+ "_"+ j.length + "----" + "_" + j + " Size : " + cellWidth + "____Cell: " + cell);
+                console.log(i+ "_"+ j.length + "----" + "_" + j + " Size : " + cellWidth + "____Cell: " + cell + "___row:" + row);
                 pdfDocument.cell(15, 20, cellWidth, 10, cell, i-1, "left");
             })
         })

@@ -7,7 +7,7 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
             url: 'http://localhost:8080/Report/GetAllSales',
             data: { }
         }).then(function successCallback(response) {
-            $scope.PopulatBarGraphic(response.data, "Producto vendidos", "Cantida por producto");
+            $scope.PopulateBarGraphic(response.data, "Producto vendidos", "Cantida por producto");
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
@@ -21,7 +21,7 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
             data: { }
         }).then(function successCallback(response) {
             $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancias por día");
-            }, function errorCallback(response) {
+        }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
     };
@@ -59,14 +59,14 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
             url: 'http://localhost:8080/Report/GetSalesAtendedPerEmployee',
             data: { }
         }).then(function successCallback(response) {
-            $scope.PopulatBarGraphic(response.data, "Ventas por empleado", "Cantida por ventas");
+            $scope.PopulateBarGraphic(response.data, "Ventas por empleado", "Cantida por ventas");
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
     };
 
     // Populates the bar graphic
-    $scope.PopulatBarGraphic = function(arraydata, title, legend){
+    $scope.PopulateBarGraphic = function(arraydata, title, legend){
         var options1 = {
             animationEnabled: true,
             title: {
