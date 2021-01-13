@@ -112,7 +112,7 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
                 crosshair: {
                     enabled: true,
                     snapToDataPoint: true,
-                    labelFormatter: function(e) {
+                    labelFormatter: function( ) {
                         return "S/" + CanvasJS.formatNumber(e.value, "##0.00");
                     }
                 }

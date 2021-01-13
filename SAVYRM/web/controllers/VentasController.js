@@ -163,5 +163,34 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });     
     };
+
+    // Mark the product as delivered
+    $scope.DeliverProduct = function(event){
+        let saleSelected = JSON.parse(event.currentTarget.value)
+        alert("DeliverProduct -> " + saleSelected.productoSeccion.producto.nombreProducto);
+        // var detallesServicio = {
+        //     idEmpleado : $sessionStorage.currentUser,
+        //     idCliente : $sessionStorage.currentUser,
+        //     dateTimeServiceBegin : begginningDateTime
+        // }
+        
+        
+        // $http({
+        //     method: 'POST',
+        //     url: 'http://localhost:8080/Venta/RegistrarVenta',
+        //     data: { 
+        //         carritoDeCompras,
+        //         detallesServicio
+        //     }
+        // }).then(function successCallback(response) {
+        //     alert("Venta realizada!.");
+        //     carritoDeCompras = null;
+        //     $scope.carrito = carritoDeCompras;
+        //     }, function errorCallback(response) {
+        //     //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        // });
+    };
+
+    
 });
 
