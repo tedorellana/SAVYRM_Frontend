@@ -147,7 +147,14 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             dateTimeServiceBegin : begginningDateTime
         }
         
-        alert("registrando venta ");
+        alert("registrando venta " + carritoDeCompras.length + " Detalles servicio: " + detallesServicio);
+
+        if (carritoDeCompras.length == 0)
+        {
+            alert("Ups! El carrito de compras se encuentra vacío. Debe seleccionar por lo menos un producto.");
+            return;
+        }
+
         $http({
             method: 'POST',
             url: 'http://localhost:8080/Venta/RegistrarVenta',
@@ -161,7 +168,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             $scope.carrito = carritoDeCompras;
             }, function errorCallback(response) {
             //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
-        });     
+        });
     };
 
     // Mark the product as delivered
