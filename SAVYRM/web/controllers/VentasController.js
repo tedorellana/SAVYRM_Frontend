@@ -30,8 +30,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     };
 
     // get the beginning attetion datetime
-    var begginningDateTime = new Date();
-    begginningDateTime = $scope.FormatDate(begginningDateTime);
+    var beginningDateTime = new Date();
+    beginningDateTime = $scope.FormatDate(beginningDateTime);
 
     $scope.borrarSlider = function(){
         $scope.especial = 'presionado';
@@ -144,10 +144,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         var detallesServicio = {
             idEmpleado : $sessionStorage.currentUser,
             idCliente : $sessionStorage.currentUser, // TODO: pending to add customer.
-            dateTimeServiceBegin : begginningDateTime
+            dateTimeServiceBegin : beginningDateTime
         }
-        
-        alert("registrando venta " + carritoDeCompras.length + " Detalles servicio: " + detallesServicio);
 
         if (carritoDeCompras.length == 0)
         {
@@ -167,33 +165,37 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             carritoDeCompras = null;
             $scope.carrito = carritoDeCompras;
             }, function errorCallback(response) {
-            //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
     };
 
     // Mark the product as delivered
     $scope.DeliverProduct = function(event){
-        let saleSelected = JSON.parse(event.currentTarget.value)
-        alert("DeliverProduct -> " + saleSelected.productoSeccion.producto.nombreProducto);
-        // var detallesServicio = {
-        //     idEmpleado : $sessionStorage.currentUser,
-        //     idCliente : $sessionStorage.currentUser,
-        //     dateTimeServiceBegin : begginningDateTime
-        // }
+        // console.log(JSON.stringify(event.target));
+        // console.log(JSON.stringify(event.target.value));
+        // console.log(JSON.stringify(event.currentTarget));
+        $scope.activeBtn = event;
+        let saleSelected = JSON.parse(event.currentTarget.value);
+        console.log("DeliverProduct -> " + JSON.stringify(saleSelected));
+
+        // let currentDate = new Date();
+        // currentDate = $scope.FormatDate(currentDate);
+
+        // saleSelected.fechaEntrega = currentDate;
+
+        // // alert("Hour to update: " + saleSelected.fechaEntrega);
         
-        
+        // console.log("saleSelected -> " + JSON.stringify(saleSelected));
+
         // $http({
         //     method: 'POST',
-        //     url: 'http://localhost:8080/Venta/RegistrarVenta',
-        //     data: { 
-        //         carritoDeCompras,
-        //         detallesServicio
-        //     }
+        //     url: 'http://localhost:8080/Venta/MarkProductAsDelivered',
+        //     data: saleSelected
         // }).then(function successCallback(response) {
-        //     alert("Venta realizada!.");
-        //     carritoDeCompras = null;
-        //     $scope.carrito = carritoDeCompras;
+        //     console.log("Product delivered.");
+        //     $scope.getVentas();
         //     }, function errorCallback(response) {
+        //     console.log("Error trying to deliver product.");
         //     //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         // });
     };
