@@ -162,23 +162,7 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
                 xValueFormatString: "DD MMM, YYYY",
                 color: "#F08080",
                 yValueFormatString: "#,##0",
-                // dataPoints: expectedValues
-                dataPoints: [
-                    {"label":"2017-7-2","y":1000},
-                    {"label":"2017-7-5","y":1000},
-                    {"label":"2020-9-6","y":1000},
-                    {"label":"2020-10-6","y":1000},
-                    {"label":"2020-10-1","y":1000},
-                    {"label":"2020-10-25","y":1000},
-                    {"label":"2020-11-8","y":1000},
-                    {"label":"2020-11-23","y":1000},
-                    {"label":"2020-11-29","y":1000}
-                ]
-                // dataPoints: [
-                //     { x: new Date(2020, 10, 25), y: 13 },
-                //     { x: new Date(2020, 11, 8), y: 100 },
-                //     { x: new Date(2020, 11, 23), y: 100 }
-                // ]
+                dataPoints: expectedValues
             },
             {
                 type: "line",
