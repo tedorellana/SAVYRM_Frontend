@@ -52,6 +52,32 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
         });
     };
 
+    // Get the revenue per day compared with the average
+    $scope.RevenueStatusCompared = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Report/RevenueStatusCompared',
+            data: { }
+        }).then(function successCallback(response) {
+            $scope.PopulateLineComparedGraphic(response.data.baseLine, response.data.currentLine, "Estado de ganancias", "Ganancias", "Ganancias esperadas", "Ganancias por día");
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Get the stock per day and products compared with the average
+    // $scope.StockStatusPerProduct = function(){
+    //     $http({
+    //         method: 'GET',
+    //         url: 'http://localhost:8080/Report/RevenueStatusCompared',
+    //         data: { }
+    //     }).then(function successCallback(response) {
+    //         $scope.PopulateLineComparedGraphic(response.data.baseLine, response.data.currentLine, "Estado de ventas", "Número de ventas", "Ventas esperadas", "Ventas por día");
+    //         }, function errorCallback(response) {
+    //         alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+    //     });
+    // };
+
     // Get sales per product
     $scope.SelesPerEmployee = function(){
         $http({
@@ -141,8 +167,8 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
             },
             axisY: {
                 title: horiztontalTitle,
-                suffix: "K",
-                minimum: 30
+                suffix: "",
+                minimum: 0
             },
             toolTip:{
                 shared:true

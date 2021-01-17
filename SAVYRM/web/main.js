@@ -52,12 +52,12 @@ angularRoutingApp.config(function($routeProvider) {
                 templateUrl     : 'views/ReporteVentasEmpleado.html',
                 controller 	: 'reportesController'
             })
-            .when('/EstaodoVentas', {
-                templateUrl     : 'views/EstaodoVentas.html',
+            .when('/EstadoVentas', {
+                templateUrl     : 'views/EstadoVentas.html',
                 controller 	: 'reportesController'
             })
-            .when('/EstaodoGanancias', {
-                templateUrl     : 'views/EstaodoGanancias.html',
+            .when('/EstadoGanancias', {
+                templateUrl     : 'views/EstadoGanancias.html',
                 controller 	: 'reportesController'
             })
             .when('/EstadoStock', {
