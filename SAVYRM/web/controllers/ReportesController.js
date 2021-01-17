@@ -1,5 +1,25 @@
 angular.module('angularRoutingApp').controller('reportesController', function ($scope, $http, $sessionStorage, $rootScope) {
 
+    // Format date as expeceted
+    $scope.FormatDate = function(date) {
+        date = date.getFullYear() + "-" + 
+        parseInt(date.getMonth() + 1)  + "-" +
+        date.getDate() + " " +
+        date.getHours() + ":" +
+        date.getMinutes() + ":" +
+        date.getSeconds();
+        return date;
+    };
+
+    // get the beginning attetion datetime
+    var beginningDateTime = new Date();
+    var endDateTime = new Date();
+    beginningDateTime = $scope.FormatDate(beginningDateTime);
+    endDateTime = $scope.FormatDate(endDateTime);
+
+    $scope.beginDate = beginningDateTime;
+    $scope.endDate = endDateTime;
+
     // Get sales per product
     $scope.GetAllSales = function(){
         $http({
@@ -109,11 +129,11 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
         $("#resizable").resizable({
             create: function (event, ui) {
                 //Create chart.
-                $("#chartContainer1").CanvasJSChart(options1);
+                $("#chartContainer").CanvasJSChart(options1);
             },
             resize: function (event, ui) {
                 //Update chart size according to its container size.
-                $("#chartContainer1").CanvasJSChart().render();
+                $("#chartContainer").CanvasJSChart().render();
             }
         });
     };

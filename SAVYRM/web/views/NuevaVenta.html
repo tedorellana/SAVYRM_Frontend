@@ -69,34 +69,34 @@
                                 <form class="form form--basic">
                                     <div class="mdl-grid">
                                         <div class="mdl-cell mdl-cell--7-col-desktop mdl-cell--7-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--smooth-gray">Cliente</h3>
+                                            <h3 class="text-color--black">Cliente</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <input class="mdl-textfield__input" type="text" id="first-name">
-                                                <label class="mdl-textfield__label" for="first-name">DNI o RUC</label>
+                                                <label>DNI o RUC</label>
+                                                <input class="mdl-textfield__input" type="text" id="document">
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
+                                                <label>Nombres</label>
+                                                <input class="mdl-textfield__input" type="text"  id="first-name">
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield full-size">
+                                                <label>Apellidos</label>
                                                 <input class="mdl-textfield__input" type="text" id="last-name">
-                                                <label class="mdl-textfield__label" for="last-name">Nombres</label>
-                                            </div>
-                                            <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <input class="mdl-textfield__input" type="text" id="e-mail">
-                                                <label class="mdl-textfield__label" for="e-mail">Apellidos</label>
                                             </div>
                                             <h2 class="color-text--green">S/ {{PrecioTotal}}</h2>
                                         </div>
                                         <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--smooth-gray">Dirección de entrega</h3>
+                                            <h3 class="text-color--black">Dirección de entrega</h3>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
-                                                <input class="mdl-textfield__input" type="text" id="floating-first-name">
-                                                <label class="mdl-textfield__label" for="floating-first-name">Número de teléfono</label>
+                                                <label>Número de teléfono</label>
+                                                <input class="mdl-textfield__input" type="text" id="phone">
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
-                                                <input class="mdl-textfield__input" type="text" id="floating-last-name">
-                                                <label class="mdl-textfield__label" for="floating-last-name">Dirección de entrega</label>
+                                                <label>Dirección de entrega</label>
+                                                <input class="mdl-textfield__input" type="text" id="address">
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                                <label>Correo electrónico</label>
                                                 <input class="mdl-textfield__input" type="text" id="floating-e-mail">
-                                                <label class="mdl-textfield__label" for="floating-e-mail">Correo electrónico</label>
                                             </div>
                                             <button ng-click="registrarVenta()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green">
                                                 <i class="material-icons">save</i>

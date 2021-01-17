@@ -45,62 +45,61 @@
 <!-- MODAL VENTA DETAIL BEGIN -->
 <div class="modal fade bd-example-modal-lg" id="ModalVentasDetail" tabindex="-1" role="dialog" data-backdrop="false">
     <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content" style="background-color: #929f97;">
-        <div class="modal-header" style="color:#fbfeff;">
+      <!-- <div class="modal-content" style="background-color: #929f97;"> -->
+      <div class="modal-content">
+        <!-- <div class="modal-header" style="color:#fbfeff;"> -->
+        <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Detalles de la venta</h4>
         </div>
         <!-- <div class="modal-body"> -->
             <div class="mdl-grid ui-tables">
                 <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
-                    <div class="mdl-card mdl-shadow--2dp">
-                        <!-- <div class="mdl-card__title">
-                            <h1 class="mdl-card__title-text">Detalles de la venta</h1>
-                        </div> -->
-                            <!-- CLIENT DATA  BEGIN-->
-                            <div class="mdl-card__supporting-text">
-                                <form class="form form--basic">
-                                    <div class="mdl-grid">
-                                        <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--white">Cliente</h3>
-                                            <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaAtendida.documentoIdentidadPersona + " " + serviceSelectedDetail.personaAtendida.numeroDocumentoPersona}}</label>
-                                            </div>
-                                            <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaAtendida.nombrePersona + " " + serviceSelectedDetail.personaAtendida.apellidoPaternoPersona}}</label>
-                                            </div>
+                    <div class="mdl-card mdl-shadow--2dp" style="background: white;">
+                        <!-- CLIENT DATA  BEGIN-->
+                        <div class="mdl-card__supporting-text">
+                            <form class="form form--basic">
+                                <div class="mdl-grid">
+                                    <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                        <h3 class="text-color--black">Cliente</h3>
+                                        <div class="mdl-textfield mdl-js-textfield full-size">
+                                            <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaAtendida.documentoIdentidadPersona + " " + serviceSelectedDetail.personaAtendida.numeroDocumentoPersona}}</label>
+                                        </div>
+                                        <div class="mdl-textfield mdl-js-textfield full-size">
+                                            <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaAtendida.nombrePersona + " " + serviceSelectedDetail.personaAtendida.apellidoPaternoPersona}}</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                        <h3 class="text-color--black">Atendido por:</h3>
+                                        <div class="mdl-textfield mdl-js-textfield full-size">
+                                            <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaEmpleado.documentoIdentidadPersona + " " + serviceSelectedDetail.personaEmpleado.numeroDocumentoPersona}}</label>
+                                        </div>
+                                        <div class="mdl-textfield mdl-js-textfield full-size">
+                                            <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaEmpleado.nombrePersona + " " + serviceSelectedDetail.personaEmpleado.apellidoPaternoPersona}}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                            <label>Inicio de atención</label>
+                                            <label class="mdl-textfield__input" for="floating-last-name">{{serviceSelectedDetail.horaFinServicio}}</label>
+                                        </div>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                            <label>Fin de atención</label>
+                                            <label class="mdl-textfield__input" for="floating-e-mail">{{serviceSelectedDetail.horaFinServicio}}</label>
                                         </div>
                                         
-                                        <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--white">Atendido por:</h3>
-                                            <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaEmpleado.documentoIdentidadPersona + " " + serviceSelectedDetail.personaEmpleado.numeroDocumentoPersona}}</label>
-                                            </div>
-                                            <div class="mdl-textfield mdl-js-textfield full-size">
-                                                <label class="mdl-textfield__input" for="last-name">{{serviceSelectedDetail.personaEmpleado.nombrePersona + " " + serviceSelectedDetail.personaEmpleado.apellidoPaternoPersona}}</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--white">Inicio de atención</h3>
-                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
-                                                <label class="mdl-textfield__input" for="floating-last-name">{{serviceSelectedDetail.horaFinServicio}}</label>
-                                            </div>
-                                            <h3 class="text-color--white">Fin de atención</h3>
-                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
-                                                <label class="mdl-textfield__input" for="floating-e-mail">{{serviceSelectedDetail.horaFinServicio}}</label>
-                                            </div>
-                                            
-                                        </div>
-
-                                        <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
-                                            <h3 class="text-color--white">Costo total:</h3>
-                                            <h2 class="color-text--green">S/ {{TotalCostPerSelectedSale}}</h2>
-                                        </div>
-
                                     </div>
-                                </form>
-                            </div>
+
+                                    <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                        <h3 class="text-color--black">Costo total:</h3>
+                                        <h2 class="color-text--green">S/ {{TotalCostPerSelectedSale}}</h2>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
                             <!-- CLIENT DATA END -->
                         <div class="mdl-card__supporting-text no-padding">
                             <!-- SHOPPING CARD BEGIN -->
@@ -119,23 +118,23 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="selectedVenta in ventaDetail">
-                                        <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.productoSeccion.producto.nombreProducto}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.productoSeccion.producto.codigoProducto}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.productoSeccion.seccion.codigoSeccion}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.cantidadServicioProducto}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">S/ {{selectedVenta.costoTotal}}</td>
-                                        <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric">SI</td>
-                                        <td ng-show="!selectedVenta.entregado" class="mdl-data-table__cell--non-numeric">NO</td>
-                                        <td class="mdl-data-table__cell--non-numeric">{{selectedVenta.fechaEntrega}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.productoSeccion.producto.nombreProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.productoSeccion.producto.codigoProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.productoSeccion.seccion.codigoSeccion}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.cantidadServicioProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">S/ {{selectedVenta.costoTotal}}</td>
+                                        <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">SI</td>
+                                        <td ng-show="!selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">NO</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.fechaEntrega}}</td>
                                         <!-- No delivered button -->
-                                        <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric">
+                                        <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">
                                             <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised button--colored-light-blue" disabled>
                                                 <i class="material-icons">done
                                                     done</i>
                                             </button>
                                         </td>
                                         <!-- delivered button -->
-                                        <td ng-show="!selectedVenta.entregado"class="mdl-data-table__cell--non-numeric">
+                                        <td ng-show="!selectedVenta.entregado"class="mdl-data-table__cell--non-numeric" style="background: white;">
                                             <button value="{{selectedVenta}}" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-model="selectedVenta" value="{{selectedVenta}}" data-ng-click="DeliverProduct($event)">
                                                 <i class="material-icons">done
                                                     done</i>

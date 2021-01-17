@@ -1,6 +1,38 @@
 <div>
-    
     <main ng-init="RevenuePerProduct()" class="col-md-12 mdl-layout__content">
-        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+            <div class="mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text text-color--white">Filtros</h5>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone form__article">
+                    <div class="col-md-6 mdl-js-textfield mdl-textfield--floating-label">
+                        <label>Fecha de inicio</label>
+                        <input ng-model="beginDate" class="mdl-textfield__input" type="text" id="floating-first-name">
+                    </div>
+                    <div class="col-md-6 mdl-js-textfield mdl-textfield--floating-label">
+                        <label>Fecha de fin</label>
+                        <input ng-model="endDate" class="mdl-textfield__input" type="text" id="floating-last-name">
+                    </div>
+                    <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                        <input class="mdl-textfield__input" type="text" id="floating-e-mail">
+                        <label class="mdl-textfield__label" for="floating-e-mail">Productos</label>
+                    </div> -->
+
+                    <div class="col-md-6 mdl-js-textfield mdl-textfield--floating-label">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green">
+                            <i class="material-icons">graphic_eq</i>
+                            Filtrar
+                        </button>
+                    </div>
+                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size"></div>
+                        <div id="resizable" style="height: 370px;border:1px solid gray;">
+                            <div id="chartContainer" style="height: 100%; width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
