@@ -1,7 +1,7 @@
 angular.module('angularRoutingApp').controller('clientesController', function ($scope, $http, $sessionStorage, $rootScope) {
 
     // Get all the clients available in the database
-    $scope.GetAllClients = function(){
+    $scope.GetAllClients = function() {
         $http({
             method: 'GET',
             url: 'http://localhost:8080/Persona/GetAllClients',
@@ -14,60 +14,33 @@ angular.module('angularRoutingApp').controller('clientesController', function ($
         });
     };
 
+    // Get all the clients available in the database
+    $scope.AddClient = function() {
+        console.log("AddClient()");
+
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Persona/AddClient',
+            data: {
+                nombres: $scope.nombres,
+                apellidoPaterno: $scope.apellidoPaterno,
+                apellidoMaterno: $scope.apellidoMaterno,
+                tipoDocumento: $scope.tipoDocumento,
+                numeroDocumento: $scope.numeroDocumento,
+                telefono: $scope.telefono,
+                correo: $scope.correo,
+                dirrecion: $scope.direccion
+            }
+        }).then(function successCallback(response) {
+            alert("¡Cliente agregado!");
+        }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Download clients as PDF
     $scope.DownloadPDFWithjsPDF = function() {
         alert("downloadPDFWithjsPDF");
-
-        // var doc = new jsPDF();// new jsPDF('p', 'pt', 'a4');
-    
-        // doc.html(document.querySelector('#ClientsTable'), {
-        //     callback: function (doc) {
-        //     doc.save('ClientsTable.pdf');
-        //     },
-        //     margin: [60, 60, 60, 60],
-        //     x: 32,
-        //     y: 32,
-        // });
-
-        // var doc = new jsPDF();
-
-        // // doc.text(20, 20, 'Hola mundo');
-        // // doc.text(20, 30, 'Vamos a generar un pdf desde el lado del cliente');
-
-        // // // Add new page
-        // // doc.addPage();
-        // // doc.text(20, 20, 'Visita programacion.net');
-
-        // // // Save the PDF
-        // // doc.save('documento.pdf');
-
-
-
-        // alert("New PDF");
-
-        // var doc = new window.jspdf.jsPDF();
-    
-
-
-        /////////
-        // var doc = new jsPDF('p', 'pt', 'letter');  
-        // var doc = new jsPDF();
-        // // var elementHTML = $('#ClientsTable').html();
-        // var elementHTML = $('#TestTable').html();
-        // var specialElementHandlers = {
-        //     '#DownloadAdPDF': function (element, renderer) {
-        //         return true;
-        //     },
-        //     '.controls': function(element, renderer){
-        //         return true;
-        //     }
-        // };
-        // doc.fromHTML(elementHTML, 15, 15, {
-        //     'width': 400,
-        //     'elementHandlers': specialElementHandlers
-        // });
-        // // Save the PDF
-        // doc.save('NuestrosClientes.pdf');
-        //////
         
         var table = $('#ClientsTable').tableToJSON();
         // var table = tableToJson($('#TestTable').get(0));
@@ -129,19 +102,9 @@ angular.module('angularRoutingApp').controller('clientesController', function ($
                 pdfDocument.cell(15, 20, cellWidth, 10, cell, i-1, "left");
             })
         })
+
         // Save the PDF
         pdfDocument.save('NuestrosClientes.pdf');
-
-        // return new Cell(
-        //     this.x,
-        //     this.y,
-        //     this.width,
-        //     this.height,
-        //     this.text,
-        //     this.lineNumber,
-        //     this.align
-        //   );
-        
     }
 });
 
