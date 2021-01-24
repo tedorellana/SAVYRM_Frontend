@@ -12,13 +12,22 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     $scope.message = 'VENTAS';
     $scope.especial = 'VENTAS';
     
-    $scope.FormatDate = function(date) {
-        date = date.getFullYear() + "-" + 
-        parseInt(date.getMonth() + 1)  + "-" +
-        date.getDate() + " " +
-        date.getHours() + ":" +
-        date.getMinutes() + ":" +
-        date.getSeconds();
+    $scope.FormatDate = function(date, withTime) {
+        // TODO: This time should be allocated between the working hours
+        if (withTime) {
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate() + " " +
+                date.getHours() + ":" +
+                date.getMinutes() + ":" +
+                date.getSeconds();
+        }
+        else{
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate();
+        }
+
         return date;
     };
 
@@ -31,7 +40,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
 
     // get the beginning attetion datetime
     var beginningDateTime = new Date();
-    beginningDateTime = $scope.FormatDate(beginningDateTime);
+    beginningDateTime = $scope.FormatDate(beginningDateTime, true);
 
     $scope.borrarSlider = function(){
         $scope.especial = 'presionado';
@@ -94,24 +103,44 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     $scope.EstablecerCantidadParaAgregar = function(event) {
         productoSeleccionado = JSON.parse(event.currentTarget.value);
         $scope.ProductoParaAgregar = productoSeleccionado;
-        $scope.UnidadMedidaProductoParaAgregar = productoSeleccionado.abreviacion;
+        $scope.UnidadesDisponibleParaAgregar = productoSeleccionado.cantidadProductoSeccion + " " + productoSeleccionado.abreviacion;
         $scope.CantidadProductoParaAgregar = 1;
 
-        $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(new Date());
+        $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(new Date(), false);
         $scope.EntregaInmediata = true;
 
-        if (productoSeleccionado.cantidadProductoSeccion == 0) {
+        if (productoSeleccionado.cantidadProductoSeccion < $scope.CantidadProductoParaAgregar) {
             $scope.EntregaInmediata = false;
             var fakeDeliveryDate = new Date();
             fakeDeliveryDate.setDate(fakeDeliveryDate.getDate() + 3);
             
-            $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(fakeDeliveryDate);
+            $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(fakeDeliveryDate, true);
+        }
+        
+        $scope.CalcularPrecio();
+    };
+
+    // Establece ID en el botón para agregar al carrito
+    $scope.RefreshDeliverDateAndPrice = function() {
+        console.log("RefreshDeliverDateAndPrice()");
+        $scope.ProductoParaAgregar = productoSeleccionado;
+        
+        $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(new Date(), false);
+        $scope.EntregaInmediata = true;
+
+        if (productoSeleccionado.cantidadProductoSeccion < $scope.CantidadProductoParaAgregar) {
+            $scope.EntregaInmediata = false;
+            var fakeDeliveryDate = new Date();
+            fakeDeliveryDate.setDate(fakeDeliveryDate.getDate() + 3);
+            
+            $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(fakeDeliveryDate, true);
         }
         
         $scope.CalcularPrecio();
     };
     
     $scope.CalcularPrecio = function() {
+        console.log("CalcularPrecio()");
         $scope.PrecioDelProductoParaAgregar = productoSeleccionado.unitarioPrecio * $scope.CantidadProductoParaAgregar;
     };
     
@@ -176,28 +205,28 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         // console.log(JSON.stringify(event.currentTarget));
         $scope.activeBtn = event;
         let saleSelected = JSON.parse(event.currentTarget.value);
-        console.log("DeliverProduct -> " + JSON.stringify(saleSelected));
+        // console.log("DeliverProduct -> " + JSON.stringify(saleSelected));
 
-        // let currentDate = new Date();
-        // currentDate = $scope.FormatDate(currentDate);
+        let currentDate = new Date();
+        currentDate = $scope.FormatDate(currentDate, true);
 
-        // saleSelected.fechaEntrega = currentDate;
+        saleSelected.fechaEntrega = currentDate;
 
-        // // alert("Hour to update: " + saleSelected.fechaEntrega);
+        // alert("Hour to update: " + saleSelected.fechaEntrega);
         
         // console.log("saleSelected -> " + JSON.stringify(saleSelected));
 
-        // $http({
-        //     method: 'POST',
-        //     url: 'http://localhost:8080/Venta/MarkProductAsDelivered',
-        //     data: saleSelected
-        // }).then(function successCallback(response) {
-        //     console.log("Product delivered.");
-        //     $scope.getVentas();
-        //     }, function errorCallback(response) {
-        //     console.log("Error trying to deliver product.");
-        //     //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
-        // });
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Venta/MarkProductAsDelivered',
+            data: saleSelected
+        }).then(function successCallback(response) {
+            console.log("Product delivered.");
+            $scope.getVentas();
+            }, function errorCallback(response) {
+            console.log("Error trying to deliver product.");
+            //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
     };
 
     

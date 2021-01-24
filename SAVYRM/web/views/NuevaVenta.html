@@ -161,19 +161,20 @@
                 <span ng-show="!EntregaInmediata" class="color-text--red">Este producto no esta disponible en estos momentos, revise la posible fecha de entrega</span>
                 <div class="form-group">
                     <label>Cantidad a agregar:</label>
-                    <input type="number" class="form-control"  ng-model="CantidadProductoParaAgregar" ng-change="CalcularPrecio()">
+                    <input type="number" class="form-control"  ng-model="CantidadProductoParaAgregar" ng-change="RefreshDeliverDateAndPrice()">
                 </div>
                 <div class="form-group">
-                    <label>Unidad de medida</label>
-                    <input type="text" class="form-control"  ng-model="UnidadMedidaProductoParaAgregar" >
+                    <label>Unidades disponibles</label>
+                    <input type="text" class="form-control"  ng-model="UnidadesDisponibleParaAgregar" disabled>
                 </div>
                 <div class="form-group">
                     <label>Precio calculado</label>
-                    <input type="text" class="form-control"  ng-model="PrecioDelProductoParaAgregar">
+                    <input type="text" class="form-control"  ng-model="PrecioDelProductoParaAgregar" disabled>
                 </div>
                 <div class="form-group">
                     <label>Fecha de entrega</label>
-                    <input type="text" class="form-control"  ng-model="FechaEntregaDelProductoParaAgregar">
+                    <input ng-if="!EntregaInmediata" type="text" class="form-control"  ng-model="FechaEntregaDelProductoParaAgregar" disabled>
+                    <input ng-if="EntregaInmediata" type="text" class="form-control" value="Entrega inmediata" disabled>
                 </div>
             </div>
             <div class="modal-footer">
