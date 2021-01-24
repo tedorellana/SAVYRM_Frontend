@@ -41,7 +41,7 @@
                                         <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.fechaIngreso}}</td>
                                         <td class="mdl-data-table__cell--non-numeric">S/ {{productoParaVenta.unitarioPrecio}}</td>
                                         <td class="mdl-data-table__cell--non-numeric">
-                                            <button data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="RevisarElaboracion($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-orange"><i class="material-icons">info</i></button>
+                                            <button data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="GetElaboration($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-orange"><i class="material-icons">info</i></button>
                                         </td>
                                         <td class="mdl-data-table__cell--non-numeric">
                                             <button data-toggle="modal" data-target="#ModalCantidad" value="{{productoParaVenta}}" data-ng-click="EstablecerCantidadParaAgregar($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
@@ -186,5 +186,94 @@
     </div>
     <!-- MODAL PRODUCTS TO ADD TO SHOPPING CAR END -->
 
+    <!-- MODAL VENTA DETAIL BEGIN -->
+    <div class="modal fade bd-example-modal-lg" id="ModalElaboracion" tabindex="-1" role="dialog" data-backdrop="false">
+        <div class="modal-dialog modal-lg" role="document">
+        <!-- <div class="modal-content" style="background-color: #929f97;"> -->
+        <div class="modal-content">
+            <!-- <div class="modal-header" style="color:#fbfeff;"> -->
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Elaboración</h4>
+            </div>
+            <div class="modal-body">
+                <div class="mdl-grid ui-tables">
+                    <!-- STEPS LIST BEGIN -->
+                    <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h1 class="mdl-card__title-text">Preparación</h1>
+                            </div>
+                            <div class="mdl-card__supporting-text no-padding">
+                                <div class="mdl-card__supporting-text no-padding">
+                                    <table class="mdl-data-table mdl-js-data-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">N°</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Instrucciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="steps in elaborationSteps">
+                                                <td class="mdl-data-table__cell--non-numeric">{{steps.ordenIndicacion}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{steps.detalleIndicacion}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- STEPS LIST END -->
+                    
+                    <!-- FORMULA LIST BEGIN -->
+                    <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h1 class="mdl-card__title-text">Fórmula</h1>
+                            </div>
+                            <div class="mdl-card__supporting-text no-padding">
+                                <table class="mdl-data-table mdl-js-data-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                            <th class="mdl-data-table__cell--non-numeric">Código</th>
+                                            <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
+                                            <th class="mdl-data-table__cell--non-numeric">Porcentaje</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="prods in productWithElaboration">
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.nombreProducto}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.productoInsumo.codigoProducto}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.cantidad}} {{prods.productoInsumo.unidadMedida.abreviacion}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{prods.porcentaje}} %</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORMULA LIST END -->
+
+                    <!-- CHART LIST BEGIN -->
+                    <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__supporting-text">
+                                <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CHART LIST END -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- MODAL VENTA DETAIL END -->
 </div>
 

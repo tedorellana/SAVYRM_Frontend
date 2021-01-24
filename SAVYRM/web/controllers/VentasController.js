@@ -32,6 +32,19 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         return date;
     };
 
+    $scope.FormatDateSouthAmerica = function(date) {
+        let formatedDate = new Date(date);
+        
+        formatedDate = formatedDate.getDate()  + "-" +
+            parseInt(formatedDate.getMonth() + 1) + "-" +
+            formatedDate.getFullYear() + "  " + 
+            formatedDate.getHours() + ":" +
+            formatedDate.getMinutes() + ":" +
+            formatedDate.getSeconds();
+
+        return formatedDate;
+    };
+
     // Get total amount of the seected sale
     $scope.GetTotalCost = function(ventas) {
         var totalCost = 0;
@@ -261,6 +274,78 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         });
     };
 
-    
+    ////////
+    // ALL THIS SEGMENT IF COPIED FRROM PRODUCTOSCONTROLLER.JS
+    ////////
+
+    // Get elaboration per product
+    $scope.GetElaboration = function(event){
+        console.log("GetElaboration()");
+        let productoParaVisualizar = JSON.parse(event.currentTarget.value);
+        $scope.GetElaborationSteps(productoParaVisualizar.idProducto);
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/ProductoFormula/GetAllProductoFormulaByIdProducto',
+            data: {
+                idProducto : productoParaVisualizar.idProducto
+            }
+        }).then(function successCallback(response) {
+            $scope.PopulatePieGraphic(response.data);
+            // $scope.mostrarProductosPC = false;
+            $scope.productWithElaboration = response.data;
+        }, function errorCallback(response) {
+            alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
+        });
+    };
+
+    // Get elaboration steps per product
+    $scope.GetElaborationSteps = function(idProducto){
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/indicacionController/GetAllIndicacionByProductoIdProdcuto',
+            data: {
+                idProducto : idProducto
+            }
+        }).then(function successCallback(response){
+            $scope.elaborationSteps = response.data;
+        }, function errorCallback(){
+           alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
+        });
+    };
+
+    // Populates the graphic with the products in the formula
+    $scope.PopulatePieGraphic = function(products) {
+        var pieElements = ParseProductosForPieGraphic(products)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: ""
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                yValueFormatString: "##0.00\"%\"",
+                indexLabel: "{label} {y}",
+                dataPoints: pieElements
+            }]
+        });
+        chart.render();
+    }
+
+    // parse the products to be populated correctly in the pie graphic
+    function ParseProductosForPieGraphic(products) {
+        var pieProducts = [];
+        
+        angular.forEach(products, function(prod) {
+            var pieProduct = {
+                y: prod.porcentaje,
+                label: prod.productoInsumo.nombreProducto
+            };
+            pieProducts.push(pieProduct);
+        });
+
+        return pieProducts;
+    }
 });
 

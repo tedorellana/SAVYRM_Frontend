@@ -25,8 +25,8 @@
                                     <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.nombrePersona + " " +venta.personaAtendida.apellidoPaternoPersona + " " + venta.personaAtendida.apellidoMaternoPersona}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">{{venta.personaAtendida.numeroDocumentoPersona}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">{{venta.personaEmpleado.nombrePersona + " " +venta.personaEmpleado.apellidoPaternoPersona + " " + venta.personaEmpleado.apellidoMaternoPersona}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{venta.horaInicioServicio}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{venta.horaFinServicio}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{FormatDateSouthAmerica(venta.horaInicioServicio)}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{FormatDateSouthAmerica(venta.horaFinServicio)}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">
                                         <button data-toggle="modal" data-target="#ModalVentasDetail" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{venta}}" data-ng-click="GetServiceDetail($event)">Detalles</button>
                                     </td>
@@ -83,11 +83,11 @@
                                     <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                             <label>Inicio de atención</label>
-                                            <label class="mdl-textfield__input" for="floating-last-name">{{serviceSelectedDetail.horaFinServicio}}</label>
+                                            <label class="mdl-textfield__input" for="floating-last-name">{{FormatDateSouthAmerica(serviceSelectedDetail.horaFinServicio)}}</label>
                                         </div>
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                             <label>Fin de atención</label>
-                                            <label class="mdl-textfield__input" for="floating-e-mail">{{serviceSelectedDetail.horaFinServicio}}</label>
+                                            <label class="mdl-textfield__input" for="floating-e-mail">{{FormatDateSouthAmerica(serviceSelectedDetail.horaFinServicio)}}</label>
                                         </div>
                                         
                                     </div>
@@ -126,8 +126,8 @@
                                         <td class="mdl-data-table__cell--non-numeric" style="background: white;">S/ {{selectedVenta.costoTotal}}</td>
                                         <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">SI</td>
                                         <td ng-show="!selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">NO</td>
-                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.fechaEntrega}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.fechaEntregaPrevista}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{FormatDateSouthAmerica(selectedVenta.fechaEntrega)}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{FormatDateSouthAmerica(selectedVenta.fechaEntregaPrevista)}}</td>
                                         <!-- No delivered button -->
                                         <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">
                                             <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised button--colored-light-blue" disabled>
