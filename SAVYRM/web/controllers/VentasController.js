@@ -283,6 +283,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         console.log("GetElaboration()");
         let productoParaVisualizar = JSON.parse(event.currentTarget.value);
         $scope.GetElaborationSteps(productoParaVisualizar.idProducto);
+        $scope.elaborationNoAvailable = true;
+        $scope.productNameToReviewElaboration = productoParaVisualizar.nombreProducto;
 
         $http({
             method: 'POST',
@@ -291,6 +293,13 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
                 idProducto : productoParaVisualizar.idProducto
             }
         }).then(function successCallback(response) {
+            
+            // Set if the elaboration is available or not
+            if (response.data == "") {
+                console.log("ELABORACION NO DISPONIBLE");
+                $scope.elaborationNoAvailable = false;
+            }
+
             $scope.PopulatePieGraphic(response.data);
             // $scope.mostrarProductosPC = false;
             $scope.productWithElaboration = response.data;

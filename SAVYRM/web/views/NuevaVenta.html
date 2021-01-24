@@ -194,10 +194,12 @@
             <!-- <div class="modal-header" style="color:#fbfeff;"> -->
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Elaboración</h4>
+            <h4 class="modal-title">Elaboración {{productNameToReviewElaboration}}</h4>
             </div>
             <div class="modal-body">
-                <div class="mdl-grid ui-tables">
+                <span ng-if="!elaborationNoAvailable" class="color-text--red">Detalle de elaboración no disponible para este producto.</span>
+
+                <div ng-if="elaborationNoAvailable" class="mdl-grid ui-tables">
                     <!-- STEPS LIST BEGIN -->
                     <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
                         <div class="mdl-card mdl-shadow--2dp">
@@ -269,7 +271,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Agregar al carrito</button>
+                <button ng-if="elaborationNoAvailable" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Agregar al carrito</button>
             </div>
         </div>
         </div>
