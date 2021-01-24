@@ -62,7 +62,19 @@
                 <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
                     <div class="mdl-card mdl-shadow--2dp">
                         <div class="mdl-card__title">
-                            <h1 class="mdl-card__title-text">Carrito de compras</h1>
+                            <h1 class="col-md-5 mdl-card__title-text">Carrito de compras</h1>
+                            <div class="col-md-offset-1">
+                                <button data-toggle="modal" data-target="#ModalClients" data-ng-click="GetAllClients()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-orange">
+                                    <i class="material-icons">people</i>
+                                    Clientes
+                                </button>
+                            </div>
+                            <div class="col-md-offset-1">
+                                <button data-toggle="modal" data-target="#ModalNewClient" class="col-md-offset-1 mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-orange">
+                                    <i class="material-icons">person_add</i>
+                                    Nuevo cliente
+                                </button>
+                            </div>
                         </div>
                             <!-- CLIENT DATA  BEGIN-->
                             <div class="mdl-card__supporting-text">
@@ -72,15 +84,15 @@
                                             <h3 class="text-color--black">Cliente</h3>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <label>DNI o RUC</label>
-                                                <input class="mdl-textfield__input" type="text" id="document">
+                                                <input class="mdl-textfield__input" type="text" value="{{currentClient.numeroDocumentoPersona}}" id="document" readonly>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <label>Nombres</label>
-                                                <input class="mdl-textfield__input" type="text"  id="first-name">
+                                                <input class="mdl-textfield__input" type="text" value="{{currentClient.nombrePersona}}" id="first-name" readonly>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield full-size">
                                                 <label>Apellidos</label>
-                                                <input class="mdl-textfield__input" type="text" id="last-name">
+                                                <input class="mdl-textfield__input" type="text" value="{{currentClient.apellidoPaternoPersona}} {{currentClient.apellidoMaternoPersona}}" id="last-name" readonly>
                                             </div>
                                             <h2 class="color-text--green">S/ {{PrecioTotal}}</h2>
                                         </div>
@@ -88,15 +100,15 @@
                                             <h3 class="text-color--black">Dirección de entrega</h3>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                                 <label>Número de teléfono</label>
-                                                <input class="mdl-textfield__input" type="text" id="phone">
+                                                <input class="mdl-textfield__input" type="text" id="phone" value="{{currentClient.numeroTelefonoPersona}}" readonly>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                                 <label>Dirección de entrega</label>
-                                                <input class="mdl-textfield__input" type="text" id="address">
+                                                <input class="mdl-textfield__input" type="text" id="address" value="{{currentClient.direccionPersona}}" readonly>
                                             </div>
                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                                 <label>Correo electrónico</label>
-                                                <input class="mdl-textfield__input" type="text" id="floating-e-mail">
+                                                <input class="mdl-textfield__input" type="text" id="floating-e-mail" value="{{currentClient.correoPersona}}" readonly>
                                             </div>
                                             <button ng-click="registrarVenta()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green">
                                                 <i class="material-icons">save</i>
@@ -186,7 +198,7 @@
     </div>
     <!-- MODAL PRODUCTS TO ADD TO SHOPPING CAR END -->
 
-    <!-- MODAL VENTA DETAIL BEGIN -->
+    <!-- MODAL ASESORIA BEGIN -->
     <div class="modal fade bd-example-modal-lg" id="ModalElaboracion" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog modal-lg" role="document">
         <!-- <div class="modal-content" style="background-color: #929f97;"> -->
@@ -276,6 +288,65 @@
         </div>
         </div>
     </div>
-    <!-- MODAL VENTA DETAIL END -->
+    <!-- MODAL ASESORIA DETAIL END -->
+
+    <!-- MODAL CLIENTS BEGIN -->
+    <div class="modal fade bd-example-modal-lg" id="ModalClients" tabindex="-1" role="dialog" data-backdrop="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Nuestros clientes</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="ClientsTable" class="col-md-12 mdl-data-table mdl-js-data-table" style="white-space: pre-line;">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Nro documento</th>
+                                <th class="mdl-data-table__cell--non-numeric">Tipo de documento</th>
+                                <th class="mdl-data-table__cell--non-numeric">Apellidos y Nombres</th>
+                                <th class="mdl-data-table__cell--non-numeric">Tipo persona</th>
+                                <th class="mdl-data-table__cell--non-numeric"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="client in clients">
+                                <td class="mdl-data-table__cell--non-numeric">{{client.numeroDocumentoPersona}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{client.documentoIdentidadPersona}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{client.apellidoPaternoPersona + " " +client.apellidoMaternoPersona + " " + client.nombrePersona}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{client.tipoPersona.nombreTipoPersona}}</td>
+                                <td class="mdl-data-table__cell--non-numeric" style="text-align: center;">
+                                    <button data-toggle="modal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{client}}" data-dismiss="modal" data-ng-click="SelectClient($event)">Seleccionar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL CLIENTS END -->
+
+    <!-- MODAL CLIENTS BEGIN -->
+    <div class="modal fade bd-example-modal-lg" id="ModalNewClient" tabindex="-1" role="dialog" data-backdrop="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Nuevo cliente</h4>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL CLIENTS END -->
 </div>
 

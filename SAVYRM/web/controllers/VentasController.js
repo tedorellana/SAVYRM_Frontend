@@ -213,18 +213,29 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         $scope.shoppingCarEmpty = $scope.carrito == undefined || $scope.carrito.length <= 0;
     };
     
+    // Set the client for the sale
+    $scope.SelectClient = function(event){
+        console.log("SelectClient()");
+        $scope.currentClient = JSON.parse(event.currentTarget.value);
+    };
+
     // Obtiene productos para la venta
     $scope.registrarVenta = function(){
-        var detallesServicio = {
-            idEmpleado : $sessionStorage.currentUser,
-            idCliente : $sessionStorage.currentUser, // TODO: pending to add customer.
-            dateTimeServiceBegin : beginningDateTime
+        if ($scope.currentClient == undefined || $scope.currentClient == null || $scope.currentClient == "") {
+            alert("!Ups! Parece que no se ha seleccionado un cliente aún.\nSelecciona un cliente, por favor.");
+            return;
         }
 
         if (carritoDeCompras.length == 0)
         {
-            alert("Ups! El carrito de compras se encuentra vacío. Debe seleccionar por lo menos un producto.");
+            alert("!Ups! El carrito de compras se encuentra vacío. Debe seleccionar por lo menos un producto.");
             return;
+        }
+
+        var detallesServicio = {
+            idEmpleado : $sessionStorage.currentUser,
+            idCliente : $scope.currentClient.idPersona,
+            dateTimeServiceBegin : beginningDateTime
         }
 
         $http({
@@ -356,5 +367,46 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
 
         return pieProducts;
     }
+
+    ////////
+    // ALL THIS SEGMENT IF COPIED FRROM CLIENTESCONTROLLER.JS
+    ////////
+    // Get all the clients available in the database
+    $scope.GetAllClients = function() {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Persona/GetAllClients',
+            data: {
+            }
+        }).then(function successCallback(response) {
+            $scope.clients = response.data;
+            }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+
+    // Get all the clients available in the database
+    $scope.AddClient = function() {
+        console.log("AddClient()");
+
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/Persona/AddClient',
+            data: {
+                nombres: $scope.nombres,
+                apellidoPaterno: $scope.apellidoPaterno,
+                apellidoMaterno: $scope.apellidoMaterno,
+                tipoDocumento: $scope.tipoDocumento,
+                numeroDocumento: $scope.numeroDocumento,
+                telefono: $scope.telefono,
+                correo: $scope.correo,
+                dirrecion: $scope.direccion
+            }
+        }).then(function successCallback(response) {
+            alert("¡Cliente agregado!");
+        }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
 });
 
