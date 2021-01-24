@@ -113,6 +113,7 @@
                                         <th class="mdl-data-table__cell--non-numeric">Costo por producto</th>
                                         <th class="mdl-data-table__cell--non-numeric">Entregado</th>
                                         <th class="mdl-data-table__cell--non-numeric">Fecha entrega</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Entrega prevista</th>
                                         <th class="mdl-data-table__cell--non-numeric">Entregar</th>
                                     </tr>
                                 </thead>
@@ -126,6 +127,7 @@
                                         <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">SI</td>
                                         <td ng-show="!selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">NO</td>
                                         <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.fechaEntrega}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{selectedVenta.fechaEntregaPrevista}}</td>
                                         <!-- No delivered button -->
                                         <td ng-show="selectedVenta.entregado" class="mdl-data-table__cell--non-numeric" style="background: white;">
                                             <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised button--colored-light-blue" disabled>

@@ -6,6 +6,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     var carritoDeCompras = []; // Almacena objetos a comprar
     var productoSeleccionado;
     var precioTotalAcumulado = 0;
+    var serviceSelected;
     $scope.PrecioTotal = "00.00";
     $scope.shoppingCarEmpty = true; // used to hide table with car items when is empty
     
@@ -66,8 +67,28 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
 
     // Gets a detail of an specific sale
     $scope.GetServiceDetail = function(event){
-        var serviceSelected = JSON.parse(event.currentTarget.value);
-        var idServiceSelected = serviceSelected.idServicio;
+        console.log("GetServiceDetail()");
+        serviceSelected = JSON.parse(event.currentTarget.value);
+        let idServiceSelected = serviceSelected.idServicio;
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Servicio/GetVentasDetail',
+            data: {
+                idServiceSelected
+            }
+        }).then(function successCallback(response) {
+            $scope.ventaDetail = response.data;
+            $scope.serviceSelectedDetail = serviceSelected;
+            $scope.TotalCostPerSelectedSale = $scope.GetTotalCost(response.data);
+        }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        }); 
+    };
+
+    // Refresh the status based in the currentServiceSelected
+    $scope.RefreshServiceDetail = function(){
+        console.log("RefreshServiceDetail()");
+        let idServiceSelected = serviceSelected.idServicio;
         $http({
             method: 'POST',
             url: 'http://localhost:8080/Servicio/GetVentasDetail',
@@ -147,6 +168,16 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     // Agrega la cantidad indicada al carrito de compras
     $scope.AgregarACarrito = function(event){
         let dataRecibida = JSON.parse(event.currentTarget.value);
+        let fechaEntrega = null;
+        let fechaEntregaPrevista = null;
+        // Establece formatos de fechas correctos para agregar el producto
+        if ($scope.EntregaInmediata) {
+            fechaEntrega = $scope.FormatDate(new Date(), true);
+        }
+        else {
+            fechaEntregaPrevista = $scope.FechaEntregaDelProductoParaAgregar
+        }
+
         var elementoCarrito = {
             codigoProducto : dataRecibida.codigoProducto,
             nombreProducto : dataRecibida.nombreProducto,
@@ -156,7 +187,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             precioUnitario : productoSeleccionado.unitarioPrecio,
             precioTotalProducto : $scope.PrecioDelProductoParaAgregar,
             entregado : $scope.EntregaInmediata,
-            fechaEntrega : $scope.FechaEntregaDelProductoParaAgregar
+            fechaEntrega : fechaEntrega,
+            fechaEntregaPrevista : fechaEntregaPrevista
         };
         
         precioTotalAcumulado += elementoCarrito.precioTotalProducto;
@@ -222,7 +254,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             data: saleSelected
         }).then(function successCallback(response) {
             console.log("Product delivered.");
-            $scope.getVentas();
+            $scope.RefreshServiceDetail();
             }, function errorCallback(response) {
             console.log("Error trying to deliver product.");
             //alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
