@@ -30,15 +30,15 @@ angular.module('angularRoutingApp').controller('clientesController', function ($
 
     // Format the date to concat it with the user name
     $scope.FormatDateForUser = function(date) {
-        date = date.getFullYear() + ""
-            parseInt(date.getMonth() + 1)  + ""
-            date.getDate() + ""
-            date.getHours() + ""
-            date.getMinutes() + ""
+        date = date.getFullYear() + "" +
+            parseInt(date.getMonth() + 1)  + "" +
+            date.getDate() + "" +
+            date.getHours() + "" +
+            date.getMinutes() + "" +
             date.getSeconds();
         return date;
     };
-
+    //10224455668
     // Add client
     $scope.AddClient = function() {
         console.log("AddClient()");

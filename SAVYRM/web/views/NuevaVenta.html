@@ -21,19 +21,6 @@
                                         <th class="mdl-data-table__cell--non-numeric">Agregar</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr ng-repeat="almacen in almacenes">
-                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.nombreAlmacen}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.direccion}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">{{almacen.capacidad}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">
-                                            <input value="{{almacen.idAlmacen}}" ng-model="almacen.selected" type="checkbox">
-                                            <span ng-show="almacen.selected" class="glyphicon glyphicon-ok" style="color: green;" aria-hidden="true"></span>
-                                            <span ng-show="!almacen.selected" class="glyphicon glyphicon-remove" style="color: #b91717;" aria-hidden="true"></span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-
                                 <tbody >
                                     <tr ng-repeat="productoParaVenta in productosParaVenta">
                                         <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.nombreProducto}}</td>
@@ -162,8 +149,8 @@
     </main>
 
     <!-- MODAL PRODUCTS TO ADD TO SHOPPING CAR BEGIN -->
-    <div class="modal fade bd-example-modal-sm" id="ModalCantidad" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-backdrop="false" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
+    <div class="modal fade" id="ModalCantidad" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-backdrop="false" aria-hidden="true">
+        <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -187,6 +174,28 @@
                     <label>Fecha de entrega</label>
                     <input ng-if="!EntregaInmediata" type="text" class="form-control"  ng-model="FechaEntregaDelProductoParaAgregar" disabled>
                     <input ng-if="EntregaInmediata" type="text" class="form-control" value="Entrega inmediata" disabled>
+                </div>
+
+                <!-- PROXIMAS ORDENES -->
+                <div class="form-group">
+                    <label>Próximas entregas</label>
+                    <table ng-if="ordenesDeCompraPorProducto.length > 0" class="col-md-12 mdl-data-table mdl-js-data-table">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Fechas</th>
+                                <th class="mdl-data-table__cell--non-numeric">Cantidad disponible</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr ng-repeat="productsInOrders in ordenesDeCompraPorProducto">
+                                <td class="mdl-data-table__cell--non-numeric">{{FormatDateSouthAmericaWithoutTime(productsInOrders.fechaEntregaPrevistaOrdenCompraProducto)}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{productsInOrders.cantidadDisponibleOrdenCompraProducto}} {{productsInOrders.producto.unidadMedida.abreviacion}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-show="ordenesDeCompraPorProducto.length == 0">
+                        <label class="color-text--orange">No hay próximas entregas programadas.</label>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

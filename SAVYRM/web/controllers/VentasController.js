@@ -150,7 +150,23 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         }).then(function successCallback(response) {
             listaProductosParaVenta = response.data;
             $scope.productosParaVenta = listaProductosParaVenta;
-            }, function errorCallback(response) {
+            console.log("--->" + $scope.productosParaVenta + ".");
+        }, function errorCallback(response) {
+            $scope.productosParaVenta = [];
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });     
+    };
+
+    // Obtiene las ordened de compra
+    $scope.GetOrdenesDeCompra = function(idProducto){
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/OrdenCompra/OrdersPerProduct',
+            data: idProducto
+        }).then(function successCallback(response) {
+            console.log("GetOrdenesDeCompra-> " + JSON.stringify(response.data));
+            $scope.ordenesDeCompraPorProducto = response.data;
+        }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });     
     };
@@ -174,6 +190,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         }
         
         $scope.CalcularPrecio();
+        $scope.GetOrdenesDeCompra(productoSeleccionado.idProducto);
     };
 
     // Establece ID en el botón para agregar al carrito
