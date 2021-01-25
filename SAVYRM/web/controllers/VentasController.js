@@ -32,6 +32,22 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         return date;
     };
 
+    // Format date to show in screen without the time
+    $scope.FormatDateSouthAmericaWithoutTime = function(date) {
+
+        if (date == null) {
+            console.log("NULL value detected");
+            return null;
+        }
+
+        let formatedDate = new Date(date);
+        
+        formatedDate = formatedDate.getDate()  + "-" +
+            parseInt(formatedDate.getMonth() + 1) + "-" +
+            formatedDate.getFullYear();
+        return formatedDate;
+    };
+
     $scope.FormatDateSouthAmerica = function(date) {
 
         if (date == null) {
@@ -254,6 +270,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         }).then(function successCallback(response) {
             alert("Venta realizada!.");
             carritoDeCompras = null;
+            detallesServicio = null;
             $scope.carrito = carritoDeCompras;
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");

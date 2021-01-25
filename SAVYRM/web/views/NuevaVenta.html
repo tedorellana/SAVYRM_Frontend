@@ -38,7 +38,7 @@
                                     <tr ng-repeat="productoParaVenta in productosParaVenta">
                                         <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.nombreProducto}}</td>
                                         <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.cantidadProductoSeccion}} {{productoParaVenta.abreviacion}}</td>
-                                        <td class="mdl-data-table__cell--non-numeric">{{productoParaVenta.fechaIngreso}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{FormatDateSouthAmericaWithoutTime(productoParaVenta.fechaIngreso)}}</td>
                                         <td class="mdl-data-table__cell--non-numeric">S/ {{productoParaVenta.unitarioPrecio}}</td>
                                         <td class="mdl-data-table__cell--non-numeric">
                                             <button data-toggle="modal" data-target="#ModalElaboracion" value="{{productoParaVenta}}" data-ng-click="GetElaboration($event)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-orange"><i class="material-icons">info</i></button>
