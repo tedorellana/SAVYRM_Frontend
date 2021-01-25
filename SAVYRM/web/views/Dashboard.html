@@ -57,7 +57,6 @@
           </div>
       </div>
     </div>
-
     <!-- Stock actual widget-->
     <div class="mdl-cell mdl-cell--7-col-desktop mdl-cell--7-col-tablet mdl-cell--7-col-phone">
       <div class="mdl-card mdl-shadow--2dp">
@@ -104,6 +103,37 @@
           </div>
       </div>
     </div>
-
   </div>
+
+  <div class="mdl-grid mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone mdl-cell--top"></div>
+    <div class="mdl-cell mdl-cell--5-col-desktop mdl-cell--5-col-tablet mdl-cell--5-col-phone">
+      <!-- PRODUCTOS A ENTREGAR -->
+      <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+            <h3 class="mdl-card__title-text">Entregas pendientes ({{currentDate}})</h3>
+        </div>
+
+        <div class="mdl-card__supporting-text no-padding">
+          <table class="col-md-12 mdl-data-table mdl-js-data-table">
+            <thead>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                <th class="mdl-data-table__cell--non-numeric">Fecha entrega</th>
+                <th class="mdl-data-table__cell--non-numeric">Cantidad a entregar</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat="entregaPendiente in entregasPendientes">
+                <td class="mdl-data-table__cell--non-numeric">{{entregaPendiente.productoSeccion.producto.nombreProducto}}</td>
+                <td class="mdl-data-table__cell--non-numeric" style="text-align: center;">{{entregaPendiente.fechaEntregaPrevista}}</td>
+                <td class="mdl-data-table__cell--non-numeric" style="text-align: center;">{{entregaPendiente.cantidadServicioProducto}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

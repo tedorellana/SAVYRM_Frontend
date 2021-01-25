@@ -63,6 +63,7 @@ angular.module('angularRoutingApp').controller('dashboardController', function (
         $scope.SalesStatusCompared();
         $scope.RevenueStatusCompared();
         $scope.ProductsOrderByExpiration();
+        $scope.NextProductsToDeliver();
     };
 
     // Get sales status for today.
@@ -80,6 +81,20 @@ angular.module('angularRoutingApp').controller('dashboardController', function (
             $scope.salesRowColor = color;
             // $scope.PopulateLineComparedGraphic(response.data.baseLine, response.data.currentLine, "Estado de ventas", "Número de ventas", "Ventas esperadas", "Ventas por día");
             }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
+    };
+    
+    // Get sales status for today.
+    $scope.NextProductsToDeliver = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/ServicioProducto/NextProductsToDeliver',
+            data: { }
+        }).then(function successCallback(response) {
+            console.log(JSON.stringify(response.data));
+            $scope.entregasPendientes = response.data;
+        }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
     };
