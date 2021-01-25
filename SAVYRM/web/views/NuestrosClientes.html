@@ -26,7 +26,7 @@
                                     <th class="mdl-data-table__cell--non-numeric">Dirección</th>
                                     <th class="mdl-data-table__cell--non-numeric" style="text-align: center;">
                                         <button data-toggle="modal" data-target="#NewClientModal" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
-                                            <i class="material-icons">create</i>
+                                            <i class="material-icons">person_add</i>
                                         </button>
                                     </th>
                                 </tr>
@@ -70,29 +70,30 @@
                                 <img src="images/Bobby.PNG">
                             </div>
                         </div>
-                        <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone form__article" ng-model="nombres">
+                        <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone form__article" >
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                 <label>Nombres</label>
-                                <input class="mdl-textfield__input">
+                                <input ng-model="nombres" class="mdl-textfield__input">
                             </div>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size" ng-model="apellidoPaterno">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size" >
                                 <label>Apellido paterno</label>
-                                <input class="mdl-textfield__input">
+                                <input ng-model="apellidoPaterno" class="mdl-textfield__input">
                             </div>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size ng-model="apellidoMaterno"">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                 <label>Apellido materno</label>
-                                <input class="mdl-textfield__input">
+                                <input ng-model="apellidoMaterno" class="mdl-textfield__input">
                             </div>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size" style="background-color: white;">
-                                <label class="mdl-textfield__label">Documento</label>
-                                <input class="mdl-textfield__input" type="text" id="TipoDocumento" ng-model="tipoDocumento" readonly tabIndex="-1"/>
-                                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu dark_dropdown" for="TipoDocumento">
-                                    <li class="mdl-menu__item">DNI</li>
-                                    <li class="mdl-menu__item">RUC</li>
-                                </ul>
-                                <label for="TipoDocumento">
-                                    <i class="mdl-icon-toggle__label material-icons">arrow_drop_down</i>
-                                </label>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                <label>Tipo</label>
+                                <select class="form-control text-center" ng-options="personT.value as personT.name for personT in personType" ng-model="tipoPersona">
+                                    <option value="">Seleccione un tipo</option>
+                                </select>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                <label>Tipo de documento</label>
+                                <select class="form-control text-center" ng-options="documentT.value as documentT.name for documentT in documentType" ng-model="tipoDocumento">
+                                    <option value="">Seleccione un tipo</option>
+                                </select>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
                                 <label>Nro. Documento</label>

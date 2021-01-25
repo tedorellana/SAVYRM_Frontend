@@ -33,6 +33,12 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     };
 
     $scope.FormatDateSouthAmerica = function(date) {
+
+        if (date == null) {
+            console.log("NULL value detected");
+            return null;
+        }
+
         let formatedDate = new Date(date);
         
         formatedDate = formatedDate.getDate()  + "-" +
@@ -371,6 +377,21 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     ////////
     // ALL THIS SEGMENT IF COPIED FRROM CLIENTESCONTROLLER.JS
     ////////
+    // Format the date to concat it with the user name
+    $scope.PopulateSelect = function() {
+        console.log("PopulateSelect()");
+        // SELECT TIPO PERSONA
+        $scope.personType = [
+            {name:'Natural', value:'1'},
+            {name:'Jurídica', value:'2'}
+        ];
+        // SELECT TIPO DOCUMENTO
+        $scope.documentType = [
+            {name:'DNI', value:'1'},
+            {name:'RUC', value:'2'}
+        ];
+    };
+
     // Get all the clients available in the database
     $scope.GetAllClients = function() {
         $http({
@@ -385,12 +406,25 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         });
     };
 
-    // Get all the clients available in the database
+    // Format the date to concat it with the user name
+    $scope.FormatDateForUser = function(date) {
+        date = date.getFullYear() + "" +
+            parseInt(date.getMonth() + 1)  + "" +
+            date.getDate() + "" +
+            date.getHours() + "" +
+            date.getMinutes() + "" +
+            date.getSeconds();
+        return date;
+    };
+
+    // Add client
     $scope.AddClient = function() {
         console.log("AddClient()");
+        let nombreUsuario = $scope.nombres + $scope.FormatDateForUser(new Date());
 
+        console.log("to add --> " + $scope.nombres + ", " + $scope.apellidoPaterno+ ", " + $scope.apellidoMaterno+ ", " + $scope.tipoDocumento,+ ", " + $scope.numeroDocumento+ ", " + $scope.telefono+ ", " + $scope.correo+ ", " + $scope.direccion+ ", " + $scope.tipoPersona+ ", "+ nombreUsuario);
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Persona/AddClient',
             data: {
                 nombres: $scope.nombres,
@@ -400,10 +434,15 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
                 numeroDocumento: $scope.numeroDocumento,
                 telefono: $scope.telefono,
                 correo: $scope.correo,
-                dirrecion: $scope.direccion
+                dirrecion: $scope.direccion,
+                tipoPersona: $scope.tipoPersona,
+                nombreUsuario: nombreUsuario,
+                contrasenhaUsuario: nombreUsuario // The same value of the user name as password by default
             }
         }).then(function successCallback(response) {
-            alert("¡Cliente agregado!");
+            alert("¡Cliente Registrado!");
+            $scope.currentClient = response.data;
+            // $scope.GetAllClients();
         }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
