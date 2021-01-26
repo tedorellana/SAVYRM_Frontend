@@ -4,6 +4,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     var listaServicio = [];
     var listaProductosParaVenta = [];
     var carritoDeCompras = []; // Almacena objetos a comprar
+    var ordenDeCompraAfectadas = []; // Almacena objetos a comprar
     var productoSeleccionado;
     var precioTotalAcumulado = 0;
     var serviceSelected;
@@ -162,7 +163,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         console.log("GetOrdenesDeCompra()");
         $http({
             method: 'POST',
-            url: 'http://localhost:8080/OrdenCompra/OrdersPerProduct',
+            url: 'http://localhost:8080/OrdenCompraProducto/OrdersPerProduct',
             data: idProducto
         }).then(function successCallback(response) {
             $scope.ordenesDeCompraPorProducto = $scope.CalcularProductosDisponiblePorFecha(response.data);
@@ -195,6 +196,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     
     // Establece ID en el botón para agregar al carrito
     $scope.EstablecerCantidadParaAgregar = function(event) {
+        ordenDeCompraAfectadas = [];
         $scope.ProductAvailable = true;
         productoSeleccionado = JSON.parse(event.currentTarget.value);
         $scope.ProductoParaAgregar = productoSeleccionado;
@@ -228,7 +230,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         return true;
     };
 
-    // Calcula la fecha de entrega basados en el stock acutal y las ordenes de compra
+    // Calcula la fecha de entrega basados en el stock acutal y las ordenes de compra. Va acumulando la lista de ordenes de compras a ser afectadas con sus 
+    // nuevas cantidades disponibles.
     $scope.CalcularFechadDeEntrega = function(amount) {
         console.log("CalcularFechadDeEntrega()" + $scope.ProductoParaAgregar.cantidadProductoSeccion  + " / " + amount);
         $scope.ProductoParaAgregar = productoSeleccionado;
@@ -252,20 +255,50 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         }
 
         let stockYOrdenesAcumuladas = $scope.ordenesDeCompraPorProducto;
+        ordenDeCompraAfectadas = [];
+        let cantidadOrdenAcumuladaAnterior = 0;
+        let tempAmountDiscounted = amount;
         console.log("--->" + stockYOrdenesAcumuladas);
         // Entrega con ordenes de compra y stock acumulado
         for (let i = 0; i < stockYOrdenesAcumuladas.length; i++) {
             let element = stockYOrdenesAcumuladas[i];
-            if (element.cantidadDisponibleOrdenCompraProducto >= amount) {
+            
+            if (element.cantidadDisponibleOrdenCompraProducto < amount) {
+                // Contar orden como afectada sobre el acumulado
+                let elementoOrdenAfectada = {
+                    idOrdercompraproducto : element.idOrdercompraproducto,
+                    cantidadDisponibleOrdenCompraProducto : 0 // nueva cantidad disponible
+                };
+                console.log("added element MENOR : ACUMULADO " + element.cantidadDisponibleOrdenCompraProducto + " " + elementoOrdenAfectada.idOrdercompraproducto + "_" + elementoOrdenAfectada.cantidadDisponibleOrdenCompraProducto);
+                ordenDeCompraAfectadas.push(elementoOrdenAfectada);
+
+                amount -= element.cantidadDisponibleOrdenCompraProducto;
+            }
+            else {
+                // Contar orden como afectada total o parcialmente
                 $scope.FechaEntregaDelProductoParaAgregar = element.fechaEntregaPrevistaOrdenCompraProducto;
                 $scope.ProductAvailable = true;
                 console.log( amount + " Entrega retrasada: " + $scope.FechaEntregaDelProductoParaAgregar);
+                
+                // Contar orden como afectada sobre el acumulado
+                let elementoOrdenAfectada = {
+                    idOrdercompraproducto : element.idOrdercompraproducto,
+                    cantidadDisponibleOrdenCompraProducto : ((element.cantidadDisponibleOrdenCompraProducto - cantidadOrdenAcumuladaAnterior) - amount) // productos restantes en la orden de compra de este indice
+                };
+                console.log("added element MAYOR IGUAL : ACUMULADO " + element.cantidadDisponibleOrdenCompraProducto + " " + elementoOrdenAfectada.idOrdercompraproducto + "_" + elementoOrdenAfectada.cantidadDisponibleOrdenCompraProducto);
+                ordenDeCompraAfectadas.push(elementoOrdenAfectada);
+
                 return; // disponible por acumulado
             }
+
+            cantidadOrdenAcumuladaAnterior += element.cantidadDisponibleOrdenCompraProducto; // usado para calcular el diferencial por fecha
         }
 
+        console.log("ELIMINADO ordenDeCompraAfectadas");
+        ordenDeCompraAfectadas = [];
         $scope.ProductAvailable = false; // No hay ordenes de compra y proxima fecha de entrega
     };
+
 
     // Establece ID en el botón para agregar al carrito
     $scope.RefreshDeliverDateAndPrice = function() {
@@ -311,7 +344,8 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             precioTotalProducto : $scope.PrecioDelProductoParaAgregar,
             entregado : $scope.EntregaInmediata,
             fechaEntrega : fechaEntrega,
-            fechaEntregaPrevista : fechaEntregaPrevista
+            fechaEntregaPrevista : fechaEntregaPrevista,
+            ordenDeCompraAfectadas
         };
         
         precioTotalAcumulado += elementoCarrito.precioTotalProducto;
@@ -360,6 +394,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             carritoDeCompras = null;
             detallesServicio = null;
             $scope.carrito = carritoDeCompras;
+            $scope.getProductosParaVenta();
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
