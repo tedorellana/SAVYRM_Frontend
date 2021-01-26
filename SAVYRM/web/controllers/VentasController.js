@@ -150,7 +150,6 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         }).then(function successCallback(response) {
             listaProductosParaVenta = response.data;
             $scope.productosParaVenta = listaProductosParaVenta;
-            console.log("--->" + $scope.productosParaVenta + ".");
         }, function errorCallback(response) {
             $scope.productosParaVenta = [];
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
@@ -164,12 +163,30 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             url: 'http://localhost:8080/OrdenCompra/OrdersPerProduct',
             data: idProducto
         }).then(function successCallback(response) {
-            console.log("GetOrdenesDeCompra-> " + JSON.stringify(response.data));
+            // console.log("GetOrdenesDeCompra-> " + JSON.stringify(response.data));
+            $scope.CalcularProductosDisponiblePorFecha(response.data);
             $scope.ordenesDeCompraPorProducto = response.data;
         }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });     
     };
+
+    $scope.CalcularProductosDisponiblePorFecha = function(listaProductosPedidos){
+        console.log("CalcularProductosDisponiblePorFecha()" + listaProductosPedidos.length);
+        
+        let arrayAcumulados = [];
+
+        if (listaProductosPedidos.length == 0) {
+            console.log("listaProductosPedidos vacío");
+            return arrayAcumulados;
+        }
+
+        let acumulado = productoSeleccionado.cantidadProductoSeccion;
+        listaProductosPedidos.forEach(function(element) {
+            acumulado += element.cantidadDisponibleOrdenCompraProducto;
+            element.cantidadDisponibleOrdenCompraProducto = acumulado;
+        });
+    }
     
     // Establece ID en el botón para agregar al carrito
     $scope.EstablecerCantidadParaAgregar = function(event) {

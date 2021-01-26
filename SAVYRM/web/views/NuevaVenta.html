@@ -178,7 +178,8 @@
 
                 <!-- PROXIMAS ORDENES -->
                 <div class="form-group">
-                    <label>Próximas entregas</label>
+                    <label>Cantidades disponibles por fecha:</label>
+                    <span ng-if="ordenesDeCompraPorProducto.length > 0">Muestra las cantidades disponibles por fecha</span>
                     <table ng-if="ordenesDeCompraPorProducto.length > 0" class="col-md-12 mdl-data-table mdl-js-data-table">
                         <thead>
                             <tr>
