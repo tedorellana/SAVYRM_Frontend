@@ -7,6 +7,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     var productoSeleccionado;
     var precioTotalAcumulado = 0;
     var serviceSelected;
+    var acumulado = 0;
     $scope.PrecioTotal = "00.00";
     $scope.shoppingCarEmpty = true; // used to hide table with car items when is empty
     
@@ -158,22 +159,24 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
 
     // Obtiene las ordened de compra
     $scope.GetOrdenesDeCompra = function(idProducto){
+        console.log("GetOrdenesDeCompra()");
         $http({
             method: 'POST',
             url: 'http://localhost:8080/OrdenCompra/OrdersPerProduct',
             data: idProducto
         }).then(function successCallback(response) {
-            // console.log("GetOrdenesDeCompra-> " + JSON.stringify(response.data));
-            $scope.CalcularProductosDisponiblePorFecha(response.data);
-            $scope.ordenesDeCompraPorProducto = response.data;
+            $scope.ordenesDeCompraPorProducto = $scope.CalcularProductosDisponiblePorFecha(response.data);
+            $scope.RefreshDeliverDateAndPrice();
         }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });     
     };
 
+    // modifica la lista de ordenes de compra por producto para mostrar el acumulado por fecha.
     $scope.CalcularProductosDisponiblePorFecha = function(listaProductosPedidos){
         console.log("CalcularProductosDisponiblePorFecha()" + listaProductosPedidos.length);
-        
+        acumulado = 0;
+
         let arrayAcumulados = [];
 
         if (listaProductosPedidos.length == 0) {
@@ -181,51 +184,102 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             return arrayAcumulados;
         }
 
-        let acumulado = productoSeleccionado.cantidadProductoSeccion;
+        acumulado = productoSeleccionado.cantidadProductoSeccion;
         listaProductosPedidos.forEach(function(element) {
             acumulado += element.cantidadDisponibleOrdenCompraProducto;
             element.cantidadDisponibleOrdenCompraProducto = acumulado;
         });
+
+        return listaProductosPedidos;
     }
     
     // Establece ID en el botón para agregar al carrito
     $scope.EstablecerCantidadParaAgregar = function(event) {
+        $scope.ProductAvailable = true;
         productoSeleccionado = JSON.parse(event.currentTarget.value);
         $scope.ProductoParaAgregar = productoSeleccionado;
         $scope.UnidadesDisponibleParaAgregar = productoSeleccionado.cantidadProductoSeccion + " " + productoSeleccionado.abreviacion;
         $scope.CantidadProductoParaAgregar = 1;
 
-        $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(new Date(), false);
-        $scope.EntregaInmediata = true;
-
-        if (productoSeleccionado.cantidadProductoSeccion < $scope.CantidadProductoParaAgregar) {
-            $scope.EntregaInmediata = false;
-            var fakeDeliveryDate = new Date();
-            fakeDeliveryDate.setDate(fakeDeliveryDate.getDate() + 3);
-            
-            $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(fakeDeliveryDate, true);
-        }
-        
-        $scope.CalcularPrecio();
         $scope.GetOrdenesDeCompra(productoSeleccionado.idProducto);
+        $scope.CalcularPrecio();
+    };
+
+    // revisa si el pedidp por producto puede ser atentido con el stock actual y/o con las ordenes de compra
+    $scope.IsProductAvailable = function(amount) {
+        console.log("IsProductAvailable() -> " + amount + " / " + acumulado);
+        // Ordenes a futuro no disponibles, se debe calcular solo con stock actual
+        if ($scope.ordenesDeCompraPorProducto.length == 0)
+        {
+            if ($scope.UnidadesDisponibleParaAgregar < amount)
+            {
+                console.log("No se puede despachar con stock actual");
+                return false; // producto no disponible con stock actual
+            }
+        }
+        // existen ordenes de compra, calculando con ellas y stocka actual
+        else
+        {
+            if (acumulado < amount){
+                console.log("No se puede despachar ordenes y stock acumulado: " + acumulado);
+                return false; // producto no disponible con stock actual y ordenes de compra
+            }
+        }
+        return true;
+    };
+
+    // Calcula la fecha de entrega basados en el stock acutal y las ordenes de compra
+    $scope.CalcularFechadDeEntrega = function(amount) {
+        console.log("CalcularFechadDeEntrega()" + $scope.ProductoParaAgregar.cantidadProductoSeccion  + " / " + amount);
+        $scope.ProductoParaAgregar = productoSeleccionado;
+
+        // Entrega inmediata con stock actual
+        if ($scope.ProductoParaAgregar.cantidadProductoSeccion >= amount) {
+            $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(new Date(), false);
+            $scope.EntregaInmediata = true;
+            $scope.ProductAvailable = true;
+            console.log("Entrega inmediata: " + $scope.FechaEntregaDelProductoParaAgregar);
+            return; // disponible por stock actual
+        }
+
+        $scope.EntregaInmediata = false;
+
+        if ($scope.ordenesDeCompraPorProducto.length == 0) {
+            console.log("ordenesDeCompraPorProducto vacío");
+            
+            $scope.ProductAvailable = false;
+            return; // no disponible por acumulado
+        }
+
+        let stockYOrdenesAcumuladas = $scope.ordenesDeCompraPorProducto;
+        console.log("--->" + stockYOrdenesAcumuladas);
+        // Entrega con ordenes de compra y stock acumulado
+        for (let i = 0; i < stockYOrdenesAcumuladas.length; i++) {
+            let element = stockYOrdenesAcumuladas[i];
+            if (element.cantidadDisponibleOrdenCompraProducto >= amount) {
+                $scope.FechaEntregaDelProductoParaAgregar = element.fechaEntregaPrevistaOrdenCompraProducto;
+                $scope.ProductAvailable = true;
+                console.log( amount + " Entrega retrasada: " + $scope.FechaEntregaDelProductoParaAgregar);
+                return; // disponible por acumulado
+            }
+        }
+
+        $scope.ProductAvailable = false; // No hay ordenes de compra y proxima fecha de entrega
     };
 
     // Establece ID en el botón para agregar al carrito
     $scope.RefreshDeliverDateAndPrice = function() {
         console.log("RefreshDeliverDateAndPrice()");
-        $scope.ProductoParaAgregar = productoSeleccionado;
-        
-        $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(new Date(), false);
-        $scope.EntregaInmediata = true;
 
-        if (productoSeleccionado.cantidadProductoSeccion < $scope.CantidadProductoParaAgregar) {
-            $scope.EntregaInmediata = false;
-            var fakeDeliveryDate = new Date();
-            fakeDeliveryDate.setDate(fakeDeliveryDate.getDate() + 3);
-            
-            $scope.FechaEntregaDelProductoParaAgregar = $scope.FormatDate(fakeDeliveryDate, true);
+        $scope.ProductAvailable = true;
+        if (!$scope.IsProductAvailable($scope.CantidadProductoParaAgregar)) {
+            $scope.ProductAvailable = false;
+            return;
         }
-        
+
+        // Calcular la fecha de entrega y mostrar en pantalla
+        $scope.CalcularFechadDeEntrega($scope.CantidadProductoParaAgregar);
+
         $scope.CalcularPrecio();
     };
     

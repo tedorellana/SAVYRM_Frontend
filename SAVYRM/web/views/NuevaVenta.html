@@ -161,6 +161,7 @@
                 <div class="form-group">
                     <label>Cantidad a agregar:</label>
                     <input type="number" class="form-control"  ng-model="CantidadProductoParaAgregar" ng-change="RefreshDeliverDateAndPrice()">
+                    <span ng-show="!ProductAvailable" class="color-text--red">No es posible atender la cantidad solicitada. Considere realizar una orden de compra.</span>
                 </div>
                 <div class="form-group">
                     <label>Unidades disponibles</label>
@@ -201,7 +202,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" data-dismiss="modal" value="{{ProductoParaAgregar}}" data-ng-click="AgregarACarrito($event)">Agregar</button>
+              <button ng-show="ProductAvailable" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" data-dismiss="modal" value="{{ProductoParaAgregar}}" data-ng-click="AgregarACarrito($event)">Agregar</button>
+              <button ng-show="!ProductAvailable" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" data-dismiss="modal" value="{{ProductoParaAgregar}}" data-ng-click="AgregarACarrito($event)" disabled>Agregar</button>
             </div>
           </div>
         </div>
