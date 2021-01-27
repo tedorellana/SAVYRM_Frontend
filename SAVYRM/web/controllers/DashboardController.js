@@ -116,6 +116,14 @@ angular.module('angularRoutingApp').controller('dashboardController', function (
         });
     };
 
+    // Format number 
+    $scope.FormatNumber = function(num) {
+        return (
+            num.toFixed(2) // always two decimal digits
+              .replace('.', ',')
+          )
+    };
+
     // Get the revenue per day compared with the average
     $scope.ProductsOrderByExpiration = function(){
         $http({

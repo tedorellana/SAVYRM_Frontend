@@ -22,8 +22,8 @@
                 <tbody>
                     <tr id="RevenueRow">
                         <td class="mdl-data-table__cell--non-numeric">Ganancias</td>
-                        <td class="mdl-data-table__cell--non-numeric">{{currentRevenue}} PEN</td>
-                        <td class="mdl-data-table__cell--non-numeric">{{expectedRevenue}} PEN</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{FormatNumber(currentRevenue)}} PEN</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{FormatNumber(expectedRevenue)}} PEN</td>
                         <td class="mdl-data-table__cell--non-numeric">
                           <button ng-if="revenueRowColor == 1" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
                             <i class="material-icons">trending_up</i>
@@ -38,8 +38,8 @@
                     </tr>
                     <tr id="SalesRow">
                         <td class="mdl-data-table__cell--non-numeric">Ventas</td>
-                        <td class="mdl-data-table__cell--non-numeric">{{currentSales}}</td>
-                        <td class="mdl-data-table__cell--non-numeric">{{expectedSales}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{FormatNumber(currentSales)}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{FormatNumber(expectedSales)}}</td>
                         <td class="mdl-data-table__cell--non-numeric">
                           <button ng-if="salesRowColor == 1" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
                             <i class="material-icons">trending_up</i>
