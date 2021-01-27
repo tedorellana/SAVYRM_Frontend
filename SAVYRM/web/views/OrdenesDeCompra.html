@@ -1,0 +1,243 @@
+<main class="col-md-12 mdl-layout__content">
+
+    <!-- TABLE VENTAS END -->
+    <div class="mdl-grid ui-tables">
+        <div ng-init="OrdenesDeCompra()" class="col-md-12">
+            <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                <div class="mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Ordernes de compra</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text no-padding">
+                        <table class="mdl-data-table mdl-js-data-table" style="white-space: pre-line;">
+                            <thead>
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric" style="text-align: center;">Código de orden</th>
+                                    <th class="mdl-data-table__cell--non-numeric" style="text-align: center;">Fecha de registro</th>
+                                    <th class="mdl-data-table__cell--non-numeric" style="text-align: center;">Precio</th>
+                                    <th class="mdl-data-table__cell--non-numeric" style="text-align: center;">Proveedor</th>
+                                    <th class="mdl-data-table__cell--non-numeric" style="text-align: center;">
+                                        <button data-toggle="modal" data-target="#NewOrder" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-click="InitializeModalNewOrder()">
+                                            <i class="material-icons">note_add</i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="order in orders">
+                                    <td class="mdl-data-table__cell--non-numeric"style="text-align: center;">{{order.idOrdencompra}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric"style="text-align: center;">{{order.fechaRegistroOrdencompra}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" style="text-align: center;">{{order.precioTotalOrdencompra}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" style="text-align: center;">{{order.persona.nombrePersona}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" style="text-align: center;">
+                                        <button data-toggle="modal" data-target="#ModalOrders" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" value="{{order}}" data-ng-click="GetOrdersDetail($event)">Detalles</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TABLE VENTAS END -->
+
+</main>
+
+<!-- MODAL ORDER DETAIL BEGIN -->
+<div class="modal fade bd-example-modal-lg" id="ModalOrders" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Detalles de orden de compra</h4>
+        </div>
+        <!-- <div class="modal-body"> -->
+            <div class="mdl-grid ui-tables">
+                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--2dp" style="background: white;">
+                        <!-- CLIENT DATA  BEGIN-->
+                        <div class="mdl-card__supporting-text">
+                            <form class="form form--basic">
+                                <div class="mdl-grid">
+                                    <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                            <label>Código de orden de compra</label>
+                                            <label class="mdl-textfield__input" for="floating-last-name">{{orderSelected.idOrdencompra}}</label>
+                                        </div>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                            <label>Fecha de registro</label>
+                                            <label class="mdl-textfield__input" for="floating-last-name">{{orderSelected.fechaRegistroOrdencompra}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                            <label>Proveedor</label>
+                                            <label class="mdl-textfield__input" for="floating-last-name">{{orderSelected.persona.nombrePersona}}</label>
+                                        </div>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-size">
+                                            <label>{{orderSelected.persona.documentoIdentidadPersona}}</label>
+                                            <label class="mdl-textfield__input" for="floating-last-name">{{orderSelected.persona.numeroDocumentoPersona}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone form__article">
+                                        <h3 class="text-color--black">Costo total:</h3>
+                                        <h2 class="color-text--red">S/ {{orderSelected.precioTotalOrdencompra}}</h2>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                            <!-- CLIENT DATA END -->
+                        <div class="mdl-card__supporting-text no-padding">
+                            <!-- SHOPPING CARD BEGIN -->
+                            <table class="mdl-data-table mdl-js-data-table stripped-table"  style="white-space: pre-line;">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Cantidad disponible</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Cantidad total</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Precio</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Fecha de entrega prevista</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Fecha de entrega</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="orderProduct in OrderDetailSelected">
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.producto.nombreProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.cantidadDisponibleOrdenCompraProducto}} {{orderProduct.producto.unidadMedida.unidadMedida}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.cantidadOrdenCompraProducto}} {{orderProduct.producto.unidadMedida.unidadMedida}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.precioOrdenCompraProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.fechaEntregaOrdenCompraProducto}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.fechaEntregaPrevistaOrdenCompraProducto}}</td>
+                                        <!-- No delivered button -->
+                                        <td ng-if="orderProduct.fechaEntregaOrdenCompraProducto != null" class="mdl-data-table__cell--non-numeric" style="background: white;">
+                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised button--colored-light-blue" disabled>
+                                                <i class="material-icons">done
+                                                    done</i>
+                                            </button>
+                                        </td>
+                                        <!-- delivered button -->
+                                        <td ng-show="orderProduct.fechaEntregaOrdenCompraProducto == null"class="mdl-data-table__cell--non-numeric" style="background: white;">
+                                            <button value="{{orderProduct}}" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-model="selectedVenta" value="{{selectedVenta}}" data-ng-click="DeliverProduct($event)">
+                                                <i class="material-icons">done
+                                                    done</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- SHOPPING CARD END -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+        <!-- <div class="modal-footer"> -->
+          <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal">Save changes</button> -->
+        <!-- </div> -->
+      </div>
+    </div>
+</div>
+<!-- MODAL ORDER DETAIL END -->
+
+
+
+<!-- MODAL NEW ORDER BEGIN -->
+<div class="modal fade bd-example-modal-lg" id="NewOrder" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nueva orden de compra</h4>
+        </div>
+        <div class="modal-body">
+            <div class="mdl-grid ui-tables">
+                <!-- CLIENT DATA  BEGIN-->
+                <div class="mdl-card__supporting-text">
+                    <form class="form form--basic">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone form__article">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <label>Proveedor</label>
+                                    <select class="form-control text-center" ng-options="personPro.idPersona as personPro.nombrePersona for personPro in personProvider" ng-model="providerNewOrder">
+                                        <option value="">Seleccione un proveedor</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone form__article">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <h3 class="text-color--black" style="font-size: xx-large;">Nuevo producto a agregar al pedido:</h3>
+                                    <label>Producto</label>
+                                    <select class="form-control text-center" ng-options="activePro as activePro.nombreProducto for activePro in activeProducts" ng-model="productNewOrder">
+                                        <option value="">Seleccione un producto</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--8-col-phone form__article">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <label>Fecha entre prevista</label>
+                                    <input type="date" class="mdl-textfield__input" for="floating-last-name" ng-model="deteEntregaPrevistaNewOrder"/>
+                                    <input type="time" class="mdl-textfield__input" for="floating-last-name" ng-model="timeEntregaPrevistaNewOrder"/>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <label>Cantidad del producto</label>
+                                    <input type="number" class="mdl-textfield__input" for="floating-last-name" ng-model="cantidadProductoNewOrder"/>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <label>Precio del producto (PEN)</label>
+                                    <input type="number" class="mdl-textfield__input" for="floating-last-name" ng-model="precioProductoNewOrder"/>
+                                </div>
+                            </div>
+                            
+                            <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone form__article">
+                                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone form__article">
+                                    <h3 class="text-color--black">Costo total:</h3>
+                                    <h2 class="color-text--red" >S/ {{precioTotalOrdencompraNewOrder}}</h2>
+                                </div>
+                                <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone form__article">
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-click="AgregarProductoOrden()">Agregar</button>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <span ng-if="warningModal != null" class="color-text--red">{{warningModal}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                    <!-- CLIENT DATA END -->
+                <div class="mdl-card__supporting-text no-padding">
+                    <!-- SHOPPING CARD BEGIN -->
+                    <table class="mdl-data-table mdl-js-data-table stripped-table"  style="white-space: pre-line;">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Producto</th>
+                                <th class="mdl-data-table__cell--non-numeric">Cantidad</th>
+                                <th class="mdl-data-table__cell--non-numeric">Costo por producto</th>
+                                <th class="mdl-data-table__cell--non-numeric">Fecha de entrega prevista</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="productNO in productsNewOrder">
+                                <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{productNO.nombreProducto}}</td>
+                                <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{productNO.cantidadOrdenCompraProducto}} {{productNO.unidadMedida}}</td>
+                                <td class="mdl-data-table__cell--non-numeric" style="background: white;">S/ {{productNO.precioOrdenCompraProducto}}</td>
+                                <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{FormatDateSouthAmerica(productNO.fechaEntregaPrevistaOrdenCompraProducto)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- SHOPPING CARD END -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-click="ProcesarOrden()">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- MODAL NEW ORDER END -->

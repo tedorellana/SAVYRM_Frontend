@@ -64,6 +64,10 @@ angularRoutingApp.config(function($routeProvider) {
                 templateUrl     : 'views/EstadoStock.html',
                 controller 	: 'reportesController'
             })
+            .when('/OrdenDeCompra', {
+                templateUrl     : 'views/OrdenesDeCompra.html',
+                controller 	: 'ordenCompraController'
+            })
             .otherwise({
                     redirectTo: '/'
             });
