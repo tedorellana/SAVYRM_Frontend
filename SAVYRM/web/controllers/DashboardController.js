@@ -26,6 +26,23 @@ angular.module('angularRoutingApp').controller('dashboardController', function (
         return externalDate;
     };
 
+    // Format date as expeceted
+    $scope.FormatDateTimeEdges = function(date, upperDate) {
+        console.log("FormatDateTimeEdges()")
+        if (upperDate) {
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate() + " " + "11:59:59";
+        }
+        else {
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate() + " " + "00:00:00";
+        }
+        
+        return date;
+    };
+
     // Orange if equals, red if lower and green if upper
     $scope.DetermineStatusColor = function(current, expected) {
         console.log("DetermineStatusColor() current: " + current + " expected: " + expected);
@@ -68,10 +85,18 @@ angular.module('angularRoutingApp').controller('dashboardController', function (
 
     // Get sales status for today.
     $scope.SalesStatusCompared = function(){
+        let beginningDateTime = new Date();
+        let endDateTime = new Date();
+        beginningDateTime.setDate(beginningDateTime.getDate() - 60);
+        endDateTime.setDate(beginningDateTime.getDate() + 0);
+
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/SimpleSalesStatusCompared',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(beginningDateTime, false),
+                fechaFin: $scope.FormatDateTimeEdges(endDateTime, true)
+            }
         }).then(function successCallback(response) {
             console.log(JSON.stringify(response.data));
             $scope.currentSales = response.data.current.y;
@@ -101,10 +126,18 @@ angular.module('angularRoutingApp').controller('dashboardController', function (
 
     // Get the revenue per day compared with the average
     $scope.RevenueStatusCompared = function(){
+        let beginningDateTime = new Date();
+        let endDateTime = new Date();
+        beginningDateTime.setDate(beginningDateTime.getDate() - 60);
+        endDateTime.setDate(beginningDateTime.getDate() + 0);
+
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/SimpleRevenueStatusCompared',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(beginningDateTime, false),
+                fechaFin: $scope.FormatDateTimeEdges(endDateTime, true)
+            }
         }).then(function successCallback(response) {
             console.log(JSON.stringify(response.data));
             $scope.currentRevenue = response.data.current.y;

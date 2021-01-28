@@ -1,5 +1,5 @@
 angular.module('angularRoutingApp').controller('reportesController', function ($scope, $http, $sessionStorage, $rootScope) {
-
+    
     // Format date as expeceted
     $scope.FormatDate = function(date) {
         date = date.getFullYear() + "-" + 
@@ -10,22 +10,56 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
         date.getSeconds();
         return date;
     };
-
+    
     // get the beginning attetion datetime
     var beginningDateTime = new Date();
     var endDateTime = new Date();
-    beginningDateTime = $scope.FormatDate(beginningDateTime);
-    endDateTime = $scope.FormatDate(endDateTime);
-
+    beginningDateTime.setDate(beginningDateTime.getDate() - 30);
+    endDateTime.setDate(beginningDateTime.getDate() + 0);
+    
     $scope.beginDate = beginningDateTime;
     $scope.endDate = endDateTime;
+
+    // Initialize date
+    $scope.Initialize = function() {
+        console.log("Initialize()");
+
+        // get the beginning attetion datetime
+        beginningDateTime = new Date();
+        //getPreviousDate - 30
+        beginningDateTime.setDate(beginningDateTime.getDate() - 30);
+
+        endDateTime = new Date();
+        $scope.beginDate = $scope.FormatDate(beginningDateTime);
+        $scope.endDate = $scope.FormatDate(new Date());
+    };
+
+    // Format date as expeceted
+    $scope.FormatDateTimeEdges = function(date, upperDate) {
+        console.log("FormatDateTimeEdges()")
+        if (upperDate) {
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate() + " " + "11:59:59";
+        }
+        else {
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate() + " " + "00:00:00";
+        }
+        
+        return date;
+    };
 
     // Get sales per product
     $scope.GetAllSales = function(){
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/GetAllSales',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(new Date($scope.beginDate), false),
+                fechaFin: $scope.FormatDateTimeEdges(new Date($scope.endDate), true)
+            }
         }).then(function successCallback(response) {
             $scope.PopulateBarGraphic(response.data, "Producto vendidos", "Cantida por producto");
             }, function errorCallback(response) {
@@ -36,11 +70,14 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
     // Get sales per product
     $scope.RevenuePerDay = function(){
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/GetRevenuePerDay',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(new Date($scope.beginDate), false),
+                fechaFin: $scope.FormatDateTimeEdges(new Date($scope.endDate), true)
+            }
         }).then(function successCallback(response) {
-            $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancias por día");
+            $scope.PopulateLineGraphic(response.data, "Ingresos de las ventas", "Ingresos por día");
         }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
@@ -49,11 +86,14 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
     // Get sales per product
     $scope.RevenuePerProduct = function(){
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/GetRevenuePerProduct',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(new Date($scope.beginDate), false),
+                fechaFin: $scope.FormatDateTimeEdges(new Date($scope.endDate), true)
+            }
         }).then(function successCallback(response) {
-            $scope.PopulateLineGraphic(response.data, "Ganancias de las ventas", "Ganancias por producto");
+            $scope.PopulateLineGraphic(response.data, "Ingresos de las ventas", "Ingresos por producto");
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
@@ -62,9 +102,12 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
     // Get sales status for today.
     $scope.SalesStatusForToday = function(){
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/SalesStatusCompared',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(new Date($scope.beginDate), false),
+                fechaFin: $scope.FormatDateTimeEdges(new Date($scope.endDate), true)
+            }
         }).then(function successCallback(response) {
             $scope.PopulateLineComparedGraphic(response.data.baseLine, response.data.currentLine, "Estado de ventas", "Número de ventas", "Ventas esperadas", "Ventas por día");
             }, function errorCallback(response) {
@@ -74,12 +117,16 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
 
     // Get the revenue per day compared with the average
     $scope.RevenueStatusCompared = function(){
+        
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/RevenueStatusCompared',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(new Date($scope.beginDate), false),
+                fechaFin: $scope.FormatDateTimeEdges(new Date($scope.endDate), true)
+            }
         }).then(function successCallback(response) {
-            $scope.PopulateLineComparedGraphic(response.data.baseLine, response.data.currentLine, "Estado de ganancias", "Ganancias", "Ganancias esperadas", "Ganancias por día");
+            $scope.PopulateLineComparedGraphic(response.data.baseLine, response.data.currentLine, "Estado de ingresos", "Ingresos", "Ingresos esperadas", "Ingresos por día");
             }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
@@ -101,18 +148,23 @@ angular.module('angularRoutingApp').controller('reportesController', function ($
     // Get sales per product
     $scope.SelesPerEmployee = function(){
         $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8080/Report/GetSalesAtendedPerEmployee',
-            data: { }
+            data: { 
+                fechaInicio : $scope.FormatDateTimeEdges(new Date($scope.beginDate), false),
+                fechaFin: $scope.FormatDateTimeEdges(new Date($scope.endDate), true)
+            }
         }).then(function successCallback(response) {
-            $scope.PopulateBarGraphic(response.data, "Ventas por empleado", "Cantida por ventas");
-            }, function errorCallback(response) {
+            $scope.PopulateLineGraphic(response.data, "Ventas por empleado", "Cantidad por ventas");
+        }, function errorCallback(response) {
             alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
         });
     };
 
     // Populates the bar graphic
     $scope.PopulateBarGraphic = function(arraydata, title, legend){
+        console.log("PopulateBarGraphic() " + JSON.stringify(arraydata));
+
         var options1 = {
             animationEnabled: true,
             title: {
