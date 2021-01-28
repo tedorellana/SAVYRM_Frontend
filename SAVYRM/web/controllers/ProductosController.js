@@ -1,5 +1,7 @@
 angular.module('angularRoutingApp').controller('productosController', function ($scope, $http, $sessionStorage, $window, config) {
-    
+    var productSelected;
+
+
     //Removing slider
     var idCurrentUser = $sessionStorage.currentUser;
     var sessionLoggedIn = angular.isDefined(idCurrentUser);
@@ -10,6 +12,60 @@ angular.module('angularRoutingApp').controller('productosController', function (
     $scope.cantidadProductoParaFormulaNP = 0;
     var idProductoSeleccionadoParaFormula = 0;
 
+
+    $scope.FormatDate = function(date, withTime) {
+        // TODO: This time should be allocated between the working hours
+        if (withTime) {
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate() + " " +
+                date.getHours() + ":" +
+                date.getMinutes() + ":" +
+                date.getSeconds();
+        }
+        else{
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate();
+        }
+
+        return date;
+    };
+
+    // Format date to show in screen without the time
+    $scope.FormatDateSouthAmericaWithoutTime = function(date) {
+
+        if (date == null) {
+            console.log("NULL value detected");
+            return null;
+        }
+
+        let formatedDate = new Date(date);
+        
+        formatedDate = formatedDate.getDate()  + "-" +
+            parseInt(formatedDate.getMonth() + 1) + "-" +
+            formatedDate.getFullYear();
+        return formatedDate;
+    };
+
+    $scope.FormatDateSouthAmerica = function(date) {
+
+        if (date == null) {
+            console.log("NULL value detected");
+            return null;
+        }
+
+        let formatedDate = new Date(date);
+        
+        formatedDate = formatedDate.getDate()  + "-" +
+            parseInt(formatedDate.getMonth() + 1) + "-" +
+            formatedDate.getFullYear() + "  " + 
+            formatedDate.getHours() + ":" +
+            formatedDate.getMinutes() + ":" +
+            formatedDate.getSeconds();
+
+        return formatedDate;
+    };
     // Populates the graphic with the products in the formula
     $scope.PopulatePieGraphic = function(products) {
         var pieElements = ParseProductosForPieGraphic(products)
@@ -272,5 +328,97 @@ angular.module('angularRoutingApp').controller('productosController', function (
             $scope.agregarProductoAFormulaError = "Sucedio un error no esperado. Por favor, intenta más tarde.";
         });        
     };
-    
+
+    // Get prices per idProduct
+    $scope.GetPricePerProduct = function(event){
+        console.log("GetPricePerProduct()");
+        
+        $scope.warningMessage = null;
+        $scope.unitarioPrecioProductoSeleccionado = null;
+
+        productSelected = JSON.parse(event.currentTarget.value);
+
+        $scope.nombreProductoSeleccionado = productSelected.nombreProducto;
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Precio/FindPrecioByProducto',
+            data: productSelected.idProducto
+        }).then(function successCallback(response){
+            $scope.precios = response.data;
+        }, function errorCallback(){
+            $scope.warningMessage = "Sucedio un error no esperado. Por favor, intenta más tarde.";
+        });
+    };
+
+    // Get prices per idProduct
+    $scope.RefreshPrice = function(){
+        console.log("RefreshPrice()");
+
+        $scope.warningMessage = null;
+        $scope.unitarioPrecioProductoSeleccionado = null;
+
+        $scope.nombreProductoSeleccionado = productSelected.nombreProducto;
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Precio/FindPrecioByProducto',
+            data: productSelected.idProducto
+        }).then(function successCallback(response){
+            $scope.precios = response.data;
+        }, function errorCallback(){
+            $scope.warningMessage = "Sucedio un error no esperado. Por favor, intenta más tarde.";
+        });
+    };
+
+    // Get prices per idProduct
+    $scope.SetPrice = function(){
+        console.log("SetPrice()");
+        $scope.warningMessage = null;
+
+        $scope.nombreProductoSeleccionado = productSelected.nombreProducto;
+        let priceToAdd = $scope.unitarioPrecioProductoSeleccionado;
+
+        if (priceToAdd == null) {
+            $scope.warningMessage = "El precio debe ser establecido.";
+            return;
+        }
+
+        let preciosList = $scope.precios;
+
+        let precioVigente = null;
+        let idPrecioToReplace = 0;
+        precioVigente = preciosList.find(function(element){
+            if (element.vigentePrecio == 1 ) {
+                return element;
+            }
+        });
+
+        let dateToSet = $scope.FormatDate(new Date(), true);
+
+        console.log("dateToSet: " + dateToSet);
+        
+        if (precioVigente != null) {
+            idPrecioToReplace = precioVigente.idPrecio;
+        }
+
+        console.log("precioVigente id: " + precioVigente);
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/Precio/AddPrice',
+            data: {
+                idProduct : productSelected.idProducto,
+                idPrecioVigente : idPrecioToReplace,
+                inicioVigencia : dateToSet,
+                productopriceToAdd : priceToAdd
+            }
+        }).then(function successCallback(response){
+            $scope.precios = response.data;
+            $scope.warningMessage = "Precio establecido.";
+            $scope.RefreshPrice();
+        }, function errorCallback(){
+            $scope.warningMessage = "Sucedio un error no esperado. Por favor, intenta más tarde.";
+        });
+    };
 }); 

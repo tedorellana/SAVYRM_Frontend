@@ -32,7 +32,7 @@
                                         <button data-toggle="modal" data-target="#EditarProductoModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto.idProducto" value="{{producto.idProducto}}" data-ng-click="getDetallePorProductoNP($event)">Editar</button>
                                     </td>
                                     <td class="mdl-data-table__cell--non-numeric">
-                                        <button data-toggle="modal" data-target="#PrecioProductoModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto.idProducto" value="{{producto.idProducto}}" data-ng-click="getDetallePorProducto($event)">Precios</button>
+                                        <button data-toggle="modal" data-target="#PrecioProductoModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto" value="{{producto}}" data-ng-click="GetPricePerProduct($event)">Precios</button>
                                     </td>
                                     <td class="mdl-data-table__cell--non-numeric">
                                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-teal" ng-model="producto.idProducto" value="{{producto.idProducto}}" data-ng-click="administrarPreparacionNP($event)">Elaboración</button>
@@ -223,8 +223,80 @@
 </div>
 <!-- FINAL EditarProductoModal -->
 
-<!--PrecioProductoModal-->
-<div ng-include="'views/PrecioProductoModal.html'"></div>
+<!-- MODAL PRECIO MODAL BEGIN -->
+<div class="modal fade bd-example-modal-lg" id="PrecioProductoModal" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Precios - {{nombreProductoSeleccionado}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="mdl-grid ui-tables">
+                <!-- CLIENT DATA  BEGIN-->
+                <div class="mdl-card__supporting-text">
+                    <form class="form form--basic">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone form__article">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <label>Precio</label>
+                                    <input type="number" class="mdl-textfield__input" ng-model="unitarioPrecioProductoSeleccionado"/>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <span ng-if="warningMessage != null" class="color-text--red">{{warningMessage}}</span>
+                                </div>s
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select full-size">
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-click="SetPrice()">Establecer precio</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                    <!-- CLIENT DATA END -->
+                <div class="mdl-card__supporting-text no-padding">
+                    <!-- SHOPPING CARD BEGIN -->
+                    <table class="mdl-data-table mdl-js-data-table stripped-table"  style="white-space: pre-line;">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Precio</th>
+                                <th class="mdl-data-table__cell--non-numeric">Vigente desde</th>
+                                <th class="mdl-data-table__cell--non-numeric">Vigente hasta</th>
+                                <th class="mdl-data-table__cell--non-numeric">Vigente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="precio in precios">
+                                <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{precio.unitarioPrecio}}</td>
+                                <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{FormatDateSouthAmerica(precio.fechaInicioPrecio)}}</td>
+                                <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{FormatDateSouthAmerica(precio.fechaFinPrecio)}}</td>
+                                <!-- NO VIGENTE -->
+                                <td ng-show="precio.vigentePrecio != 1" class="mdl-data-table__cell--non-numeric" style="background: white;">
+                                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised button--colored-light-blue" disabled>
+                                        <i class="material-icons">done
+                                            done</i>
+                                    </button>
+                                </td>
+                                <!-- VIGENTE -->
+                                <td ng-show="precio.vigentePrecio == 1"class="mdl-data-table__cell--non-numeric" style="background: white;">
+                                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green">
+                                        <i class="material-icons">done
+                                            done</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- SHOPPING CARD END -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- MODAL PRECIO MODAL END -->
 
 <!--AgregarProductoFormulaModal-->
 

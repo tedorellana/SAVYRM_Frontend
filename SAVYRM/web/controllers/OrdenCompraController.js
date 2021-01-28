@@ -49,6 +49,26 @@ angular.module('angularRoutingApp').controller('ordenCompraController', function
         });
     };
 
+    // Formate date for DB
+    $scope.FormatDate = function(date, withTime) {
+        // TODO: This time should be allocated between the working hours
+        if (withTime) {
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate() + " " +
+                date.getHours() + ":" +
+                date.getMinutes() + ":" +
+                date.getSeconds();
+        }
+        else{
+            date = date.getFullYear() + "-" + 
+                parseInt(date.getMonth() + 1)  + "-" +
+                date.getDate();
+        }
+
+        return date;
+    };
+
     // Format date to show in screen without the time
     $scope.FormatDateSouthAmericaWithoutTime = function(date) {
 
@@ -103,8 +123,7 @@ angular.module('angularRoutingApp').controller('ordenCompraController', function
         console.log("AgregarProductoOrden() ");
 
         let productElementNewOrder = {
-            proveedorId: $scope.providerNewOrder,
-            productId: $scope.productNewOrder.idProducto,
+            idProducto: $scope.productNewOrder.idProducto,
             nombreProducto: $scope.productNewOrder.nombreProducto,
             unidadMedida: $scope.productNewOrder.unidadMedida.abreviacion,
             fechaEntregaPrevistaOrdenCompraProducto: $scope.FormatDateWithTime($scope.deteEntregaPrevistaNewOrder, $scope.timeEntregaPrevistaNewOrder), // pending time
@@ -159,18 +178,35 @@ angular.module('angularRoutingApp').controller('ordenCompraController', function
     // Get all purchase orders
     $scope.ProcesarOrden = function() {
         console.log("ProcesarOrden() ");
-        // let orderSelected = JSON.parse(event.currentTarget.value);
-        // $scope.orderSelected = orderSelected;
+        $scope.warningModal = null;
+
+        if (productosNewOrderList.length == 0)
+        {
+            $scope.warningModal =  "!Ups! No hay productos asociados a la orden.";
+            return;
+        }
+
+        if ($scope.providerNewOrder == null)
+        {
+            $scope.warningModal =  "!Ups! Debe seleccionar un provedor.";
+        }
         
-        // $http({
-        //     method: 'POST',
-        //     url: 'http://localhost:8080/OrdenCompraProducto/FindOrderProductoByOrderId',
-        //     data: orderSelected.idOrdencompra
-        // }).then(function successCallback(response) {
-        //     $scope.OrderDetailSelected = response.data;
-        //     }, function errorCallback(response) {
-        //     alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
-        // });
+        let dateToRegister = $scope.FormatDate(new Date(), true);
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/OrdenCompraProducto/SaveOrder',
+            data: {
+                proveedorId : $scope.providerNewOrder,
+                fechaRegistroOrdencompra : dateToRegister,
+                precioTotalOrdencompra : $scope.precioTotalOrdencompraNewOrder,
+                productosNewOrderList
+            }
+        }).then(function successCallback(response) {
+            $scope.OrdenesDeCompra();
+        }, function errorCallback(response) {
+            alert("Ups! Ocurrio un error. Por favor, inténtalo más tarde.");
+        });
     };
 
 
