@@ -97,8 +97,8 @@
                                         <th class="mdl-data-table__cell--non-numeric">Cantidad disponible</th>
                                         <th class="mdl-data-table__cell--non-numeric">Cantidad total</th>
                                         <th class="mdl-data-table__cell--non-numeric">Precio</th>
-                                        <th class="mdl-data-table__cell--non-numeric">Fecha de entrega prevista</th>
                                         <th class="mdl-data-table__cell--non-numeric">Fecha de entrega</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Fecha de entrega prevista</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -110,19 +110,19 @@
                                         <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.fechaEntregaOrdenCompraProducto}}</td>
                                         <td class="mdl-data-table__cell--non-numeric" style="background: white;">{{orderProduct.fechaEntregaPrevistaOrdenCompraProducto}}</td>
                                         <!-- No delivered button -->
-                                        <td ng-if="orderProduct.fechaEntregaOrdenCompraProducto != null" class="mdl-data-table__cell--non-numeric" style="background: white;">
+                                        <!-- <td ng-if="orderProduct.fechaEntregaOrdenCompraProducto != null" class="mdl-data-table__cell--non-numeric" style="background: white;">
                                             <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised button--colored-light-blue" disabled>
                                                 <i class="material-icons">done
                                                     done</i>
                                             </button>
-                                        </td>
+                                        </td> -->
                                         <!-- delivered button -->
-                                        <td ng-show="orderProduct.fechaEntregaOrdenCompraProducto == null"class="mdl-data-table__cell--non-numeric" style="background: white;">
+                                        <!-- <td ng-show="orderProduct.fechaEntregaOrdenCompraProducto == null"class="mdl-data-table__cell--non-numeric" style="background: white;">
                                             <button value="{{orderProduct}}" class="mdl-button mdl-js-button mdl-button--icon mdl-button--raised mdl-js-ripple-effect button--colored-green" ng-model="selectedVenta" value="{{selectedVenta}}" data-ng-click="DeliverProduct($event)">
                                                 <i class="material-icons">done
                                                     done</i>
                                             </button>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 </tbody>
                             </table>
