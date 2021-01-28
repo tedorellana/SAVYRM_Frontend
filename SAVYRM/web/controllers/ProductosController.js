@@ -11,7 +11,7 @@ angular.module('angularRoutingApp').controller('productosController', function (
     $scope.mostrarPreparacionPC = false;
     $scope.cantidadProductoParaFormulaNP = 0;
     var idProductoSeleccionadoParaFormula = 0;
-
+    $scope.SelectedProductForElaboration;
 
     $scope.FormatDate = function(date, withTime) {
         // TODO: This time should be allocated between the working hours
@@ -119,13 +119,15 @@ angular.module('angularRoutingApp').controller('productosController', function (
 
     // Get elaboration per product
     $scope.GetElaboration = function(event){
-        $scope.GetElaborationSteps(event.currentTarget.value)
+        $scope.SelectedProductForElaboration = JSON.parse(event.currentTarget.value);
 
+        $scope.GetElaborationSteps($scope.SelectedProductForElaboration.idProducto);
+        
         $http({
             method: 'POST',
             url: 'http://localhost:8080/ProductoFormula/GetAllProductoFormulaByIdProducto',
             data: {
-                idProducto : event.currentTarget.value
+                idProducto : $scope.SelectedProductForElaboration.idProducto
             }
         }).then(function successCallback(response) {
             $scope.PopulatePieGraphic(response.data);
