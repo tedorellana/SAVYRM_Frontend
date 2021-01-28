@@ -11,8 +11,7 @@
                             <thead>
                                 <tr>
                                     <th class="mdl-data-table__cell--non-numeric">Productos</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Codigo</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Tipo</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Unidad de medida</th>
                                     <th class="mdl-data-table__cell--non-numeric">Estado</th>
                                     <th class="mdl-data-table__cell--non-numeric">Detalles</th>
                                     <th class="mdl-data-table__cell--non-numeric">Precios</th>
@@ -22,8 +21,7 @@
                             <tbody>
                                 <tr ng-repeat="producto in productosNP">
                                     <td class="mdl-data-table__cell--non-numeric">{{producto.nombreProducto}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{producto.codigoProducto}}</td>
-                                    <td class="mdl-data-table__cell--non-numeric">{{producto.nombreTipoProducto}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{producto.unidadMedida.abreviacion}}</td>
                                     <td class="mdl-data-table__cell--non-numeric">
                                         <span ng-show="producto.estadoProducto" class="label label--mini color--green"> Activo</span>
                                         <span ng-show="!producto.estadoProducto" class="label label--mini color--red"> Inactivo</span>
