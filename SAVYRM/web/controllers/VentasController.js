@@ -11,9 +11,11 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     var acumulado = 0;
     $scope.PrecioTotal = "00.00";
     $scope.shoppingCarEmpty = true; // used to hide table with car items when is empty
+    $scope.ShowProductToAddElaboration = false;
     
     $scope.message = 'VENTAS';
     $scope.especial = 'VENTAS';
+    
     
     $scope.FormatDate = function(date, withTime) {
         // TODO: This time should be allocated between the working hours
@@ -160,7 +162,7 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
 
     // Obtiene las ordened de compra
     $scope.GetOrdenesDeCompra = function(idProducto){
-        console.log("GetOrdenesDeCompra()");
+        console.log("GetOrdenesDeCompra(): " + idProducto);
         $http({
             method: 'POST',
             url: 'http://localhost:8080/OrdenCompraProducto/OrdersPerProduct',
@@ -199,6 +201,23 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
         ordenDeCompraAfectadas = [];
         $scope.ProductAvailable = true;
         productoSeleccionado = JSON.parse(event.currentTarget.value);
+        $scope.ProductoParaAgregar = productoSeleccionado;
+        $scope.UnidadesDisponibleParaAgregar = productoSeleccionado.cantidadProductoSeccion + " " + productoSeleccionado.abreviacion;
+        $scope.CantidadProductoParaAgregar = 1;
+
+        $scope.GetOrdenesDeCompra(productoSeleccionado.idProducto);
+        $scope.CalcularPrecio();
+    };
+    
+    // Establece ID en el botón para agregar al carrito
+    $scope.EstablecerCantidadParaAgregarFromElaboration = function(event) {
+        console.log("EstablecerCantidadParaAgregarFromElaboration()");
+        $scope.ShowProductToAddElaboration = true;
+        
+        ordenDeCompraAfectadas = [];
+        $scope.ProductAvailable = true;
+        productoSeleccionado = JSON.parse(event.currentTarget.value);
+        console.log("EstablecerCantidadParaAgregarFromElaboration():" + JSON.stringify(productoSeleccionado));
         $scope.ProductoParaAgregar = productoSeleccionado;
         $scope.UnidadesDisponibleParaAgregar = productoSeleccionado.cantidadProductoSeccion + " " + productoSeleccionado.abreviacion;
         $scope.CantidadProductoParaAgregar = 1;
@@ -356,6 +375,42 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
 
         $scope.shoppingCarEmpty = $scope.carrito == undefined || $scope.carrito.length <= 0;
     };
+
+    // Agrega la cantidad indicada al carrito de compras
+    $scope.AgregarACarritoFromElaboration = function(event){
+        let dataRecibida = JSON.parse(event.currentTarget.value);
+        let fechaEntrega = null;
+        let fechaEntregaPrevista = null;
+        // Establece formatos de fechas correctos para agregar el producto
+        if ($scope.EntregaInmediata) {
+            fechaEntrega = $scope.FormatDate(new Date(), true);
+        }
+        else {
+            fechaEntregaPrevista = $scope.FechaEntregaDelProductoParaAgregar
+        }
+
+        var elementoCarrito = {
+            codigoProducto : dataRecibida.codigoProducto,
+            nombreProducto : dataRecibida.nombreProducto,
+            idProductoSeccion : dataRecibida.idProductoSeccion,
+            unidadMedida : dataRecibida.abreviacion,
+            cantidad : $scope.CantidadProductoParaAgregar,
+            precioUnitario : productoSeleccionado.unitarioPrecio,
+            precioTotalProducto : $scope.PrecioDelProductoParaAgregar,
+            entregado : $scope.EntregaInmediata,
+            fechaEntrega : fechaEntrega,
+            fechaEntregaPrevista : fechaEntregaPrevista,
+            ordenDeCompraAfectadas
+        };
+        
+        precioTotalAcumulado += elementoCarrito.precioTotalProducto;
+        $scope.PrecioTotal = precioTotalAcumulado;
+        
+        carritoDeCompras.push(elementoCarrito);
+        $scope.carrito = carritoDeCompras;
+
+        $scope.shoppingCarEmpty = $scope.carrito == undefined || $scope.carrito.length <= 0;
+    };
     
     // Set the client for the sale
     $scope.SelectClient = function(event){
@@ -438,11 +493,14 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
     // Get elaboration per product
     $scope.GetElaboration = function(event){
         console.log("GetElaboration()");
+        $scope.CantidadTotalAElaborar = 1;
+
         let productoParaVisualizar = JSON.parse(event.currentTarget.value);
         $scope.GetElaborationSteps(productoParaVisualizar.idProducto);
         $scope.elaborationNoAvailable = true;
         $scope.productNameToReviewElaboration = productoParaVisualizar.nombreProducto;
-
+        
+        
         $http({
             method: 'POST',
             url: 'http://localhost:8080/ProductoFormula/GetAllProductoFormulaByIdProducto',
@@ -460,9 +518,24 @@ angular.module('angularRoutingApp').controller('ventasController', function ($sc
             $scope.PopulatePieGraphic(response.data);
             // $scope.mostrarProductosPC = false;
             $scope.productWithElaboration = response.data;
+
+            $scope.RecalcularCandidadPorInsumos(1);
         }, function errorCallback(response) {
             alert("Sucedio un error no esperado. Por favor, intenta más tarde.");
         });
+    };
+
+    // Get elaboration per product
+    $scope.RecalcularCandidadPorInsumos = function(cantidadAElaborar){
+        let productsElaborations = $scope.productWithElaboration;
+        // console.log("RecalcularCandidadPorInsumos():" + JSON.stringify(productsElaborations) + "_" + $scope.CantidadTotalAElaborar);
+        console.log("RecalcularCandidadPorInsumos():" + $scope.CantidadTotalAElaborar +"_" + cantidadAElaborar);
+        productsElaborations.forEach( function(element) {
+            console.log("---->" + cantidadAElaborar + " " + element.porcentaje);
+            element.Cantidad = ((cantidadAElaborar * element.porcentaje) / 100);
+        });
+
+        $scope.productWithElaboration = productsElaborations;
     };
 
     // Get elaboration steps per product
